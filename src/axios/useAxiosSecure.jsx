@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const axiosInstance = axios.create({
+const axiosSecure = axios.create({
   baseURL: "http://localhost:3000",
   timeout: 5000,
   withCredentials: true,
@@ -14,7 +14,7 @@ const useAxiosSecure = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const responseInterceptor = axiosInstance.interceptors.response.use(
+    const responseInterceptor = axiosSecure.interceptors.response.use(
       (response) => {
         return response;
       },
@@ -32,11 +32,11 @@ const useAxiosSecure = () => {
     );
 
     return () => {
-      axiosInstance.interceptors.response.eject(responseInterceptor);
+      axiosSecure.interceptors.response.eject(responseInterceptor);
     };
   }, [logout, setLoading, navigate]);
 
-  return null;
+  return axiosSecure;
 };
 
 export default useAxiosSecure;

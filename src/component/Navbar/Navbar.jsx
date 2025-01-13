@@ -1,7 +1,14 @@
+import NavbarStart from "./NavbarStart";
+import NavbarCenter from "./NavbarCenter";
+import NavbarEnd from "./NavbarEnd";
+
 const Navbar = () => {
+  const currentUser = false;
   return (
-    <div>
-      <h3 className="bg-green-300">Navbar</h3>
+    <div className="navbar shadow-sm">
+      <NavbarStart />
+      <NavbarCenter />
+      <NavbarEnd currentUser={currentUser} />
     </div>
   );
 };
