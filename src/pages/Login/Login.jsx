@@ -6,11 +6,16 @@ import { useAuth } from "../../context/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../axios/useAxiosPublic";
 import { Fade } from "react-awesome-reveal";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const { login, signInWithGoogle, logout } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,8 +28,9 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (formData, event) => {
+    event.preventDefault();
+    const { email, password } = formData;
     try {
       setError("");
       setLoading(true);
@@ -93,7 +99,7 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-center text-primaryColor mb-6">
             Login to EduTrial
           </h2>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSubmit(handleLogin)}>
             {/* Email Field */}
             <div className="mb-4">
               <label
@@ -105,12 +111,13 @@ const Login = () => {
               <input
                 type="email"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                {...register("email", { required: true })}
                 className="input input-bordered w-full"
                 placeholder="Enter your email"
               />
+              {errors.email && (
+                <p className="text-sm text-red">Email is required</p>
+              )}
             </div>
 
             {/* Password Field */}
@@ -124,16 +131,17 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                {...register("password", { required: true })}
                 className="input input-bordered w-full"
                 placeholder="Enter your password"
               />
+              {errors.password && (
+                <p className="text-sm text-red">Password is required</p>
+              )}
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute top-2/3 right-3 transform -translate-y-2/4 text-gray-500 hover:text-primaryColor"
+                className="absolute top-1/2 right-3 transform -translate-y-2/4 text-gray-500 hover:text-primaryColor"
               >
                 {showPassword ? (
                   <AiFillEye size={20} />
@@ -153,7 +161,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn text-lg bg-primaryColor hover:bg-secondaryColor text-white w-full"
+              className="btn text-lg bg-primaryColor hover:bg-secondaryColor text-lightGray w-full"
             >
               {loading ? "Logging in..." : "Log In"}
             </button>

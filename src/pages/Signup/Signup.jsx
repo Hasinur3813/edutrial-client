@@ -6,16 +6,12 @@ import { useAuth } from "../../context/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../axios/useAxiosPublic";
 import { Fade } from "react-awesome-reveal";
+import { useForm } from "react-hook-form";
+import useRegisterUser from "../../hooks/useRegisterUser";
 
 const Signup = () => {
   const axios = useAxiosPublic();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    photoURL: "",
-    password: "",
-    confirmPassword: "",
-  });
+  // const registerMutation = useRegisterUser();
 
   const {
     signup,
@@ -26,16 +22,17 @@ const Signup = () => {
     setLoading,
   } = useAuth();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setPageLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
   const validatePassword = (password) => {
     const uppercase = /[A-Z]/.test(password);
@@ -48,7 +45,7 @@ const Signup = () => {
     return null;
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (formData, e) => {
     e.preventDefault();
     const passwordError = validatePassword(formData.password);
 
@@ -71,7 +68,6 @@ const Signup = () => {
         photoURL: formData.photoURL,
         password: formData.password,
       });
-      console.log(res.data.data);
       if (res.data.data.insertedId) {
         try {
           await signup(formData.email, formData.password);
@@ -100,20 +96,24 @@ const Signup = () => {
           });
         }
       } else {
-        setError("Something went wrong");
+        setError("User creation failed, Please try again");
         setPageLoading(false);
         Swal.fire({
           title: "Error",
-          text: "Something went wrong",
+          text: "User creation failed, Please try again",
           icon: "error",
         });
       }
-    } catch {
-      setError("User creation failed, please try again");
+    } catch (e) {
+      setError(
+        e.response?.data?.message || "User creation failed, Please try again"
+      );
       setPageLoading(false);
       Swal.fire({
         title: "Error",
-        text: "User creation failed, Please try again",
+        text: `${
+          e.response?.data?.message || "User creation failed, Please try again"
+        }`,
         icon: "error",
       });
     }
@@ -166,6 +166,33 @@ const Signup = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const handleSignup = (formData, e) => {
+    e.preventDefault();
+
+    const passwordError = validatePassword(formData.password);
+
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    console.log(formData);
+
+    setError("");
+    setPageLoading(true);
+
+    // Call the mutation
+    registerMutation.mutate(formData, {
+      onSettled: () => {
+        setPageLoading(false);
+      },
+    });
+  };
+
   return (
     <Fade>
       <div className="min-h-screen flex items-center justify-center py-6">
@@ -173,7 +200,7 @@ const Signup = () => {
           <h2 className="text-2xl font-bold text-center text-primaryColor mb-6">
             Register to EduTrial
           </h2>
-          <form onSubmit={handleRegister}>
+          <form onSubmit={handleSubmit(handleSignup)}>
             {/* Name Field */}
             <div className="mb-4">
               <label
@@ -186,12 +213,11 @@ const Signup = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
+                {...register("name", { required: true })}
                 className="input input-bordered w-full"
                 placeholder="Enter your name"
               />
+              {errors.name && <p className="text-red">Name is required</p>}
             </div>
 
             {/* Email Field */}
@@ -206,12 +232,11 @@ const Signup = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
+                {...register("email", { required: true })}
                 className="input input-bordered w-full"
                 placeholder="Enter your email"
               />
+              {errors.email && <p className="text-red">Email is required</p>}
             </div>
 
             {/* Photo URL Field */}
@@ -226,12 +251,13 @@ const Signup = () => {
                 type="url"
                 id="photoURL"
                 name="photoURL"
-                value={formData.photoURL}
-                onChange={handleInputChange}
-                required
+                {...register("photoURL", { required: true })}
                 className="input input-bordered w-full"
                 placeholder="Enter your photo URL"
               />
+              {errors.photoURL && (
+                <p className="text-red">Photo URL is required</p>
+              )}
             </div>
 
             {/* Password Field */}
@@ -247,12 +273,13 @@ const Signup = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
+                  {...register("password", { required: true })}
                   className="input input-bordered w-full"
                   placeholder="Enter your password"
                 />
+                {errors.password && (
+                  <p className="text-red">Password is required</p>
+                )}
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -276,12 +303,13 @@ const Signup = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  required
+                  {...register("confirmPassword", { required: true })}
                   className="input input-bordered w-full"
                   placeholder="Confirm your password"
                 />
+                {errors.confirmPassword && (
+                  <p className="text-red">Confirm Password is required</p>
+                )}
                 <button
                   type="button"
                   onClick={toggleConfirmPasswordVisibility}
@@ -295,6 +323,7 @@ const Signup = () => {
             {/* Register Button */}
             <button
               type="submit"
+              disabled={loading}
               className="btn text-lg bg-primaryColor hover:bg-secondaryColor text-lightGray w-full"
             >
               {loading ? "Registering..." : "Register"}
