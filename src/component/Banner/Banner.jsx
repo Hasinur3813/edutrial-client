@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "../Button/Button";
 import { Link } from "react-router-dom";
 
@@ -14,11 +13,13 @@ const Banner = () => {
             EduTrial
           </span>
         </h1>
+
         <p className="text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto">
           EduTrial is your all-in-one platform for group study, tutoring, and
           enhancing your learning experience. Join us and achieve academic
           excellence!
         </p>
+
         <Link to="/all-clasess" className="inline-block">
           <Button className="!rounded-full">Get Started</Button>
         </Link>
