@@ -1,6 +1,7 @@
-import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { FaSignInAlt } from "react-icons/fa";
+import Button from "../Button/Button";
 
 const NavbarEnd = () => {
   const { currentUser, loading, logout } = useAuth();
@@ -16,9 +17,7 @@ const NavbarEnd = () => {
       {/* show login and signup if not logged in */}
       {!currentUser && !loading && (
         <Link to={"/login"}>
-          <Button className="!bg-primaryColor hover:!bg-secondaryColor px-6 !text-lightGray">
-            Sign In
-          </Button>
+          <Button icon={FaSignInAlt}>Sign In</Button>
         </Link>
       )}
 

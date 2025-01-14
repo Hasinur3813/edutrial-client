@@ -20,6 +20,10 @@ export default {
         accentHover: "#e5ffff",
         "bg-secondary": "#e6fbfb",
       },
+      backgroundImage: {
+        "hero-pattern": "url('./assets/banner.jpg')",
+        "footer-texture": "url('/img/footer-texture.svg')",
+      },
     },
   },
   plugins: [daisyui],

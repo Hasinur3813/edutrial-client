@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "../../axios/useAxiosPublic";
 import { Fade } from "react-awesome-reveal";
 import { useForm } from "react-hook-form";
-import useRegisterUser from "../../hooks/useRegisterUser";
+import { useMutation } from "@tanstack/react-query";
 
 const Signup = () => {
   const axios = useAxiosPublic();
@@ -166,32 +166,89 @@ const Signup = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleSignup = (formData, e) => {
-    e.preventDefault();
+  // const registerUser = useMutation(
+  //   async (formData) => {
+  //     const { data } = await axios.post("/auth/signup", {
+  //       name: formData.name,
+  //       email: formData.email,
+  //       photoURL: formData.photoURL,
+  //       password: formData.password,
+  //     });
+  //     return data;
+  //   },
+  //   {
+  //     onSuccess: async (data, formData) => {
+  //       if (data.data.insertedId) {
+  //         try {
+  //           // Handle Firebase signup
+  //           await signup(formData.email, formData.password);
+  //           await updateUser(formData.name, formData.photoURL, formData.email);
 
-    const passwordError = validatePassword(formData.password);
+  //           // Update local user state
+  //           setCurrentUser((user) => ({
+  //             ...user,
+  //             displayName: formData.name,
+  //             photoURL: formData.photoURL,
+  //             email: formData.email,
+  //           }));
 
-    if (passwordError) {
-      setError(passwordError);
-      return;
-    }
+  //           Swal.fire({
+  //             title: "Good job!",
+  //             text: "Registration Successful",
+  //             icon: "success",
+  //           });
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    console.log(formData);
+  //           navigate("/");
+  //         } catch {
+  //           Swal.fire({
+  //             title: "Error",
+  //             text: "User is already registered!",
+  //             icon: "error",
+  //           });
+  //         }
+  //       } else {
+  //         throw new Error("User creation failed, Please try again");
+  //       }
+  //     },
+  //     onError: (error) => {
+  //       const errorMessage =
+  //         error.response?.data?.message ||
+  //         "User creation failed, Please try again";
+  //       Swal.fire({
+  //         title: "Error",
+  //         text: errorMessage,
+  //         icon: "error",
+  //       });
+  //     },
+  //   }
+  // );
 
-    setError("");
-    setPageLoading(true);
+  // const handleSignup = (formData, e) => {
+  //   e.preventDefault();
 
-    // Call the mutation
-    registerMutation.mutate(formData, {
-      onSettled: () => {
-        setPageLoading(false);
-      },
-    });
-  };
+  //   const passwordError = validatePassword(formData.password);
+
+  //   if (passwordError) {
+  //     setError(passwordError);
+  //     return;
+  //   }
+
+  //   if (formData.password !== formData.confirmPassword) {
+  //     setError("Passwords do not match.");
+  //     return;
+  //   }
+  //   console.log(formData);
+
+  //   setError("");
+  //   setPageLoading(true);
+
+  //   // Call the mutation
+  //   registerMutation.mutate(formData, {
+  //     onSettled: () => {
+  //       setPageLoading(false);
+  //     },
+  //   });
+  // };
 
   return (
     <Fade>
@@ -200,7 +257,7 @@ const Signup = () => {
           <h2 className="text-2xl font-bold text-center text-primaryColor mb-6">
             Register to EduTrial
           </h2>
-          <form onSubmit={handleSubmit(handleSignup)}>
+          <form onSubmit={handleSubmit(handleRegister)}>
             {/* Name Field */}
             <div className="mb-4">
               <label
@@ -283,7 +340,7 @@ const Signup = () => {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-darkGray"
+                  className="absolute right-2 top-[22px] transform -translate-y-1/2 text-darkGray"
                 >
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
@@ -313,7 +370,7 @@ const Signup = () => {
                 <button
                   type="button"
                   onClick={toggleConfirmPasswordVisibility}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-darkGray"
+                  className="absolute right-2 top-[22px] transform -translate-y-1/2 text-darkGray"
                 >
                   {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
