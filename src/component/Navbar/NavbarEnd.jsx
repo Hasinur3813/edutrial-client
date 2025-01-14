@@ -6,7 +6,7 @@ const NavbarEnd = ({ currentUser }) => {
     <div className="navbar-end">
       {/* show login and signup if not logged in */}
       {!currentUser && (
-        <Link to={"/signup"}>
+        <Link to={"/login"}>
           <Button className="!bg-primaryColor hover:!bg-secondaryColor px-6 !text-lightGray">
             Sign In
           </Button>
