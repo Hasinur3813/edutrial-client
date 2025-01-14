@@ -1,11 +1,20 @@
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
-const NavbarEnd = ({ currentUser }) => {
+const NavbarEnd = () => {
+  const { currentUser, loading, logout } = useAuth();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="navbar-end">
       {/* show login and signup if not logged in */}
-      {!currentUser && (
+      {!currentUser && !loading && (
         <Link to={"/login"}>
           <Button className="!bg-primaryColor hover:!bg-secondaryColor px-6 !text-lightGray">
             Sign In
@@ -22,10 +31,7 @@ const NavbarEnd = ({ currentUser }) => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full ring ring-primaryColor ring-offset-1 ring-offset-base-100">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
+              <img alt={currentUser?.displayName} src={currentUser?.photoURL} />
             </div>
           </div>
           <ul
@@ -39,7 +45,9 @@ const NavbarEnd = ({ currentUser }) => {
               <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
-              <button type="button">Logout</button>
+              <button onClick={handleLogout} type="button" className="text-red">
+                Logout
+              </button>
             </li>
           </ul>
         </div>

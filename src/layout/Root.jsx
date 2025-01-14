@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 const Root = () => {
   return (
-    <div>
+    <div className="font-poppins">
       <Navbar />
       <Toaster />
       <div className="min-h-screen">

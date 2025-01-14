@@ -71,8 +71,8 @@ const Signup = () => {
         photoURL: formData.photoURL,
         password: formData.password,
       });
-
-      if (res.data.success) {
+      console.log(res.data.data);
+      if (res.data.data.insertedId) {
         try {
           await signup(formData.email, formData.password);
           await updateUser(formData.name, formData.photoURL, formData.email);
@@ -99,13 +99,21 @@ const Signup = () => {
             icon: "error",
           });
         }
+      } else {
+        setError("Something went wrong");
+        setPageLoading(false);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+        });
       }
-    } catch (error) {
-      setError(error?.response?.data?.message);
+    } catch {
+      setError("User creation failed, please try again");
       setPageLoading(false);
       Swal.fire({
         title: "Error",
-        text: `${error?.response?.data?.message}`,
+        text: "User creation failed, Please try again",
         icon: "error",
       });
     }
@@ -116,12 +124,11 @@ const Signup = () => {
       setError("");
       const result = await signInWithGoogle();
       if (result?.user?.email) {
-        const res = await axiosInstance.post("/users/signup", {
+        const res = await axios.post("/auth/social-login", {
           name: result.user.displayName,
           email: result.user.email,
           photoURL: result.user.photoURL,
-          platform: "Google Login",
-          password: "googleLogin",
+          uid: result.user.uid,
         });
         if (res.data.success) {
           Swal.fire({
@@ -136,7 +143,9 @@ const Signup = () => {
         }
       }
     } catch (error) {
-      setError(error?.response?.data?.message);
+      setError(
+        error?.response?.data?.message || " Seems you are already registered!"
+      );
       Swal.fire({
         title: "Error",
         text: `${

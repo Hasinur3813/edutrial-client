@@ -1,25 +1,90 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-
+import { useAuth } from "../../context/AuthProvider";
 import Swal from "sweetalert2";
-
+import useAxiosPublic from "../../axios/useAxiosPublic";
 import { Fade } from "react-awesome-reveal";
+
 const Login = () => {
+  const { login, signInWithGoogle, logout } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const axios = useAxiosPublic();
+  const state = location?.state;
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = async (e) => {};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      setError("");
+      setLoading(true);
+      await login(email, password);
+      Swal.fire({
+        title: "Welcome back",
+        text: " Successfully logged in",
+        icon: "success",
+      });
+      setLoading(false);
+      state?.path ? navigate(state?.path) : navigate("/");
+    } catch (error) {
+      setError(error.code);
+      Swal.fire({
+        title: "Error",
+        text: `${error.code}`,
+        icon: "error",
+      });
+      setLoading(false);
+    }
+  };
 
-  const handleGoogleLogin = async () => {};
+  const handleGoogleLogin = async () => {
+    try {
+      setError("");
+      const result = await signInWithGoogle();
+      if (result?.user?.email) {
+        const res = await axios.post("/auth/social-login", {
+          name: result.user.displayName,
+          email: result.user.email,
+          photoURL: result.user.photoURL,
+          uid: result.user.uid,
+        });
+        if (res.data.success) {
+          Swal.fire({
+            title: "Welcome back",
+            text: " Successfully logged in",
+            icon: "success",
+          });
+
+          navigate("/");
+        } else {
+          await logout();
+        }
+      }
+    } catch (error) {
+      setError(
+        error?.response?.data?.message || " Seems you are already registered!"
+      );
+      Swal.fire({
+        title: "Error",
+        text: `${
+          (error?.response && error.response?.data?.message) ||
+          " Seems you are already registered!"
+        }`,
+        icon: "error",
+      });
+      await logout();
+    }
+  };
 
   return (
     <Fade>
@@ -79,7 +144,9 @@ const Login = () => {
             </div>
             {/* Error Message */}
             {error && (
-              <p className="text-red-500 text-sm my-4 text-center">{error}</p>
+              <p className="text-red font-semibold text-sm my-4 text-center">
+                {error}
+              </p>
             )}
 
             {/* Login Button */}
