@@ -29,19 +29,19 @@ const PopularCourses = () => {
           navigation={true}
           breakpoints={{
             640: {
-              slidesPerView: 2, // For screens >= 640px
+              slidesPerView: 2,
               spaceBetween: 20,
             },
             1024: {
-              slidesPerView: 3, // For screens >= 768px
+              slidesPerView: 3,
               spaceBetween: 30,
             },
           }}
           className="  !p-10  mySwiper"
         >
-          {classes.map((feedback, index) => (
+          {classes.map((classes, index) => (
             <SwiperSlide key={index}>
-              <ClassCard />
+              <ClassCard classes={classes} />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -11,7 +11,7 @@ const Footer = () => {
             <h2 className="text-2xl font-bold mb-4 text-primaryColor">
               EduTrial
             </h2>
-            <p className="text-muted">
+            <p className="text-lightGray">
               Your gateway to quality education. Join now and start learning
               from the best instructors around the world.
             </p>
@@ -19,17 +19,22 @@ const Footer = () => {
 
           {/* Links Section */}
           <div className="col-span-1">
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg text-primaryColor font-semibold mb-4">
+              Quick Links
+            </h3>
             <ul>
               <li>
-                <a href="/about" className="text-muted hover:text-primaryColor">
+                <a
+                  href="/about"
+                  className="text-lightGray underline hover:text-primaryColor"
+                >
                   About Us
                 </a>
               </li>
               <li>
                 <a
                   href="/contact"
-                  className="text-muted hover:text-primaryColor"
+                  className="text-lightGray underline hover:text-primaryColor"
                 >
                   Contact
                 </a>
@@ -37,13 +42,16 @@ const Footer = () => {
               <li>
                 <a
                   href="/privacy-policy"
-                  className="text-muted hover:text-primaryColor"
+                  className="text-lightGray underline hover:text-primaryColor"
                 >
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="/terms" className="text-muted hover:text-primaryColor">
+                <a
+                  href="/terms"
+                  className="text-lightGray underline hover:text-primaryColor"
+                >
                   Terms of Service
                 </a>
               </li>
@@ -52,8 +60,10 @@ const Footer = () => {
 
           {/* Social Media Links */}
           <div className="col-span-1">
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-            <div className="flex justify-left space-x-4">
+            <h3 className="text-lg text-primaryColor font-semibold mb-4">
+              Follow Us
+            </h3>
+            <div className="flex justify-center md:justify-left space-x-4">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -88,7 +98,7 @@ const Footer = () => {
           {/* Newsletter Section */}
           <div className="col-span-1">
             <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
-            <p className="text-muted mb-4">
+            <p className="text-lightGray mb-4">
               Subscribe to our newsletter for the latest updates, courses, and
               events.
             </p>
@@ -112,7 +122,7 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="border-t border-muted mt-8 pt-4">
-          <p className="text-center text-sm text-muted">
+          <p className="text-center text-sm text-lightGray">
             &copy; {new Date().getFullYear()} EduTrial. All rights reserved.
           </p>
         </div>

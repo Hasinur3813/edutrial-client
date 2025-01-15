@@ -1,7 +1,7 @@
 import { FaUsers } from "react-icons/fa";
 import Button from "../Button/Button";
 
-const ClassCard = () => {
+const ClassCard = ({ classes }) => {
   return (
     <div
       key="class-card"

@@ -6,6 +6,7 @@ import PartnersSection from "../../component/PartnersSection/PartnersSection";
 import PopularCourses from "../../component/PopularClasses/PopularClasses";
 import StatsSection from "../../component/StatsSection/StatsSection";
 import WhyJoinUs from "../../component/WhyJoinUs/WhyJoinUs";
+
 const Homepage = () => {
   return (
     <div>
@@ -19,8 +20,8 @@ const Homepage = () => {
       <JoinAsTeacher />
       <WhyJoinUs />
       <Feedback />
-      <FAQSection />
       <PartnersSection />
+      <FAQSection />
     </div>
   );
 };
