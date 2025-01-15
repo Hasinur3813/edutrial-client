@@ -11,8 +11,8 @@ const NavbarCenter = () => {
         </li>
 
         <li>
-          <NavLink className="font-semibold text-base" to="/all-classess">
-            All Classess
+          <NavLink className="font-semibold text-base" to="/all-classes">
+            All Classes
           </NavLink>
         </li>
         <li>

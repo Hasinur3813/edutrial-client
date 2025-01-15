@@ -11,7 +11,7 @@ const ClassCard = ({ classes }) => {
         <img
           src="https://blog.allviaedu.com/wp-content/uploads/2023/09/Guide-To-Teaching-Large-Classes-Of-Children_AllviA_230926.jpg"
           alt="Class Thumbnail"
-          className="h-48 w-full object-cover"
+          className="h-56 w-full object-cover"
         />
         <p className="absolute bottom-2 left-3 bg-primaryColor/80 text-white text-sm px-2 py-1 rounded-md">
           Instructor: Hasinur
@@ -44,7 +44,7 @@ const ClassCard = ({ classes }) => {
 
         {/* Enroll Button */}
         <div className="card-actions justify-end">
-          <Button>Enroll</Button>
+          <Button className="!text-sm">Enroll</Button>
         </div>
       </div>
     </div>
