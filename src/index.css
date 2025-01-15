@@ -3,3 +3,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* colors: {
+        primaryColor: "#00d2d3",
+        secondaryColor: "#00d3c4",
+        offWhite: "#f0f0f0",
+        darkGray: "#0f172a",
+        lightGray: "#ffffff",
+        muted: "#4b5563",
+        text: "#101c2c",
+        red: "#ef4444",
+        accentHover: "#e5ffff",
+        "bg-secondary": "#e6fbfb",
+      }, */
+a.active {
+  background: linear-gradient(to right, #00d2d3, #00d3c4);
+  color: #0f172a !important;
+}

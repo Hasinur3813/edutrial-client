@@ -44,7 +44,7 @@ const { Panel } = Collapse;
 
 const FAQSection = () => {
   return (
-    <section className="faq-section py-14 bg-lightGray">
+    <section className="faq-section py-14 bg-offWhite">
       <div className="container mx-auto text-center">
         <h2 className="text-2xl sm:text-3xl font-bold text-darkGray mb-8">
           Frequently Asked Questions

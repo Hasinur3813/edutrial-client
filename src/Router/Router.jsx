@@ -6,6 +6,10 @@ import Login from "../pages/Login/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllClasses from "../pages/AllClasses/AllClasses";
 import TeachOnEduTrial from "../pages/TeachOnEduTrial/TeachOnEduTrial";
+import ClassDetails from "../pages/ClassDetails/ClassDetails";
+import Dashboard from "../layout/Dashboard";
+import MyEnrollClass from "../pages/MyEnrollClass/MyEnrollClass";
+import MyProfile from "../pages/MyProfile/MyProfile";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +42,22 @@ const router = createBrowserRouter([
       {
         path: "/teach-on-edutrial",
         element: <TeachOnEduTrial />,
+      },
+      {
+        path: "/class-details",
+        element: <ClassDetails />,
+      },
+    ],
+  },
+
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      { index: true, element: <MyProfile /> },
+      {
+        path: "/dashboard/my-enroll-class",
+        element: <MyEnrollClass />,
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const NavbarStart = () => {
   return (
@@ -22,7 +22,7 @@ const NavbarStart = () => {
         </div>
         <ul
           tabIndex={0}
-          className="menu gap-y-2 menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          className="menu gap-y-2 menu-sm dropdown-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow"
         >
           <li>
             <NavLink className="font-semibold text-base" to="/">
@@ -45,9 +45,9 @@ const NavbarStart = () => {
           </li>
         </ul>
       </div>
-      <a className="font-bold text-3xl">
+      <Link to={"/"} className="font-bold text-3xl">
         Edu<span className="text-primaryColor">Trial</span>
-      </a>
+      </Link>
     </div>
   );
 };

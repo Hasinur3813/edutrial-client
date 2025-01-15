@@ -12,7 +12,6 @@ import {
   signOut,
 } from "firebase/auth";
 import useAxiosPublic from "../axios/useAxiosPublic";
-import Swal from "sweetalert2";
 
 const AuthContext = createContext();
 
@@ -34,26 +33,16 @@ const AuthProvider = ({ children }) => {
             email: user?.email,
             name: user?.displayName,
           })
-          .then(() => {
+          .then((data) => {
+            localStorage.setItem("access-token", data.data.token);
             setLoading(false);
           })
           .catch(() => {
             setLoading(false);
           });
       } else {
-        axios
-          .post("/auth/logout")
-          .then(() => {
-            setLoading(false);
-          })
-          .catch(() => {
-            Swal.fire({
-              title: "BAD_REQUEST",
-              text: "Retry logging in or Refresh the page.",
-              icon: "error",
-            });
-            setLoading(false);
-          });
+        localStorage.removeItem("access-token");
+        setLoading(false);
       }
     });
 

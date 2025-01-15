@@ -13,7 +13,7 @@ export default {
         secondaryColor: "#00d3c4",
         offWhite: "#f0f0f0",
         darkGray: "#0f172a",
-        lightGray: "#f7f7f7",
+        lightGray: "#ffffff",
         muted: "#4b5563",
         text: "#101c2c",
         red: "#ef4444",

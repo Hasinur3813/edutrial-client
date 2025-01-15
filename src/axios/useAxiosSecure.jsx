@@ -31,8 +31,20 @@ const useAxiosSecure = () => {
       }
     );
 
+    const reqInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("access-token");
+        config.headers.authorization = `Bearer ${token}`;
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
     return () => {
       axiosSecure.interceptors.response.eject(responseInterceptor);
+      axiosSecure.interceptors.request.eject(reqInterceptor);
     };
   }, [logout, setLoading, navigate]);
 

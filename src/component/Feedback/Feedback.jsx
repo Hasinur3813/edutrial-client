@@ -45,7 +45,7 @@ const feedbacks = [
 
 const Feedback = () => {
   return (
-    <section className="py-14 bg-lightGray">
+    <section className="py-14 bg-offWhite">
       <div className="container mx-auto px-3 space-y-10">
         {/* Section Title */}
         <div className="text-center">
