@@ -77,14 +77,12 @@ const Login = () => {
         }
       }
     } catch (error) {
-      setError(
-        error?.response?.data?.message || " Seems you are already registered!"
-      );
+      setError("Login Failed! Please try again or use another method to login");
       Swal.fire({
         title: "Error",
         text: `${
           (error?.response && error.response?.data?.message) ||
-          " Seems you are already registered!"
+          "Login Failed! Please try again or use another method to login"
         }`,
         icon: "error",
       });
