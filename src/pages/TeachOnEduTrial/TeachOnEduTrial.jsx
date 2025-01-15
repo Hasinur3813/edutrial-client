@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthProvider";
+import Button from "../../component/Button/Button";
 
 const TeachOnWebsite = () => {
   const { currentUser } = useAuth();
@@ -21,37 +21,45 @@ const TeachOnWebsite = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Form Submitted:", data);
-    // Add form submission logic here
-    reset(); // Clear the form after submission
+    const teacherRequest = {
+      name: currentUser?.displayName,
+      email: currentUser?.email,
+      photoURL: currentUser?.photoURL,
+      ...data,
+      status: "pending",
+    };
+    console.log(teacherRequest);
+    reset();
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-10 rounded-lg shadow-lg my-10">
+    <div className="max-w-4xl mx-auto bg-lightGray border border-primaryColor p-8 rounded-lg shadow-lg my-10">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center bg-gray-50 p-6 rounded-lg shadow-md mb-8">
+
+      <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center  rounded-lg mb-8">
         {/* Left Section: Title */}
-        <div className="mb-6 md:mb-0 text-center md:text-left">
-          <h1 className="text-4xl font-extrabold text-primaryColor">
+
+        <div className=" text-center md:text-left">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-primaryColor">
             Teach on EduTrial
           </h1>
-          <p className="text-gray-600 mt-2 text-lg">
+          <p className="text-muted  mt-2 text-sm md:text-lg">
             Share your knowledge and inspire students around the world.
           </p>
         </div>
 
         {/* Right Section: User Info */}
-        <div className="flex items-center md:flex-col space-x-6">
+        <div className="flex items-center justify-center flex-col space-x-6">
           <img
-            className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-4 border-primaryColor shadow-md"
+            className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover border-4 border-primaryColor shadow-md"
             src={currentUser?.photoURL || "https://via.placeholder.com/150"}
             alt={currentUser?.displayName || "User"}
           />
           <div>
-            <h4 className="text-xl font-semibold text-gray-800">
+            <h4 className="text-base md:text-lg font-semibold text-darkGray">
               {currentUser?.displayName || "John Doe"}
             </h4>
-            <p className="text-gray-500 mt-1 text-sm md:text-base">
+            <p className="text-muted mt-1 text-sm md:text-base">
               {currentUser?.email || "johndoe@example.com"}
             </p>
           </div>
@@ -89,15 +97,13 @@ const TeachOnWebsite = () => {
             {...register("experience", { required: "Experience is required" })}
             className="select select-bordered w-full"
           >
-            <option value="" disabled>
-              Select your experience level
-            </option>
+            <option value="">Select your experience level</option>
             <option value="Beginner">Beginner</option>
             <option value="Mid-Level">Mid-Level</option>
             <option value="Experienced">Experienced</option>
           </select>
           {errors.experience && (
-            <p className="text-red-500 mt-1">{errors.experience.message}</p>
+            <p className="text-red mt-1">{errors.experience.message}</p>
           )}
         </div>
 
@@ -111,7 +117,7 @@ const TeachOnWebsite = () => {
             className="input input-bordered w-full"
           />
           {errors.title && (
-            <p className="text-red-500 mt-1">{errors.title.message}</p>
+            <p className="text-red mt-1">{errors.title.message}</p>
           )}
         </div>
 
@@ -122,9 +128,7 @@ const TeachOnWebsite = () => {
             {...register("category", { required: "Category is required" })}
             className="select select-bordered w-full"
           >
-            <option value="" disabled>
-              Select a category
-            </option>
+            <option value="">Select a category</option>
             {categories.map((category, index) => (
               <option key={index} value={category}>
                 {category}
@@ -132,15 +136,15 @@ const TeachOnWebsite = () => {
             ))}
           </select>
           {errors.category && (
-            <p className="text-red-500 mt-1">{errors.category.message}</p>
+            <p className="text-red mt-1">{errors.category.message}</p>
           )}
         </div>
 
         {/* Submit Button */}
         <div className="text-center">
-          <button type="submit" className="btn btn-primary w-full text-lg">
-            Submit for Review
-          </button>
+          <Button className="w-full" type="submit">
+            Submit for review
+          </Button>
         </div>
       </form>
     </div>
