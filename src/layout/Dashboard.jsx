@@ -2,37 +2,54 @@ import {
   FaChalkboardTeacher,
   FaGraduationCap,
   FaUserGraduate,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
+import { useState } from "react";
 import ListItem from "../component/ListItem/ListItem";
 
 const Dashboard = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   return (
-    // parent container
-    <div className="w-full min-h-screen bg-lightGray flex">
-      {/*the sidebar where all the routes will be demonstrated here*/}
-      <div className="w-64 min-h-screen bg-offWhite border-r p-3">
-        {/* header with website logo/name */}
-        <div className="flex items-center space-x-3">
-          {/* Icon */}
-          <FaGraduationCap className="text-4xl text-primaryColor" />
-          {/* Text */}
-          <Link
-            to="/"
-            className="text-2xl sm:text-3xl md:text-4xl text-primaryColor font-extrabold tracking-wide"
+    <div className="w-full min-h-screen bg-lightGray flex overflow-x-hidden">
+      {/* Sidebar */}
+      <div
+        className={`fixed z-50 top-0 left-0 h-full bg-offWhite border-r p-4 transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 `}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <FaGraduationCap className="text-4xl text-primaryColor" />
+            <Link
+              to="/"
+              className="text-2xl sm:text-3xl md:text-4xl text-primaryColor font-extrabold tracking-wide"
+            >
+              EduTrial
+            </Link>
+          </div>
+          {/* Close Button for Desktop */}
+          <button
+            className="text-lightGray p-3 rounded-r-md bg-primaryColor fixed -right-11 top-0 md:block"
+            onClick={toggleSidebar}
           >
-            EduTrial
-          </Link>
+            {isSidebarOpen && <FaTimes className="text-xl" />}
+            {!isSidebarOpen && <FaBars className="text-xl" />}
+          </button>
         </div>
         <hr className="my-3 border-primaryColor rounded-full border" />
 
-        {/* menu area */}
-
+        {/* Menu */}
         <h3 className="font-semibold text-lg mt-5 text-darkGray">Menu</h3>
-
         <ul className="mt-4 space-y-2">
           <ListItem icon={FaUserGraduate}>My Profile</ListItem>
-
           <ListItem
             path="/dashboard/my-enroll-class"
             icon={FaChalkboardTeacher}
@@ -40,13 +57,18 @@ const Dashboard = () => {
             My Enroll Class
           </ListItem>
         </ul>
-
-        {/* end the sidebar */}
       </div>
 
-      {/* child container 2 where the Outlet will be defined here*/}
-      <div className="p-4 overflow-y-auto flex-1 overflow-x-hidden">
-        <Outlet />
+      {/* Main Content */}
+      <div
+        className={`flex-1 p-4 transition-all duration-300 ${
+          isSidebarOpen ? "md:ml-64" : "md:ml-0"
+        }`}
+      >
+        {/* Outlet */}
+        <div className="overflow-y-auto">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
