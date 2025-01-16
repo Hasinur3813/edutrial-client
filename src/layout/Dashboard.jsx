@@ -56,6 +56,12 @@ const Dashboard = () => {
           >
             My Enroll Class
           </ListItem>
+          <ListItem path="/dashboard/my-class" icon={FaChalkboardTeacher}>
+            My Class
+          </ListItem>
+          <ListItem path="/dashboard/add-class" icon={FaChalkboardTeacher}>
+            Add Class
+          </ListItem>
         </ul>
       </div>
 

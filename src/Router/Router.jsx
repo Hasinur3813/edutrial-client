@@ -11,6 +11,9 @@ import Dashboard from "../layout/Dashboard";
 import MyEnrollClass from "../pages/MyEnrollClass/MyEnrollClass";
 import MyProfile from "../pages/MyProfile/MyProfile";
 import MyEnrollClassDetails from "../pages/MyEnrollClassDetails/MyEnrollClassDetails";
+import AddClass from "../pages/AddClass/AddClass";
+import MyClass from "../pages/MyClass/MyClass";
+import MyClassDetails from "../pages/MyClassDetails/MyClassDetails";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +66,18 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/my-enroll-class-details",
         element: <MyEnrollClassDetails />,
+      },
+      {
+        path: "/dashboard/add-class",
+        element: <AddClass />,
+      },
+      {
+        path: "/dashboard/my-class",
+        element: <MyClass />,
+      },
+      {
+        path: "/dashboard/my-class-details",
+        element: <MyClassDetails />,
       },
     ],
   },

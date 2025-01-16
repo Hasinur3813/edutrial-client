@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ReactStars from "react-stars";
@@ -27,6 +27,17 @@ const MyEnrollClassDetails = () => {
     description: "",
     rating: 0,
   });
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const listener = window.addEventListener("click", (e) => {
+      if (e.target.contains(modalRef.current)) {
+        setIsModalOpen(false);
+      }
+    });
+
+    return () => window.removeEventListener("click", listener);
+  }, []);
 
   const handleSubmit = (assignmentId) => {
     setAssignments((prev) =>
@@ -54,8 +65,8 @@ const MyEnrollClassDetails = () => {
       </h1>
 
       {/* Assignments Table */}
-      <div className="overflow-x-scroll w-full">
-        <table className="w-full bg-lightGray shadow-md rounded-lg">
+      <div className="overflow-x-auto w-full">
+        <table className="min-w-[600px] w-full bg-lightGray shadow-md rounded-lg">
           <thead className="bg-primaryColor text-lightGray">
             <tr>
               <th className="px-6 py-3 text-left">Title</th>
@@ -88,7 +99,7 @@ const MyEnrollClassDetails = () => {
         </table>
       </div>
 
-      {/* Teaching Evaluation Report Button */}
+      {/* Teaching Evaluation Report */}
       <div className="mt-8">
         <Button onAction={() => setIsModalOpen(true)}>
           Teaching Evaluation Report (TER)
@@ -97,8 +108,11 @@ const MyEnrollClassDetails = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+        <div
+          ref={modalRef}
+          className="fixed inset-0 bg-darkGray bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <div className="bg-lightGray p-6 rounded-lg shadow-lg max-w-lg w-full">
             <h2 className="text-xl font-bold text-primaryColor mb-4">
               Teaching Evaluation Report
             </h2>
@@ -117,7 +131,7 @@ const MyEnrollClassDetails = () => {
             ></textarea>
             {/* Rating Field */}
             <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-muted font-semibold mb-2">
                 Rating:
               </label>
               <ReactStars
@@ -133,19 +147,9 @@ const MyEnrollClassDetails = () => {
               />
             </div>
             {/* Submit Button */}
-            <button
-              className="btn btn-primary px-6 py-3"
-              onClick={handleModalSubmit}
-            >
+            <Button type="button" onAction={handleModalSubmit}>
               Submit
-            </button>
-            {/* Close Modal */}
-            <button
-              className="absolute top-4 right-4 text-gray-500 hover:text-primaryColor"
-              onClick={() => setIsModalOpen(false)}
-            >
-              &times;
-            </button>
+            </Button>
           </div>
         </div>
       )}
