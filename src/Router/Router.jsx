@@ -10,6 +10,7 @@ import ClassDetails from "../pages/ClassDetails/ClassDetails";
 import Dashboard from "../layout/Dashboard";
 import MyEnrollClass from "../pages/MyEnrollClass/MyEnrollClass";
 import MyProfile from "../pages/MyProfile/MyProfile";
+import MyEnrollClassDetails from "../pages/MyEnrollClassDetails/MyEnrollClassDetails";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/my-enroll-class",
         element: <MyEnrollClass />,
+      },
+      {
+        path: "/dashboard/my-enroll-class-details",
+        element: <MyEnrollClassDetails />,
       },
     ],
   },

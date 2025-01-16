@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../../component/Button/Button";
+import { Link } from "react-router-dom";
 
 const enrolledClasses = [
   {
@@ -66,7 +67,9 @@ const MyEnrollClass = () => {
 
             {/* Continue Button */}
             <div className="p-4 border-t border-gray-200 text-center">
-              <Button className={"w-full "}>Continue</Button>
+              <Link to="/dashboard/my-enroll-class-details">
+                <Button className={"w-full "}>Continue</Button>
+              </Link>
             </div>
           </div>
         ))}
