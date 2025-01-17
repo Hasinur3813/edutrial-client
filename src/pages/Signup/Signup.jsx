@@ -143,6 +143,7 @@ const Signup = () => {
         }
       }
     } catch (error) {
+      console.log(error);
       setError(
         error?.response?.data?.message || " Seems you are already registered!"
       );

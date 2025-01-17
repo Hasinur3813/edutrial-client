@@ -15,6 +15,8 @@ import AddClass from "../pages/AddClass/AddClass";
 import MyClass from "../pages/MyClass/MyClass";
 import MyClassDetails from "../pages/MyClassDetails/MyClassDetails";
 import TeacherRequest from "../pages/TeacherRequest/TeacherRequest";
+import AllClass from "../pages/AllClass/AllClass";
+import Users from "../pages/Users/Users";
 
 const queryClient = new QueryClient();
 
@@ -46,7 +48,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/teach-on-edutrial",
-        element: <TeachOnEduTrial />,
+        element: (
+          <QueryClientProvider client={queryClient}>
+            <TeachOnEduTrial />
+          </QueryClientProvider>
+        ),
       },
       {
         path: "/class-details",
@@ -86,11 +92,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/all-classes",
-        element: <TeacherRequest />,
+        element: <AllClass />,
       },
       {
         path: "/dashboard/users",
-        element: <TeacherRequest />,
+        element: <Users />,
       },
     ],
   },

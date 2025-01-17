@@ -1,9 +1,18 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthProvider";
-import Button from "../../component/Button/Button";
+import useAxiosSecure from "../../axios/useAxiosSecure";
+import { Button, notification, message } from "antd";
+import { useState } from "react";
+import useTeacherStatus from "../../hooks/useTeacherStatus";
+import TeacherApprovedMessage from "../../component/TeacherApprovedMessage/TeacherApprovedMessage";
 
 const TeachOnWebsite = () => {
   const { currentUser } = useAuth();
+  const axios = useAxiosSecure();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { teacherStatus, statusLoading } = useTeacherStatus();
+  // const teacherStatus = { status: "approved" };
 
   const categories = [
     "Web Development",
@@ -20,15 +29,57 @@ const TeachOnWebsite = () => {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    const teacherRequest = {
+  const onSubmit = async (data) => {
+    const teachersData = {
       name: currentUser?.displayName,
       email: currentUser?.email,
       photoURL: currentUser?.photoURL,
       ...data,
-      status: "pending",
     };
-    console.log(teacherRequest);
+
+    if (teacherStatus.status === "pending") {
+      notification.warning({
+        message: "Please Wait!",
+        description: "Already submitted, Please wait for admin approval!!",
+      });
+      return;
+    }
+
+    // submit data to server
+
+    try {
+      setError("");
+      setLoading(true);
+      const { data } = await axios.post("/teachers/request", teachersData);
+      if (data.data.insertedId) {
+        notification.success({
+          message: "Success!",
+          description:
+            "Successfully submitted. Please wait for admin approval!",
+        });
+
+        setLoading(false);
+      } else {
+        setLoading(false);
+        message.error("Submission failed, Please try again.");
+      }
+    } catch (error) {
+      notification.error({
+        message: "Error!",
+        description:
+          error.message ||
+          error.response.data.message ||
+          "Something wrong happened, Please try again after somethimes.",
+      });
+
+      setError(
+        error.message ||
+          error.response.data.message ||
+          "Something wrong happened, Please try again after somethimes."
+      );
+      setLoading(false);
+    }
+
     reset();
   };
 
@@ -67,86 +118,108 @@ const TeachOnWebsite = () => {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Name */}
-        <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Name</label>
-          <input
-            type="text"
-            value={currentUser?.displayName || "John Doe"}
-            readOnly
-            className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
-          />
-        </div>
+      {teacherStatus?.status !== "approved" && (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Name */}
+          <div className="mb-4">
+            <label className="block text-lg font-semibold mb-2">Name</label>
+            <input
+              type="text"
+              value={currentUser?.displayName || "John Doe"}
+              readOnly
+              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+            />
+          </div>
 
-        {/* Email */}
-        <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Email</label>
-          <input
-            type="email"
-            value={currentUser?.email || "johndoe@example.com"}
-            readOnly
-            className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
-          />
-        </div>
+          {/* Email */}
+          <div className="mb-4">
+            <label className="block text-lg font-semibold mb-2">Email</label>
+            <input
+              type="email"
+              value={currentUser?.email || "johndoe@example.com"}
+              readOnly
+              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+            />
+          </div>
 
-        {/* Experience */}
-        <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Experience</label>
-          <select
-            {...register("experience", { required: "Experience is required" })}
-            className="select select-bordered w-full"
-          >
-            <option value="">Select your experience level</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Mid-Level">Mid-Level</option>
-            <option value="Experienced">Experienced</option>
-          </select>
-          {errors.experience && (
-            <p className="text-red mt-1">{errors.experience.message}</p>
-          )}
-        </div>
+          {/* Experience */}
+          <div className="mb-4">
+            <label className="block text-lg font-semibold mb-2">
+              Experience
+            </label>
+            <select
+              {...register("experience", {
+                required: "Experience is required",
+              })}
+              className="select select-bordered w-full"
+            >
+              <option value="">Select your experience level</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Mid-Level">Mid-Level</option>
+              <option value="Experienced">Experienced</option>
+            </select>
+            {errors.experience && (
+              <p className="text-red mt-1">{errors.experience.message}</p>
+            )}
+          </div>
 
-        {/* Title */}
-        <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Title</label>
-          <input
-            type="text"
-            {...register("title", { required: "Title is required" })}
-            placeholder="Enter your teaching title"
-            className="input input-bordered w-full"
-          />
-          {errors.title && (
-            <p className="text-red mt-1">{errors.title.message}</p>
-          )}
-        </div>
+          {/* Title */}
+          <div className="mb-4">
+            <label className="block text-lg font-semibold mb-2">Title</label>
+            <input
+              type="text"
+              {...register("title", { required: "Title is required" })}
+              placeholder="Enter your teaching title"
+              className="input input-bordered w-full"
+            />
+            {errors.title && (
+              <p className="text-red mt-1">{errors.title.message}</p>
+            )}
+          </div>
 
-        {/* Category */}
-        <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Category</label>
-          <select
-            {...register("category", { required: "Category is required" })}
-            className="select select-bordered w-full"
-          >
-            <option value="">Select a category</option>
-            {categories.map((category, index) => (
-              <option key={index} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          {errors.category && (
-            <p className="text-red mt-1">{errors.category.message}</p>
-          )}
-        </div>
+          {/* Category */}
+          <div className="mb-4">
+            <label className="block text-lg font-semibold mb-2">Category</label>
+            <select
+              {...register("category", { required: "Category is required" })}
+              className="select select-bordered w-full"
+            >
+              <option value="">Select a category</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            {errors.category && (
+              <p className="text-red mt-1">{errors.category.message}</p>
+            )}
+          </div>
 
-        {/* Submit Button */}
-        <div className="text-center">
-          <Button className="w-full" type="submit">
-            Submit for review
-          </Button>
-        </div>
-      </form>
+          {/* Submit Button */}
+          <div className="text-center">
+            <Button
+              loading={loading}
+              disabled={loading || statusLoading}
+              className="w-full py-3 bg-primaryColor"
+              type="primary"
+              htmlType="submit"
+              size="large"
+            >
+              {teacherStatus?.status === "rejected"
+                ? "Request to another button"
+                : "Submit for review"}
+            </Button>
+
+            {error && (
+              <p className="text-sm font-semibold text-red my-3">{error}</p>
+            )}
+          </div>
+        </form>
+      )}
+
+      {/* show a relevent message if the teacher request is approved */}
+      {teacherStatus?.status === "approved" && <TeacherApprovedMessage />}
     </div>
   );
 };
