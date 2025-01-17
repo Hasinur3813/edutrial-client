@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Modal, Button as AntButton, Card, Form, Input, message } from "antd";
+import {
+  Modal,
+  Button as AntButton,
+  Card,
+  Form,
+  Input,
+  message,
+  InputNumber,
+} from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -147,7 +155,6 @@ const MyClass = () => {
               <Input />
             </Form.Item>
 
-            {/* there is a problem in the price selection, Does not take positive number */}
             <Form.Item
               label="Price"
               name="price"
@@ -160,7 +167,7 @@ const MyClass = () => {
                 },
               ]}
             >
-              <Input type="number" />
+              <InputNumber className="w-full" />
             </Form.Item>
             <Form.Item
               label="Description"

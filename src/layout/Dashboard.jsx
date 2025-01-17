@@ -62,19 +62,28 @@ const Dashboard = () => {
           <ListItem path="/dashboard/add-class" icon={FaChalkboardTeacher}>
             Add Class
           </ListItem>
+          <ListItem
+            path="/dashboard/teacher-request"
+            icon={FaChalkboardTeacher}
+          >
+            Teacher Request
+          </ListItem>
+          <ListItem path="/dashboard/users" icon={FaChalkboardTeacher}>
+            Users
+          </ListItem>
+          <ListItem path="/dashboard/all-classes" icon={FaChalkboardTeacher}>
+            All Classes
+          </ListItem>
         </ul>
       </div>
 
       {/* Main Content */}
       <div
-        className={`flex-1 p-4 transition-all duration-300 ${
+        className={`flex-1 p-4 transition-all duration-300 overflow-y-auto ${
           isSidebarOpen ? "md:ml-64" : "md:ml-0"
         }`}
       >
-        {/* Outlet */}
-        <div className="overflow-y-auto">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </div>
   );

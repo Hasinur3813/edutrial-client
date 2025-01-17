@@ -66,7 +66,7 @@ const MyEnrollClassDetails = () => {
 
       {/* Assignments Table */}
       <div className="overflow-x-auto w-full">
-        <table className="min-w-[600px] w-full bg-lightGray shadow-md rounded-lg">
+        <table className=" w-full  bg-lightGray shadow-md rounded-lg">
           <thead className="bg-primaryColor text-lightGray">
             <tr>
               <th className="px-6 py-3 text-left">Title</th>
