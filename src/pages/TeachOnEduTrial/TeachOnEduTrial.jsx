@@ -11,8 +11,7 @@ const TeachOnWebsite = () => {
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { teacherStatus, statusLoading } = useTeacherStatus();
-  // const teacherStatus = { status: "approved" };
+  const { teacherStatus, statusLoading, refetch } = useTeacherStatus();
 
   const categories = [
     "Web Development",
@@ -51,7 +50,7 @@ const TeachOnWebsite = () => {
       setError("");
       setLoading(true);
       const { data } = await axios.post("/teachers/request", teachersData);
-      if (data.data.insertedId) {
+      if (data.data.insertedId || data.data.modifiedCount) {
         notification.success({
           message: "Success!",
           description:
@@ -59,6 +58,7 @@ const TeachOnWebsite = () => {
         });
 
         setLoading(false);
+        refetch();
       } else {
         setLoading(false);
         message.error("Submission failed, Please try again.");
@@ -136,7 +136,7 @@ const TeachOnWebsite = () => {
             <label className="block text-lg font-semibold mb-2">Email</label>
             <input
               type="email"
-              value={currentUser?.email || "johndoe@example.com"}
+              value={currentUser?.email}
               readOnly
               className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />

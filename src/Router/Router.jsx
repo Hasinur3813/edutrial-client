@@ -3,7 +3,6 @@ import Root from "../layout/Root";
 import Homepage from "../pages/Homepage/Homepage";
 import Signup from "../pages/Signup/Signup";
 import Login from "../pages/Login/Login";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllClasses from "../pages/AllClasses/AllClasses";
 import TeachOnEduTrial from "../pages/TeachOnEduTrial/TeachOnEduTrial";
 import ClassDetails from "../pages/ClassDetails/ClassDetails";
@@ -17,8 +16,6 @@ import MyClassDetails from "../pages/MyClassDetails/MyClassDetails";
 import TeacherRequest from "../pages/TeacherRequest/TeacherRequest";
 import AllClass from "../pages/AllClass/AllClass";
 import Users from "../pages/Users/Users";
-
-const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -36,11 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: (
-          <QueryClientProvider client={queryClient}>
-            <Signup />
-          </QueryClientProvider>
-        ),
+        element: <Signup />,
       },
       {
         path: "/all-classes",
@@ -48,11 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/teach-on-edutrial",
-        element: (
-          <QueryClientProvider client={queryClient}>
-            <TeachOnEduTrial />
-          </QueryClientProvider>
-        ),
+        element: <TeachOnEduTrial />,
       },
       {
         path: "/class-details",

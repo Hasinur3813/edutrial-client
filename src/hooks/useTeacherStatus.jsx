@@ -6,7 +6,11 @@ const useTeacherStatus = () => {
   const { currentUser, loading } = useAuth();
   const axios = useAxiosSecure();
 
-  const { data: teacherStatus, isPending: statusLoading } = useQuery({
+  const {
+    data: teacherStatus,
+    isPending: statusLoading,
+    refetch,
+  } = useQuery({
     queryKey: [currentUser?.email, "teacherStatus"],
     enabled: !loading,
     queryFn: async () => {
@@ -16,7 +20,7 @@ const useTeacherStatus = () => {
     },
   });
 
-  return { teacherStatus, statusLoading };
+  return { teacherStatus, statusLoading, refetch };
 };
 
 export default useTeacherStatus;

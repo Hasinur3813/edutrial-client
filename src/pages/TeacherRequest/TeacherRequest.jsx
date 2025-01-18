@@ -1,75 +1,66 @@
 import { useState } from "react";
 import { Table, Button, Image, Tag, notification } from "antd";
+import useTeachers from "../../hooks/useTeachers";
+import useAxiosSecure from "../../axios/useAxiosSecure";
 
 const TeacherRequest = () => {
-  // Mock data for teacher requests
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      image:
-        "https://th.bing.com/th?id=OIP.XIHKbawz2fk_9bU9wqDJuwHaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      experience: "5 years",
-      title: "Math Teacher",
-      category: "Mathematics",
-      status: "pending",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      image:
-        "https://th.bing.com/th?id=OIP.XIHKbawz2fk_9bU9wqDJuwHaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      experience: "3 years",
-      title: "Science Teacher",
-      category: "Science",
-      status: "rejected",
-    },
-    {
-      id: 3,
-      name: "Sam Wilson",
-      image:
-        "https://th.bing.com/th?id=OIP.XIHKbawz2fk_9bU9wqDJuwHaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      experience: "7 years",
-      title: "English Teacher",
-      category: "English",
-      status: "pending",
-    },
-    {
-      id: 4,
-      name: "Sam Wilson",
-      image:
-        "https://th.bing.com/th?id=OIP.XIHKbawz2fk_9bU9wqDJuwHaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      experience: "7 years",
-      title: "English Teacher",
-      category: "English",
-      status: "pending",
-    },
-    {
-      id: 5,
-      name: "Sam Wilson",
-      image:
-        "https://th.bing.com/th?id=OIP.XIHKbawz2fk_9bU9wqDJuwHaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      experience: "7 years",
-      title: "English Teacher",
-      category: "English",
-      status: "pending",
-    },
-  ]);
+  const axios = useAxiosSecure();
+  const [loading, setLoading] = useState(false);
+
+  const { teachers: requests, isTeacherLoading, refetch } = useTeachers();
 
   // Approve request
-  const handleApprove = (id) => {
-    setRequests((prev) =>
-      prev.map((req) => (req.id === id ? { ...req, status: "accepted" } : req))
-    );
-    notification.success({ message: "Teacher request approved successfully!" });
+  const handleApprove = async (email) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.patch("/admin/approve-teacher-request", {
+        email,
+      });
+      if (data.data.modifiedCount) {
+        notification.success({
+          message: "Teacher request approved successfully!",
+        });
+        setLoading(false);
+        refetch();
+      } else {
+        notification.error({
+          message: "It seems the user is already a teacher!",
+        });
+        setLoading(false);
+        refetch();
+      }
+    } catch (error) {
+      notification.error({
+        message: error.message || "Teacher request approved successfully!",
+      });
+    }
+    setLoading(false);
   };
 
   // Reject request
-  const handleReject = (id) => {
-    setRequests((prev) =>
-      prev.map((req) => (req.id === id ? { ...req, status: "rejected" } : req))
-    );
-    notification.warning({ message: "Teacher request rejected successfully!" });
+  const handleReject = async (email) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.patch("/admin/reject-teacher-request", {
+        email,
+      });
+      if (data.data.modifiedCount) {
+        notification.warning({
+          message: "Teacher request rejected successfully!",
+        });
+        refetch();
+        setLoading(false);
+      } else {
+        notification.error({
+          message: "Seems the request is already rejected!",
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: error.message || "Operation failed, Please try again!",
+      });
+      setLoading(false);
+    }
   };
 
   // Table columns
@@ -81,11 +72,11 @@ const TeacherRequest = () => {
     },
     {
       title: "Image",
-      dataIndex: "image",
-      key: "image",
-      render: (src) => (
+      dataIndex: "photoURL",
+      key: "photoURL",
+      render: (photoURL) => (
         <Image
-          src={src}
+          src={photoURL}
           alt="Teacher"
           width={50}
           height={50}
@@ -137,18 +128,24 @@ const TeacherRequest = () => {
         <div className="flex gap-2">
           <Button
             type="primary"
-            onClick={() => handleApprove(record.id)}
+            onClick={() => handleApprove(record.email)}
+            loading={loading}
             disabled={
-              record.status === "accepted" || record.status === "rejected"
+              loading ||
+              record.status === "approved" ||
+              record.status === "rejected"
             }
           >
             Approve
           </Button>
           <Button
             danger
-            onClick={() => handleReject(record.id)}
+            onClick={() => handleReject(record.email)}
+            loading={loading}
             disabled={
-              record.status === "accepted" || record.status === "rejected"
+              loading ||
+              record.status === "approved" ||
+              record.status === "rejected"
             }
           >
             Reject
@@ -166,7 +163,8 @@ const TeacherRequest = () => {
       <Table
         dataSource={requests}
         columns={columns}
-        rowKey="id"
+        loading={isTeacherLoading}
+        rowKey="_id"
         bordered
         pagination={{ pageSize: 20 }}
         className="overflow-x-auto"

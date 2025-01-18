@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Table, Button, Input, Avatar, Modal, message } from "antd";
-import axios from "axios";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-
-const usersData = [
-  {
-    id: 1,
-    name: "Hasinur Rahman",
-    email: "hasinur@gmail.com",
-    image: "",
-    role: "student",
-  },
-  {
-    id: 2,
-    name: "Rahman",
-    email: "rahman@gmail.com",
-    image: "",
-    role: "admin",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import useUserRole from "../../hooks/useUserRole";
+import useAxiosSecure from "../../axios/useAxiosSecure";
 
 const Users = () => {
-  const [users, setUsers] = useState(usersData);
+  const { user, isPending } = useUserRole();
+  // const [users, setUsers] = useState(usersData);
   const [searchTerm, setSearchTerm] = useState("");
+  const axios = useAxiosSecure();
+
+  const {
+    data: users,
+    isPending: isUsersLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["users"],
+    enabled: !isPending && user.userRole === "admin",
+    queryFn: async () => {
+      const result = await axios.get("/admin/all-users");
+      return result.data.data;
+    },
+  });
+
+  console.log(users);
 
   // Handle Make Admin
   const handleMakeAdmin = async (userId) => {
@@ -52,9 +54,9 @@ const Users = () => {
   const columns = [
     {
       title: "User Image",
-      dataIndex: "image",
-      key: "image",
-      render: (image) => <Avatar src={image} size="large" />,
+      dataIndex: "photoURL",
+      key: "photoURL",
+      render: (photoURL) => <Avatar src={photoURL} size="large" />,
     },
     {
       title: "User Name",
@@ -100,7 +102,8 @@ const Users = () => {
         className="overflow-x-auto"
         dataSource={users}
         columns={columns}
-        rowKey="id"
+        loading={isUsersLoading}
+        rowKey="_id"
         pagination={{ pageSize: 10 }}
       />
     </div>
