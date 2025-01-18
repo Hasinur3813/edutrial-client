@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, Button, Input, Avatar, Modal, message } from "antd";
+import { Table, Button, Input, Avatar, Modal, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import useUserRole from "../../hooks/useUserRole";
@@ -7,34 +7,60 @@ import useAxiosSecure from "../../axios/useAxiosSecure";
 
 const Users = () => {
   const { user, isPending } = useUserRole();
-  // const [users, setUsers] = useState(usersData);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [displayedUser, setDisplayedUsers] = useState([]);
+  const [searching, setSearching] = useState(false);
   const axios = useAxiosSecure();
+  const [loading, setLoading] = useState(false);
 
   const {
-    data: users,
+    data: users = [],
     isPending: isUsersLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users"],
-    enabled: !isPending && user.userRole === "admin",
+    queryKey: ["users", user.userRole],
+    enabled: !isPending,
     queryFn: async () => {
       const result = await axios.get("/admin/all-users");
       return result.data.data;
     },
   });
 
-  console.log(users);
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    try {
+      setSearching(true);
+      const { data } = await axios.get(`admin/users/?search=${value}`);
+      const users = data.data;
+      setDisplayedUsers(users);
+      setSearching(false);
+    } catch {
+      notification.error("Something went wrong, Please try again.");
+      setSearching(false);
+    }
+  };
 
   // Handle Make Admin
-  const handleMakeAdmin = async (userId) => {
-    console.log(userId);
+  const handleMakeAdmin = async (email) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.patch(`/admin/make-admin/${email}`);
+      if (data.data.modifiedCount) {
+        notification.success("The user role is changed to Admin");
+        refetch();
+        setLoading(false);
+      } else {
+        notification.error("Faild to make admin. Try again!");
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      notification.error(
+        error?.message || "An error occured making admin, Try again!"
+      );
+    }
   };
 
-  const fetchUsers = (value) => {
-    console.log(value);
-  };
-  const showDeleteConfirm = (user) => {
+  const showAdminConfirm = (user) => {
     Modal.confirm({
       title: `Are you sure you want to make "${user.name}" as Admin?`,
       icon: <ExclamationCircleOutlined />,
@@ -43,9 +69,7 @@ const Users = () => {
       okType: "primary",
       cancelText: "Cancel",
       onOk() {
-        // To do
-        // make admin logic hare
-        message.success("User now admin!");
+        handleMakeAdmin(user.email);
       },
     });
   };
@@ -74,8 +98,8 @@ const Users = () => {
       render: (_, record) => (
         <Button
           type="primary"
-          onClick={() => showDeleteConfirm(record)}
-          disabled={record.role === "admin"}
+          onClick={() => showAdminConfirm(record)}
+          disabled={loading || record.role === "admin"}
         >
           {record.role === "admin" ? "Admin" : "Make Admin"}
         </Button>
@@ -91,8 +115,9 @@ const Users = () => {
       {/* Search Input */}
       <Input.Search
         placeholder="Search users by name or email"
-        onSearch={(value) => fetchUsers(value)}
+        // onSearch={(value) => handleSearch(value)}
         enterButton
+        onInput={(e) => handleSearch(e)}
         size="large"
         allowClear
         className="mb-4"
@@ -100,9 +125,9 @@ const Users = () => {
       {/* Users Table */}
       <Table
         className="overflow-x-auto"
-        dataSource={users}
+        dataSource={displayedUser.length === 0 ? users : displayedUser}
         columns={columns}
-        loading={isUsersLoading}
+        loading={isUsersLoading || searching}
         rowKey="_id"
         pagination={{ pageSize: 10 }}
       />

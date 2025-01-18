@@ -13,7 +13,7 @@ const useTeachers = () => {
     isError,
   } = useQuery({
     queryKey: [user?.userRole, "teachers"],
-    enabled: !isPending && user?.userRole === "admin",
+    enabled: !isPending,
     queryFn: async () => {
       const teachers = await axios.get("/admin/teachers");
       return teachers.data.data;

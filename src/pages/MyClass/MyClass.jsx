@@ -10,33 +10,31 @@ import {
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useUserRole from "../../hooks/useUserRole";
+import useAxiosSecure from "../../axios/useAxiosSecure";
+import { useAuth } from "../../context/AuthProvider";
 
 const MyClass = () => {
-  const [classes, setClasses] = useState([
-    {
-      id: 1,
-      title: "Mathematics Basics",
-      name: "John Doe",
-      email: "johndoe@example.com",
-      price: 50,
-      description:
-        "Learn the basics of mathematics in this beginner-friendly course.",
-      image:
-        "https://th.bing.com/th?id=OIP.2uKax6br6OljVbNjnHP7mQHaEK&w=333&h=187&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      status: "Pending",
+  const { currentUser } = useAuth();
+  const { user, isPending: isTeacherLoading } = useUserRole();
+  const axios = useAxiosSecure();
+  const [loading, setLoading] = useState(false);
+
+  const {
+    data: classes = [],
+    isPending,
+    refetch,
+  } = useQuery({
+    queryKey: ["classes", user.userRole],
+    enabled: !isTeacherLoading,
+    queryFn: async () => {
+      const result = await axios.get(
+        `/teachers/all-classes/${currentUser?.email}`
+      );
+      return result.data.data;
     },
-    {
-      id: 2,
-      title: "Science Fundamentals",
-      name: "John Doe",
-      email: "johndoe@example.com",
-      price: 75,
-      description: "Explore fundamental concepts in science.",
-      image:
-        "https://th.bing.com/th?id=OIP.2uKax6br6OljVbNjnHP7mQHaEK&w=333&h=187&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-      status: "Pending",
-    },
-  ]);
+  });
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
@@ -56,14 +54,27 @@ const MyClass = () => {
     });
   };
 
-  const handleUpdate = (values) => {
-    setClasses((prev) =>
-      prev.map((cls) =>
-        cls.id === selectedClass.id ? { ...cls, ...values } : cls
-      )
-    );
-    setIsUpdateModalOpen(false);
-    message.success("Class updated successfully!");
+  const handleUpdate = async (values) => {
+    try {
+      setLoading(true);
+      const result = await axios.patch(
+        `/teachers/update-class/${currentUser?.email}`,
+        values
+      );
+      if (result.data.data) {
+        message.success("Class has been updated!");
+      } else {
+        message.error("Failed to update, Try again!");
+      }
+    } catch (error) {
+      message.error(
+        error?.message || "Something went wrong, Please try again!"
+      );
+    } finally {
+      setLoading(false);
+      setIsUpdateModalOpen(false);
+      refetch();
+    }
   };
 
   return (
@@ -73,12 +84,17 @@ const MyClass = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {classes.map((cls) => (
           <Card
-            key={cls.id}
+            key={cls._id}
             hoverable
             size={"small"}
+            loading={isPending}
             cover={
-              <div className="relative">
-                <img className="rounded-md" alt={cls.title} src={cls.image} />
+              <div className="relative h-52">
+                <img
+                  className="rounded-md h-full w-full object-cover"
+                  alt={cls.title}
+                  src={cls.image}
+                />
 
                 <span className="absolute bottom-2 right-2 bg-primaryColor rounded-md px-3 py-1 text-sm text-lightGray">
                   Pending
@@ -116,8 +132,13 @@ const MyClass = () => {
               </Link>,
             ]}
           >
-            <h3 className="text-lg font-bold">{cls.title}</h3>
-            <p className="mb-2">{cls.description}</p>
+            <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap text-ellipsis">
+              {cls.title}
+            </h3>
+
+            <p className="my-2 overflow-hidden whitespace-nowrap text-ellipsis">
+              {cls.description}
+            </p>
 
             <div>
               <p>
@@ -185,6 +206,8 @@ const MyClass = () => {
               <AntButton
                 type="primary"
                 htmlType="submit"
+                loading={loading}
+                disabled={loading}
                 className="ml-3 bg-primaryColor"
               >
                 Update
