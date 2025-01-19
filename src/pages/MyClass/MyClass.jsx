@@ -7,6 +7,7 @@ import {
   Input,
   message,
   InputNumber,
+  Empty,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -26,7 +27,7 @@ const MyClass = () => {
     isPending,
     refetch,
   } = useQuery({
-    queryKey: ["classes", user.userRole],
+    queryKey: ["classes", user?.userRole],
     enabled: !isTeacherLoading,
     queryFn: async () => {
       const result = await axios.get(
@@ -48,8 +49,7 @@ const MyClass = () => {
       okType: "danger",
       cancelText: "Cancel",
       onOk() {
-        setClasses(classes.filter((cls) => cls.id !== id));
-        message.success("Class deleted successfully!");
+        hanldeDeleteClass(id);
       },
     });
   };
@@ -77,83 +77,114 @@ const MyClass = () => {
     }
   };
 
+  const hanldeDeleteClass = async (id) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.delete(`/teachers/delete-class/${id}`);
+      const result = data.data;
+      if (result.deletedCount > 0) {
+        message.success("Successfully deleted the class!");
+      } else {
+        message.error("Operation failed, Please try agian!");
+      }
+    } catch (error) {
+      message.error(
+        error?.message || "An error has occured, Please try again!"
+      );
+    } finally {
+      setLoading(false);
+      refetch();
+    }
+  };
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-primaryColor mb-6">My Classes</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {classes.map((cls) => (
-          <Card
-            key={cls._id}
-            hoverable
-            size={"small"}
-            loading={isPending}
-            cover={
-              <div className="relative h-52">
-                <img
-                  className="rounded-md h-full w-full object-cover"
-                  alt={cls.title}
-                  src={cls.image}
-                />
+      {classes.length === 0 ? (
+        <Empty />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {classes.map((cls) => (
+            <Card
+              key={cls._id}
+              hoverable
+              size={"small"}
+              loading={isPending}
+              cover={
+                <div className="relative h-52">
+                  <img
+                    className="rounded-md h-full w-full object-cover"
+                    alt={cls.title}
+                    src={cls.image}
+                  />
 
-                <span className="absolute bottom-2 right-2 bg-primaryColor rounded-md px-3 py-1 text-sm text-lightGray">
-                  Pending
-                </span>
-              </div>
-            }
-            actions={[
-              <AntButton
-                key={cls.id}
-                type="link"
-                className="text-primaryColor"
-                onClick={() => {
-                  setSelectedClass(cls);
-                  setIsUpdateModalOpen(true);
-                }}
-              >
-                Update
-              </AntButton>,
-              <AntButton
-                key={cls.id}
-                type="link"
-                danger
-                onClick={() => showDeleteConfirm(cls.id)}
-              >
-                Delete
-              </AntButton>,
-              <Link to={"/dashboard/my-class-details"} key={cls.id}>
+                  <span className="absolute capitalize bottom-2 right-2 bg-primaryColor rounded-md px-3 py-1 text-sm text-lightGray">
+                    {cls.status}
+                  </span>
+                </div>
+              }
+              actions={[
                 <AntButton
-                  className="text-primaryColor"
-                  key={cls.id}
+                  key={cls._id}
                   type="link"
+                  className="text-primaryColor"
+                  onClick={() => {
+                    setSelectedClass(cls);
+                    setIsUpdateModalOpen(true);
+                  }}
                 >
-                  See Details
-                </AntButton>
-              </Link>,
-            ]}
-          >
-            <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap text-ellipsis">
-              {cls.title}
-            </h3>
+                  Update
+                </AntButton>,
+                <AntButton
+                  key={cls._id}
+                  type="link"
+                  loading={loading}
+                  disabled={loading}
+                  danger
+                  onClick={() => showDeleteConfirm(cls._id)}
+                >
+                  Delete
+                </AntButton>,
+                <Link
+                  to={`/dashboard/my-class-details/${cls._id}`}
+                  key={cls._id}
+                >
+                  <AntButton
+                    className="text-primaryColor"
+                    key={cls._id}
+                    type="link"
+                    disabled={
+                      cls.status === "pending" || cls.status === "rejected"
+                    }
+                  >
+                    See Details
+                  </AntButton>
+                </Link>,
+              ]}
+            >
+              <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap text-ellipsis">
+                {cls.title}
+              </h3>
 
-            <p className="my-2 overflow-hidden whitespace-nowrap text-ellipsis">
-              {cls.description}
-            </p>
+              <p className="my-2 overflow-hidden whitespace-nowrap text-ellipsis">
+                {cls.description}
+              </p>
 
-            <div>
-              <p>
-                <strong>Name:</strong> {cls.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {cls.email}
-              </p>
-              <p>
-                <strong>Price:</strong> ${cls.price}
-              </p>
-            </div>
-          </Card>
-        ))}
-      </div>
+              <div>
+                <p>
+                  <strong>Name:</strong> {cls.name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {cls.email}
+                </p>
+                <p>
+                  <strong>Price:</strong> ${cls.price}
+                </p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {/* Update Modal */}
       {isUpdateModalOpen && (

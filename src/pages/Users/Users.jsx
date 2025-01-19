@@ -17,7 +17,7 @@ const Users = () => {
     isPending: isUsersLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", user.userRole],
+    queryKey: ["users", user?.userRole],
     enabled: !isPending,
     queryFn: async () => {
       const result = await axios.get("/admin/all-users");

@@ -6,18 +6,27 @@ import { Pagination } from "antd";
 import { FaSortAmountDown } from "react-icons/fa";
 import Button from "../../component/Button/Button";
 import { useState } from "react";
+import useAxiosPublic from "../../axios/useAxiosPublic";
 
-const classes = [3, 4, 3, 4, 3, 3, 3, 3, 4, 4, 3, 4, 6, 7, 7, 8];
+// const classes = [3, 4, 3, 4, 3, 3, 3, 3, 4, 4, 3, 4, 6, 7, 7, 8];
 
 const AllClasses = () => {
+  const axios = useAxiosPublic();
+
   const [search, setSearch] = useState("");
-  // const { data: classes = [], isLoading, refetch } = useQuery(
-  //   ["approvedClasses"],
-  //   async () => {
-  //     const response = await axios.get("/api/classes?status=approved");
-  //     return response.data;
-  //   }
-  // );
+  const {
+    data: classes = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["approvedClasses"],
+    queryFn: async () => {
+      const res = await axios.get("/users/all-classes");
+      const result = res.data.data;
+      console.log(result);
+      return result;
+    },
+  });
 
   //   if (isLoading) {
   //     return <div className="text-center mt-20">Loading...</div>;
@@ -84,15 +93,11 @@ const AllClasses = () => {
 
         {/* Class Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {classes.map((classItem, index) => (
+          {classes.map((classItem) => (
             <ClassCard
-              key={index}
-              title={classItem.title}
-              name={classItem.instructorName}
-              image={classItem.image}
-              price={classItem.price}
-              description={classItem.shortDescription}
-              totalEnrollment={classItem.totalEnrollment}
+              key={classItem._id}
+              classes={classItem}
+              isLoading={isLoading}
             />
           ))}
         </div>

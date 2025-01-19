@@ -14,8 +14,9 @@ import AddClass from "../pages/AddClass/AddClass";
 import MyClass from "../pages/MyClass/MyClass";
 import MyClassDetails from "../pages/MyClassDetails/MyClassDetails";
 import TeacherRequest from "../pages/TeacherRequest/TeacherRequest";
-import AllClass from "../pages/AllClass/AllClass";
+import AllClassForAdmin from "../pages/AllClassForAdmin/AllClassForAdmin";
 import Users from "../pages/Users/Users";
+import Payment from "../pages/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -44,8 +45,12 @@ const router = createBrowserRouter([
         element: <TeachOnEduTrial />,
       },
       {
-        path: "/class-details",
+        path: "/class-details/:id",
         element: <ClassDetails />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
       },
     ],
   },
@@ -72,7 +77,7 @@ const router = createBrowserRouter([
         element: <MyClass />,
       },
       {
-        path: "/dashboard/my-class-details",
+        path: "/dashboard/my-class-details/:id",
         element: <MyClassDetails />,
       },
       {
@@ -81,7 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/all-classes",
-        element: <AllClass />,
+        element: <AllClassForAdmin />,
       },
       {
         path: "/dashboard/users",
