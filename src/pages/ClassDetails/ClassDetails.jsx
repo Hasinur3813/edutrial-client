@@ -26,7 +26,6 @@ const ClassDetails = () => {
     queryFn: async () => {
       const result = await axios.get(`/users/single-class/?id=${id}`);
       const details = result.data.data;
-      console.log(details);
       return details;
     },
   });
@@ -79,7 +78,7 @@ const ClassDetails = () => {
           </p>
 
           {/* Pay Button */}
-          <Link to={"/payment"}>
+          <Link to={"/payment"} state={classDetails}>
             <Button className="w-full">Pay Now</Button>
           </Link>
         </div>

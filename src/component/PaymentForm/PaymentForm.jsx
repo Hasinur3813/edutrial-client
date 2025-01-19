@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-import axios from "axios";
+import { Button, message } from "antd";
 
-const PaymentForm = () => {
+import { useAuth } from "../../context/AuthProvider";
+import useAxiosSecure from "../../axios/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
+
+const PaymentForm = ({ classDetails }) => {
+  const { currentUser } = useAuth();
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const axios = useAxiosSecure();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +25,8 @@ const PaymentForm = () => {
     if (!stripe || !cardElement) return;
 
     try {
-      const { data } = await axios.post("/api/create-payment-intent", {
-        amount: 5000, // Amount in cents
+      const { data } = await axios.post("/users/create-payment-intent", {
+        amount: classDetails.price,
         currency: "usd",
       });
 
@@ -35,9 +41,26 @@ const PaymentForm = () => {
       if (paymentResult.error) {
         setError(paymentResult.error.message);
       } else if (paymentResult.paymentIntent.status === "succeeded") {
-        setSuccess("Payment successful!");
+        const enrollMents = {
+          classId: classDetails._id,
+          user: currentUser?.email,
+          payment_id: paymentResult.paymentIntent.id,
+          amount: classDetails.price,
+        };
+        console.log(paymentResult.id);
+        console.log(paymentResult);
+
+        const { data } = await axios.post("/users/enrollments", enrollMents);
+        const result = data.data;
+
+        if (result?.insertedId) {
+          message.success("Congratulation! you have successfully enrolled!");
+          navigate("/dashboard/my-enroll-class");
+        } else {
+          setError("Payment failed. Please try again.");
+        }
       }
-    } catch (error) {
+    } catch {
       setError("Payment failed. Please try again.");
     }
 
@@ -45,8 +68,13 @@ const PaymentForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
-      <h2 className="text-xl font-bold">Complete Your Payment</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 max-w-lg mx-auto border p-8 rounded-lg border-primaryColor"
+    >
+      <h2 className="text-xl lg:text-3xl font-bold text-primaryColor">
+        Complete Your Payment
+      </h2>
 
       <CardElement
         className="p-3 border rounded-md shadow-sm"
@@ -66,18 +94,18 @@ const PaymentForm = () => {
         }}
       />
 
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
+      {error && <p className="text-red">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={!stripe || loading}
-        className={`px-6 py-3 rounded-md text-white ${
-          loading ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"
-        }`}
+      <Button
+        type="primary"
+        htmlType="submit"
+        size="large"
+        loading={loading}
+        disabled={loading}
+        className="bg-primaryColor hover:!bg-secondaryColor"
       >
-        {loading ? "Processing..." : "Pay Now"}
-      </button>
+        {loading ? "Proccesing..." : "Pay Now"}
+      </Button>
     </form>
   );
 };

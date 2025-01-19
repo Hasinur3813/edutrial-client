@@ -1,20 +1,45 @@
 import { useState } from "react";
-import { Card, Modal, Input, DatePicker, Form } from "antd";
-import Button from "../../component/Button/Button";
+import { Card, Modal, Input, DatePicker, Form, message, Button } from "antd";
+import useAxiosSecure from "../../axios/useAxiosSecure";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import ButtonGroup from "antd/es/button/button-group";
 
 const MyClassDetails = () => {
+  const { currentUser } = useAuth();
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [totalEnrollment, setTotalEnrollment] = useState(50); // Example value
   const [totalAssignments, setTotalAssignments] = useState(5); // Example value
   const [totalSubmissions, setTotalSubmissions] = useState(20); // Example value
+  const axios = useAxiosSecure();
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
 
-  const handleAddAssignment = (values) => {
-    console.log("Assignment Details:", values);
-    setTotalAssignments((prev) => prev + 1); // Increment total assignments
-    setIsModalOpen(false); // Close modal
-    alert("Assignment added successfully!");
-    form.resetFields();
+  const handleAddAssignment = async (values) => {
+    const assignment = {
+      teacher_name: currentUser?.email,
+      class_id: id,
+      ...values,
+    };
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/teachers/add-assignment", assignment);
+      console.log(data);
+      const result = data.data;
+      if (result.insertedId) {
+        message.success("Assignment created successfully!");
+      } else {
+        message.error("Assignment creation failed, Try again!");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Assignment creation failed, Try again!");
+    } finally {
+      form.resetFields();
+      setLoading(false);
+      setIsModalOpen(false);
+    }
   };
 
   return (
@@ -50,9 +75,11 @@ const MyClassDetails = () => {
       {/* Class Assignment Section */}
       <div>
         <Button
-          type="button"
-          onAction={() => setIsModalOpen(true)}
-          className="mb-6"
+          type="primary"
+          onClick={() => setIsModalOpen(true)}
+          className="mb-6 bg-primaryColor hover:!bg-secondaryColor"
+          size="large"
+          htmlType="button"
         >
           Create Assignment
         </Button>
@@ -102,7 +129,16 @@ const MyClassDetails = () => {
 
           {/* Submit Button */}
           <Form.Item>
-            <Button type="submit">Add Assignment</Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              disabled={loading}
+              className="bg-primaryColor hover:!bg-secondaryColor"
+              size="large"
+            >
+              {loading ? "Creating assignment..." : "Add Assignment"}
+            </Button>
           </Form.Item>
         </Form>
       </Modal>

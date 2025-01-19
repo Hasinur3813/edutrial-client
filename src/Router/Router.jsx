@@ -54,7 +54,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-
+  // dashboard route
   {
     path: "/dashboard",
     element: <Dashboard />,
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         element: <MyEnrollClass />,
       },
       {
-        path: "/dashboard/my-enroll-class-details",
+        path: "/dashboard/my-enroll-class-details/:id",
         element: <MyEnrollClassDetails />,
       },
       {

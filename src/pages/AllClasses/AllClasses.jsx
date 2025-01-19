@@ -23,7 +23,7 @@ const AllClasses = () => {
     queryFn: async () => {
       const res = await axios.get("/users/all-classes");
       const result = res.data.data;
-      console.log(result);
+
       return result;
     },
   });
