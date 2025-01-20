@@ -1,42 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
-
-import ClassCard from "../../component/ClassCard/ClassCard";
 import { message, Pagination } from "antd";
 
-import { FaSortAmountDown } from "react-icons/fa";
-import Button from "../../component/Button/Button";
 import { useState } from "react";
 import useAxiosPublic from "../../axios/useAxiosPublic";
 import ClassGrid from "../../component/ClassGrid/ClassGrid";
 
-// const classes = [3, 4, 3, 4, 3, 3, 3, 3, 4, 4, 3, 4, 6, 7, 7, 8];
-
 const AllClasses = () => {
   const axios = useAxiosPublic();
-
   const [search, setSearch] = useState("");
   const [displayedClasses, setDisplayedClasses] = useState([]);
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalClass, setTotalclass] = useState(null);
 
   const { data: classes = [], isLoading } = useQuery({
-    queryKey: ["approvedClasses"],
+    queryKey: ["approvedClasses", currentPage, pageSize, totalClass],
     queryFn: async () => {
-      const res = await axios.get("/users/all-classes");
+      const res = await axios.get(
+        `/users/all-classes?page=${currentPage}&limit=${pageSize}`
+      );
       const result = res.data.data;
-
+      setTotalclass(res.data.totalClasses);
       return result;
     },
   });
 
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
-
-  const getPageNumber = (page) => {
-    console.log(page);
-  };
-
-  const handleSort = () => {
-    console.log("sort");
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
   };
 
   const handleSearch = async (e) => {
@@ -88,10 +79,6 @@ const AllClasses = () => {
               />
             </svg>
           </label>
-
-          <Button onAction={handleSort} icon={FaSortAmountDown}>
-            Sort by Price
-          </Button>
         </div>
 
         {/* Class Cards */}
@@ -106,13 +93,12 @@ const AllClasses = () => {
         <div className="mt-20">
           <Pagination
             align="center"
+            current={currentPage}
+            pageSize={pageSize}
+            total={totalClass}
+            onChange={handlePageChange}
             showSizeChanger
-            onChange={getPageNumber}
-            onShowSizeChange={onShowSizeChange}
-            defaultCurrent={1}
-            total={classes.length}
             pageSizeOptions={[5, 10, 15]}
-            defaultPageSize={5}
           />
         </div>
       </div>
