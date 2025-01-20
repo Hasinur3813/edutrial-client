@@ -1,30 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ReactStars from "react-stars";
 import Button from "../../component/Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../axios/useAxiosSecure";
-import { message } from "antd";
+import { message, notification } from "antd";
+import { useAuth } from "../../context/AuthProvider";
 
 const MyEnrollClassDetails = () => {
   const { id } = useParams();
-  // const [assignments, setAssignments] = useState([
-  //   {
-  //     id: 1,
-  //     title: "Assignment 1",
-  //     description: "Solve the given problems in the document.",
-  //     deadline: "2025-02-10",
-  //     submissions: 5,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Assignment 2",
-  //     description: "Prepare a presentation on topic X.",
-  //     deadline: "2025-02-15",
-  //     submissions: 3,
-  //   },
-  // ]);
+  const { currentUser } = useAuth();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [evaluation, setEvaluation] = useState({
     description: "",
@@ -44,11 +31,7 @@ const MyEnrollClassDetails = () => {
   }, []);
 
   // fetch assignment
-  const {
-    data: assignments = [],
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: assignments = [], refetch } = useQuery({
     queryKey: ["assignments"],
     queryFn: async () => {
       const { data } = await axios.get(`/users/all-assignments/${id}`);
@@ -77,11 +60,40 @@ const MyEnrollClassDetails = () => {
     }
   };
 
-  const handleModalSubmit = () => {
-    console.log("Teaching Evaluation Submitted:", evaluation);
-    setIsModalOpen(false);
-    setEvaluation({ description: "", rating: 0 });
-    alert("Evaluation submitted successfully!");
+  const handleModalSubmit = async () => {
+    if (evaluation.description.length < 10) {
+      return notification.error({
+        title: "Error",
+        message: "You must write minimum 10 words for feedback!",
+      });
+    }
+
+    const feedback = {
+      ...evaluation,
+      name: currentUser?.displayName,
+      image: currentUser?.photoURL,
+    };
+
+    try {
+      const { data } = await axios.post("/users/feedback", feedback);
+      const result = data.data;
+      console.log(result);
+      if (result.insertedId) {
+        message.success("Thank you for your feedback!");
+      } else {
+        message.error("Failed to submit feedback, Try again!");
+      }
+    } catch (error) {
+      message.error(
+        `${error?.message}` || "Failed to submit feedback, Try again!"
+      );
+    } finally {
+      setIsModalOpen(false);
+      setEvaluation({
+        description: "",
+        rating: 0,
+      });
+    }
   };
 
   return (

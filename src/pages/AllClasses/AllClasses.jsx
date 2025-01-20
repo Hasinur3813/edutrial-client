@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
 import ClassCard from "../../component/ClassCard/ClassCard";
-import { Pagination } from "antd";
+import { message, Pagination } from "antd";
 
 import { FaSortAmountDown } from "react-icons/fa";
 import Button from "../../component/Button/Button";
 import { useState } from "react";
 import useAxiosPublic from "../../axios/useAxiosPublic";
+import ClassGrid from "../../component/ClassGrid/ClassGrid";
 
 // const classes = [3, 4, 3, 4, 3, 3, 3, 3, 4, 4, 3, 4, 6, 7, 7, 8];
 
@@ -14,11 +15,9 @@ const AllClasses = () => {
   const axios = useAxiosPublic();
 
   const [search, setSearch] = useState("");
-  const {
-    data: classes = [],
-    isLoading,
-    refetch,
-  } = useQuery({
+  const [displayedClasses, setDisplayedClasses] = useState([]);
+
+  const { data: classes = [], isLoading } = useQuery({
     queryKey: ["approvedClasses"],
     queryFn: async () => {
       const res = await axios.get("/users/all-classes");
@@ -27,10 +26,6 @@ const AllClasses = () => {
       return result;
     },
   });
-
-  //   if (isLoading) {
-  //     return <div className="text-center mt-20">Loading...</div>;
-  //   }
 
   const onShowSizeChange = (current, pageSize) => {
     console.log(current, pageSize);
@@ -44,8 +39,16 @@ const AllClasses = () => {
     console.log("sort");
   };
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    try {
+      const result = await axios.get(`/users/classes/?search=${value}`);
+      const classes = result.data.data;
+      setDisplayedClasses(classes);
+    } catch (error) {
+      message.error(error?.message || "Operation failed, Please try again!");
+    }
   };
 
   return (
@@ -92,15 +95,13 @@ const AllClasses = () => {
         </div>
 
         {/* Class Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {classes.map((classItem) => (
-            <ClassCard
-              key={classItem._id}
-              classes={classItem}
-              isLoading={isLoading}
-            />
-          ))}
-        </div>
+        <>
+          {displayedClasses.length > 0 ? (
+            <ClassGrid classes={displayedClasses} isLoading={isLoading} />
+          ) : (
+            <ClassGrid classes={classes} isLoading={isLoading} />
+          )}
+        </>
 
         <div className="mt-20">
           <Pagination

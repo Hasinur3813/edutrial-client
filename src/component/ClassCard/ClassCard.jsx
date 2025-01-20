@@ -10,7 +10,7 @@ const ClassCard = ({ classes, isLoading }) => {
     description,
     image,
     price,
-    totalEnrollments,
+    enrollments: totalEnrollments,
   } = classes;
 
   if (isLoading) {

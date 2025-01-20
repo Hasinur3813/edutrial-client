@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, Modal, Input, DatePicker, Form, message, Button } from "antd";
 import useAxiosSecure from "../../axios/useAxiosSecure";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,6 +12,8 @@ const MyClassDetails = () => {
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+  const location = useLocation();
+  const title = location?.state;
 
   const handleAddAssignment = async (values) => {
     const assignment = {
@@ -55,9 +57,7 @@ const MyClassDetails = () => {
 
   return (
     <div className="container mx-auto p-6 bg-lightGray min-h-screen">
-      <h1 className="text-3xl font-bold text-primaryColor mb-6">
-        Class Details
-      </h1>
+      <h1 className="text-3xl font-bold text-primaryColor mb-6">Class Stats</h1>
 
       {/* Class Progress Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">

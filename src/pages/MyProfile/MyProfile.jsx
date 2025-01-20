@@ -7,8 +7,13 @@ const user = {
 };
 
 import { FaUserCircle, FaEnvelope, FaPhone, FaUserTag } from "react-icons/fa";
+import { useAuth } from "../../context/AuthProvider";
+import useUserRole from "../../hooks/useUserRole";
 
 const MyProfile = () => {
+  const { currentUser } = useAuth();
+  const { user } = useUserRole();
+
   return (
     <div className="max-w-3xl mx-auto my-10  bg-gradient-to-br from-white via-lightGray to-lightGray  rounded-lg">
       {/* Profile Header */}
@@ -22,8 +27,8 @@ const MyProfile = () => {
         {/* Profile Image */}
         <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-primaryColor">
           <img
-            src={user?.image || "https://via.placeholder.com/150"}
-            alt={user?.name || "User"}
+            src={currentUser?.photoURL}
+            alt={currentUser?.displayName || "User"}
             className="w-full h-full object-cover"
           />
         </div>
@@ -34,29 +39,29 @@ const MyProfile = () => {
             <FaUserTag className="text-primaryColor text-xl" />
             <span>Name:</span>
             <span className="text-gray-800 font-semibold">
-              {user?.name || "John Doe"}
+              {currentUser?.displayName || "John Doe"}
             </span>
           </div>
 
           <div className="flex items-center gap-3 text-lg text-muted font-medium">
             <FaUserTag className="text-primaryColor text-xl" />
             <span>Role:</span>
-            <span className="text-gray-800 font-semibold">
-              {user?.role || "Student"}
+            <span className="text-gray-800 font-semibold capitalize">
+              {user?.userRole}
             </span>
           </div>
           <div className="flex items-center gap-3 text-lg text-muted font-medium">
             <FaEnvelope className="text-primaryColor text-xl" />
             <span>Email:</span>
             <span className="text-gray-800 font-semibold">
-              {user?.email || "johndoe@example.com"}
+              {currentUser?.email || "johndoe@example.com"}
             </span>
           </div>
           <div className="flex items-center gap-3 text-lg text-muted font-medium">
             <FaPhone className="text-primaryColor text-xl" />
             <span>Phone:</span>
             <span className="text-gray-800 font-semibold">
-              {user?.phone || "Not Provided"}
+              {currentUser?.phone || "Not Provided"}
             </span>
           </div>
         </div>

@@ -17,11 +17,7 @@ import useAxiosPublic from "../../axios/useAxiosPublic";
 const ClassDetails = () => {
   const axios = useAxiosPublic();
   const { id } = useParams();
-  const {
-    data: classDetails = {},
-    isPending,
-    refetch,
-  } = useQuery({
+  const { data: classDetails = {} } = useQuery({
     queryKey: ["singleClass"],
     queryFn: async () => {
       const result = await axios.get(`/users/single-class/?id=${id}`);
@@ -37,11 +33,6 @@ const ClassDetails = () => {
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primaryColor">
           {classDetails.title}
         </h1>
-
-        {/* description */}
-        <p className="text-base sm:text-lg text-muted mt-4">
-          {classDetails.description}
-        </p>
       </div>
 
       {/* Main Content */}
@@ -71,15 +62,16 @@ const ClassDetails = () => {
 
           <p className="text-lg md:text-2xl font-semibold text-primaryColor">
             <span className="text-muted font-medium">Total Enrollments:</span>{" "}
-            {classDetails?.totalEnrollments || 0} students
+            {classDetails?.enrollments}{" "}
+            {classDetails.enrollments > 1 ? "Students" : "Student"}
           </p>
-          <p className="text-base md:text-lg whitespace-pre-wrap overflow-hidden text-gray-700 leading-relaxed">
+          <p className=" text-base md:text-lg whitespace-pre-wrap overflow-hidden text-muted leading-relaxed">
             {classDetails.description}
           </p>
 
           {/* Pay Button */}
           <Link to={"/payment"} state={classDetails}>
-            <Button className="w-full">Pay Now</Button>
+            <Button className="w-full mt-4 block">Pay Now</Button>
           </Link>
         </div>
       </div>

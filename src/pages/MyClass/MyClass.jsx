@@ -24,7 +24,7 @@ const MyClass = () => {
 
   const {
     data: classes = [],
-    isPending,
+    isLoading,
     refetch,
   } = useQuery({
     queryKey: ["classes", user?.userRole],
@@ -100,7 +100,7 @@ const MyClass = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-primaryColor mb-6">My Classes</h1>
 
-      {classes.length === 0 ? (
+      {classes.length === 0 && !isLoading ? (
         <Empty />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -109,7 +109,7 @@ const MyClass = () => {
               key={cls._id}
               hoverable
               size={"small"}
-              loading={isPending}
+              loading={isLoading}
               cover={
                 <div className="relative h-52">
                   <img
@@ -148,6 +148,7 @@ const MyClass = () => {
                 <Link
                   to={`/dashboard/my-class-details/${cls._id}`}
                   key={cls._id}
+                  state={cls.title}
                 >
                   <AntButton
                     className="text-primaryColor"
