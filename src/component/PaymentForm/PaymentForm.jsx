@@ -47,8 +47,6 @@ const PaymentForm = ({ classDetails }) => {
           payment_id: paymentResult.paymentIntent.id,
           amount: classDetails.price,
         };
-        console.log(paymentResult.id);
-        console.log(paymentResult);
 
         const { data } = await axios.post("/users/enrollments", enrollMents);
         const result = data.data;

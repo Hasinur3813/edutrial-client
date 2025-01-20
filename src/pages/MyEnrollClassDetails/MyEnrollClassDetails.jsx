@@ -53,7 +53,6 @@ const MyEnrollClassDetails = () => {
     queryFn: async () => {
       const { data } = await axios.get(`/users/all-assignments/${id}`);
       const result = data.data;
-      console.log(result);
       return result;
     },
   });

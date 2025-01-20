@@ -3,7 +3,6 @@ import { Card, Modal, Input, DatePicker, Form, message, Button } from "antd";
 import useAxiosSecure from "../../axios/useAxiosSecure";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
-import ButtonGroup from "antd/es/button/button-group";
 import { useQuery } from "@tanstack/react-query";
 
 const MyClassDetails = () => {
@@ -31,9 +30,9 @@ const MyClassDetails = () => {
         message.error("Assignment creation failed, Try again!");
       }
     } catch (error) {
-      console.log(error);
-      message.error("Assignment creation failed, Try again!");
+      message.error(error.message || "Assignment creation failed, Try again!");
     } finally {
+      refetch();
       form.resetFields();
       setLoading(false);
       setIsModalOpen(false);
@@ -41,7 +40,11 @@ const MyClassDetails = () => {
   };
 
   // get class stats
-  const { data: stats = {}, refetch } = useQuery({
+  const {
+    data: stats = {},
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["classStats"],
     queryFn: async () => {
       const { data } = await axios.get(`/teachers/class-stats/${id}`);
@@ -59,21 +62,36 @@ const MyClassDetails = () => {
       {/* Class Progress Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
         {/* Total Enrollment Card */}
-        <Card title="Total Enrollments" bordered className="shadow-md ">
+        <Card
+          title="Total Enrollments"
+          bordered
+          className="shadow-md"
+          loading={isLoading}
+        >
           <p className="text-2xl font-semibold text-primaryColor">
             {stats?.totalEnrollments || 0}
           </p>
         </Card>
 
         {/* Total Assignment Card */}
-        <Card title="Total Assignments" bordered className="shadow-md">
+        <Card
+          title="Total Assignments"
+          bordered
+          className="shadow-md"
+          loading={isLoading}
+        >
           <p className="text-2xl font-semibold text-primaryColor">
             {stats?.totalAssignments || 0}
           </p>
         </Card>
 
         {/* Total Submission Card */}
-        <Card title="Total Submissions" bordered className="shadow-md">
+        <Card
+          title="Total Submissions"
+          bordered
+          className="shadow-md"
+          loading={isLoading}
+        >
           <p className="text-2xl font-semibold text-primaryColor">
             {stats?.totalSubmissions || 0}
           </p>
