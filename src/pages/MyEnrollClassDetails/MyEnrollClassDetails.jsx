@@ -3,30 +3,34 @@ import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ReactStars from "react-stars";
 import Button from "../../component/Button/Button";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../axios/useAxiosSecure";
+import { message } from "antd";
 
 const MyEnrollClassDetails = () => {
-  //   const { id } = useParams(); // Get class ID from the URL
-  const [assignments, setAssignments] = useState([
-    {
-      id: 1,
-      title: "Assignment 1",
-      description: "Solve the given problems in the document.",
-      deadline: "2025-02-10",
-      submissions: 5,
-    },
-    {
-      id: 2,
-      title: "Assignment 2",
-      description: "Prepare a presentation on topic X.",
-      deadline: "2025-02-15",
-      submissions: 3,
-    },
-  ]);
+  const { id } = useParams();
+  // const [assignments, setAssignments] = useState([
+  //   {
+  //     id: 1,
+  //     title: "Assignment 1",
+  //     description: "Solve the given problems in the document.",
+  //     deadline: "2025-02-10",
+  //     submissions: 5,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Assignment 2",
+  //     description: "Prepare a presentation on topic X.",
+  //     deadline: "2025-02-15",
+  //     submissions: 3,
+  //   },
+  // ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [evaluation, setEvaluation] = useState({
     description: "",
     rating: 0,
   });
+  const axios = useAxiosSecure();
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -39,15 +43,39 @@ const MyEnrollClassDetails = () => {
     return () => window.removeEventListener("click", listener);
   }, []);
 
-  const handleSubmit = (assignmentId) => {
-    setAssignments((prev) =>
-      prev.map((assignment) =>
-        assignment.id === assignmentId
-          ? { ...assignment, submissions: assignment.submissions + 1 }
-          : assignment
-      )
-    );
-    alert("Assignment submitted successfully!");
+  // fetch assignment
+  const {
+    data: assignments = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["assignments"],
+    queryFn: async () => {
+      const { data } = await axios.get(`/users/all-assignments/${id}`);
+      const result = data.data;
+      console.log(result);
+      return result;
+    },
+  });
+
+  const handleSubmit = async (assignmentId) => {
+    try {
+      const { data } = await axios.patch(
+        `/users/assignment-submission/${assignmentId}`
+      );
+
+      const result = data;
+      if (result.success) {
+        message.success("Assignment submission successfull!");
+      }
+      return result;
+    } catch (error) {
+      message.error(
+        error?.message || "Assignment submission failed, Please try again!"
+      );
+    } finally {
+      refetch();
+    }
   };
 
   const handleModalSubmit = () => {
@@ -78,17 +106,19 @@ const MyEnrollClassDetails = () => {
           </thead>
           <tbody>
             {assignments.map((assignment) => (
-              <tr key={assignment.id} className="border-b">
+              <tr key={assignment._id} className="border-b">
                 <td className="px-6 py-4">{assignment.title}</td>
                 <td className="px-6 py-4">{assignment.description}</td>
-                <td className="px-6 py-4">{assignment.deadline}</td>
+                <td className="px-6 py-4">
+                  {new Date(assignment.deadline).toDateString()}
+                </td>
                 <td className="px-6 py-4 text-center">
-                  {assignment.submissions}
+                  {assignment.submissions || 0}
                 </td>
                 <td className="px-6 py-4 text-center">
                   <Button
                     className={"!bg-darkGray"}
-                    onAction={() => handleSubmit(assignment.id)}
+                    onAction={() => handleSubmit(assignment._id)}
                   >
                     Submit
                   </Button>

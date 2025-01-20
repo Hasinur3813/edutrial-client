@@ -4,14 +4,12 @@ import useAxiosSecure from "../../axios/useAxiosSecure";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import ButtonGroup from "antd/es/button/button-group";
+import { useQuery } from "@tanstack/react-query";
 
 const MyClassDetails = () => {
   const { currentUser } = useAuth();
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [totalEnrollment, setTotalEnrollment] = useState(50); // Example value
-  const [totalAssignments, setTotalAssignments] = useState(5); // Example value
-  const [totalSubmissions, setTotalSubmissions] = useState(20); // Example value
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -42,6 +40,16 @@ const MyClassDetails = () => {
     }
   };
 
+  // get class stats
+  const { data: stats = {}, refetch } = useQuery({
+    queryKey: ["classStats"],
+    queryFn: async () => {
+      const { data } = await axios.get(`/teachers/class-stats/${id}`);
+      const result = data.data;
+      return result;
+    },
+  });
+
   return (
     <div className="container mx-auto p-6 bg-lightGray min-h-screen">
       <h1 className="text-3xl font-bold text-primaryColor mb-6">
@@ -53,21 +61,21 @@ const MyClassDetails = () => {
         {/* Total Enrollment Card */}
         <Card title="Total Enrollments" bordered className="shadow-md ">
           <p className="text-2xl font-semibold text-primaryColor">
-            {totalEnrollment}
+            {stats?.totalEnrollments || 0}
           </p>
         </Card>
 
         {/* Total Assignment Card */}
         <Card title="Total Assignments" bordered className="shadow-md">
           <p className="text-2xl font-semibold text-primaryColor">
-            {totalAssignments}
+            {stats?.totalAssignments || 0}
           </p>
         </Card>
 
         {/* Total Submission Card */}
         <Card title="Total Submissions" bordered className="shadow-md">
           <p className="text-2xl font-semibold text-primaryColor">
-            {totalSubmissions}
+            {stats?.totalSubmissions || 0}
           </p>
         </Card>
       </div>
