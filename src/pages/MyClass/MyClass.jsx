@@ -8,6 +8,7 @@ import {
   message,
   InputNumber,
   Empty,
+  Pagination,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -21,24 +22,33 @@ const MyClass = () => {
   const { user, isPending: isTeacherLoading } = useUserRole();
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalClass, setTotalclass] = useState(null);
 
   const {
     data: classes = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["classes", user?.userRole],
+    queryKey: ["classes", user?.userRole, pageSize, currentPage, totalClass],
     enabled: !isTeacherLoading,
     queryFn: async () => {
-      const result = await axios.get(
-        `/teachers/all-classes/${currentUser?.email}`
+      const result = await axios.post(
+        `/teachers/all-classes/${currentUser?.email}`,
+        { pageSize, currentPage }
       );
+      setTotalclass(result.data.totalClass);
       return result.data.data;
     },
   });
 
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(null);
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
 
   const showDeleteConfirm = (id) => {
     Modal.confirm({
@@ -98,7 +108,9 @@ const MyClass = () => {
   };
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-primaryColor mb-6">My Classes</h1>
+      <h1 className="text-3xl font-bold text-primaryColor mb-6 mt-4">
+        My Classes
+      </h1>
 
       {classes.length === 0 && !isLoading ? (
         <Empty />
@@ -186,6 +198,18 @@ const MyClass = () => {
           ))}
         </div>
       )}
+
+      <div className="mt-20">
+        <Pagination
+          align="center"
+          current={currentPage}
+          pageSize={pageSize}
+          total={totalClass}
+          onChange={handlePageChange}
+          showSizeChanger
+          pageSizeOptions={[5, 10, 15]}
+        />
+      </div>
 
       {/* Update Modal */}
       {isUpdateModalOpen && (

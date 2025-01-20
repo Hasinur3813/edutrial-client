@@ -6,9 +6,20 @@ import useAxiosSecure from "../../axios/useAxiosSecure";
 const TeacherRequest = () => {
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalTeacher, setTotalTeacher] = useState(null);
 
-  const { teachers: requests, isTeacherLoading, refetch } = useTeachers();
+  const {
+    teachers: requests,
+    isTeacherLoading,
+    refetch,
+  } = useTeachers({ pageSize, currentPage, totalTeacher, setTotalTeacher });
 
+  const handleTableChange = (pagination) => {
+    setCurrentPage(pagination.current);
+    setPageSize(pagination.pageSize);
+  };
   // Approve request
   const handleApprove = async (email) => {
     try {
@@ -166,8 +177,15 @@ const TeacherRequest = () => {
         loading={isTeacherLoading}
         rowKey="_id"
         bordered
-        pagination={{ pageSize: 20 }}
         className="overflow-x-auto"
+        onChange={handleTableChange}
+        pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          total: totalTeacher,
+          showSizeChanger: true,
+          pageSizeOptions: [5, 10, 15],
+        }}
       />
     </div>
   );

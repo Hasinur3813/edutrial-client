@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import Button from "../../component/Button/Button";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../axios/useAxiosSecure";
-import { Empty } from "antd";
+import { Empty, Pagination } from "antd";
 import { useAuth } from "../../context/AuthProvider";
+import { useState } from "react";
 // const enrolledClasses = [
 //   {
 //     id: 1,
@@ -38,17 +39,28 @@ import { useAuth } from "../../context/AuthProvider";
 const MyEnrollClass = () => {
   const axios = useAxiosSecure();
   const { currentUser } = useAuth();
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalClass, setTotalclass] = useState(null);
 
   const { data: enrolledClasses = [], isLoading } = useQuery({
-    queryKey: ["enrolledClasses"],
+    queryKey: ["enrolledClasses", pageSize, currentPage, totalClass],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `/users/enrolled-classes/?email=${currentUser?.email}`
+      const { data } = await axios.post(
+        `/users/enrolled-classes/?email=${currentUser?.email}`,
+        { currentPage, pageSize }
       );
+
+      setTotalclass(data.totalClasses);
       const result = data.data;
       return result;
     },
   });
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
 
   return (
     <div className="container mx-auto my-10 px-4">
@@ -96,6 +108,18 @@ const MyEnrollClass = () => {
           ))}
         </div>
       )}
+
+      <div className="mt-20">
+        <Pagination
+          align="center"
+          current={currentPage}
+          pageSize={pageSize}
+          total={totalClass}
+          onChange={handlePageChange}
+          showSizeChanger
+          pageSizeOptions={[5, 10, 15]}
+        />
+      </div>
     </div>
   );
 };

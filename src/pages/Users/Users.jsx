@@ -2,28 +2,37 @@ import { useState } from "react";
 import { Table, Button, Input, Avatar, Modal, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import useUserRole from "../../hooks/useUserRole";
+
 import useAxiosSecure from "../../axios/useAxiosSecure";
 
 const Users = () => {
-  const { user, isPending } = useUserRole();
   const [displayedUser, setDisplayedUsers] = useState([]);
   const [searching, setSearching] = useState(false);
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalUsers, setTotalUsers] = useState(null);
 
   const {
     data: users = [],
     isPending: isUsersLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", user?.userRole],
-    enabled: !isPending,
+    queryKey: ["users", pageSize, currentPage, totalUsers],
     queryFn: async () => {
-      const result = await axios.get("/admin/all-users");
+      const result = await axios.get(
+        `/admin/all-users?page=${currentPage}&limit=${pageSize}`
+      );
+      setTotalUsers(result.data.totalUsers);
       return result.data.data;
     },
   });
+
+  const handleTableChange = (pagination) => {
+    setCurrentPage(pagination.current);
+    setPageSize(pagination.pageSize);
+  };
 
   const handleSearch = async (e) => {
     const value = e.target.value;
@@ -129,7 +138,14 @@ const Users = () => {
         columns={columns}
         loading={isUsersLoading || searching}
         rowKey="_id"
-        pagination={{ pageSize: 10 }}
+        onChange={handleTableChange}
+        pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          total: totalUsers,
+          showSizeChanger: true,
+          pageSizeOptions: [5, 10, 15],
+        }}
       />
     </div>
   );

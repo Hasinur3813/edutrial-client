@@ -1,21 +1,29 @@
-import { Table, Button, Popconfirm, Tag, message } from "antd";
+import { Table, Button, Popconfirm, message } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import useUserRole from "../../hooks/useUserRole";
+
 import useAxiosSecure from "../../axios/useAxiosSecure";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const AllClassForAdmin = () => {
   const axios = useAxiosSecure();
-  const { user, isPending } = useUserRole();
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalClass, setTotalClass] = useState(null);
 
-  const { data: classes, refetch } = useQuery({
-    queryKey: ["teachersClasses", user?.userRole],
-    enabled: !isPending,
+  const {
+    data: classes,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["teachersClasses", currentPage, pageSize, totalClass],
     queryFn: async () => {
-      const result = await axios.get("/admin/teachers-classes");
+      const result = await axios.get(
+        `/admin/teachers-classes?page=${currentPage}&limit=${pageSize}`
+      );
       const allClass = result.data.data;
+      setTotalClass(result.data.totalClasses);
       return allClass;
     },
   });
@@ -62,6 +70,11 @@ const AllClassForAdmin = () => {
   const handleProgress = (id) => {
     // Navigate to class progress page
     console.log("Navigate to class progress for ID:", id);
+  };
+
+  const handleTableChange = (pagination) => {
+    setCurrentPage(pagination.current);
+    setPageSize(pagination.pageSize);
   };
 
   const columns = [
@@ -143,7 +156,16 @@ const AllClassForAdmin = () => {
         size="small"
         dataSource={classes}
         columns={columns}
+        loading={isLoading}
         rowKey="_id"
+        onChange={handleTableChange}
+        pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          total: totalClass,
+          showSizeChanger: true,
+          pageSizeOptions: [5, 10, 15],
+        }}
       />
     </div>
   );
