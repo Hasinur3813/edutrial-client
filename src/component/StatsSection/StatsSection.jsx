@@ -1,7 +1,17 @@
 import { FaUsers, FaChalkboardTeacher, FaGraduationCap } from "react-icons/fa";
 import stats from "../../assets/stats.png";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../axios/useAxiosPublic";
 
-const StatsSection = ({ totalUsers, totalClasses, totalEnrollments }) => {
+const StatsSection = () => {
+  const axios = useAxiosPublic();
+  const { data: statsData } = useQuery({
+    queryKey: ["homepage-stats"],
+    queryFn: async () => {
+      const result = await axios.get("/users/homepage-stats");
+      return result.data.data;
+    },
+  });
   return (
     <section className="py-14 bg-offWhite">
       <div className="container mx-auto px-3">
@@ -25,7 +35,7 @@ const StatsSection = ({ totalUsers, totalClasses, totalEnrollments }) => {
               </div>
               <div>
                 <h2 className="text-3xl font-bold text-darkGray">
-                  {totalUsers}
+                  {statsData?.totalUsers || 0}
                 </h2>
                 <p className="text-muted">Total Users</p>
               </div>
@@ -38,7 +48,7 @@ const StatsSection = ({ totalUsers, totalClasses, totalEnrollments }) => {
               </div>
               <div>
                 <h2 className="text-3xl font-bold text-darkGray">
-                  {totalClasses}
+                  {statsData?.totalClasses || 0}
                 </h2>
                 <p className="text-muted">Total Classes</p>
               </div>
@@ -51,7 +61,7 @@ const StatsSection = ({ totalUsers, totalClasses, totalEnrollments }) => {
               </div>
               <div>
                 <h2 className="text-3xl font-bold text-darkGray">
-                  {totalEnrollments}
+                  {statsData?.totalEnrollments || 0}
                 </h2>
                 <p className="text-muted">Total Enrollments</p>
               </div>

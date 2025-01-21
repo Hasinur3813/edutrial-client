@@ -1,11 +1,3 @@
-const user = {
-  name: "Hasinur Rahman",
-  role: "Student",
-  image:
-    "https://th.bing.com/th?id=OIP.XIHKbawz2fk_9bU9wqDJuwHaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2",
-  email: "hasinur@gmail.com",
-};
-
 import { FaUserCircle, FaEnvelope, FaPhone, FaUserTag } from "react-icons/fa";
 import { useAuth } from "../../context/AuthProvider";
 import useUserRole from "../../hooks/useUserRole";

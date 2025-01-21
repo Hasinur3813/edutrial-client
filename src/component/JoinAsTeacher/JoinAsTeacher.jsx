@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import teacher from "../../assets/teacher.png";
 import Button from "../Button/Button";
 const JoinAsTeacherSection = () => {
@@ -25,13 +26,15 @@ const JoinAsTeacherSection = () => {
             <h2 className="text-xl text-primaryColor md:text-3xl font-bold">
               Share Your Knowledge, Shape the Future
             </h2>
-            <p className="text-muted text-base sm:text-lg leading-relaxed">
+            <p className="text-muted text-base sm:text-lg leading-relaxed mb-5">
               Join EduTrial as a teacher and be part of a growing community of
               educators making a difference in student&apos;s lives. Inspire,
               teach, and help learners achieve their goals while growing your
               impact.
             </p>
-            <Button className="!px-4">Become A Teacher</Button>
+            <Link to="/teach-on-edutrial" className="inline-block">
+              <Button className="!px-4">Become A Teacher</Button>
+            </Link>
           </div>
 
           {/* Right Side: Image */}

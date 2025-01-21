@@ -62,39 +62,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/payment",
-        element: <Payment />,
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
       },
     ],
   },
   // dashboard route
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       // student dashboard
       {
         index: true,
-        element: (
-          <PrivateRoute>
-            <MyProfile />
-          </PrivateRoute>
-        ),
+        element: <MyProfile />,
       },
       {
         path: "/dashboard/my-enroll-class",
-        element: (
-          <PrivateRoute>
-            <MyEnrollClass />
-          </PrivateRoute>
-        ),
+        element: <MyEnrollClass />,
       },
       {
         path: "/dashboard/my-enroll-class-details/:id",
-        element: (
-          <PrivateRoute>
-            <MyEnrollClassDetails />
-          </PrivateRoute>
-        ),
+        element: <MyEnrollClassDetails />,
       },
 
       // teacher dashboard

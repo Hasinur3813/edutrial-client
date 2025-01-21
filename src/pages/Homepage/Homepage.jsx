@@ -11,11 +11,7 @@ const Homepage = () => {
   return (
     <div>
       <Banner />
-      <StatsSection
-        totalUsers="1,250"
-        totalClasses="50"
-        totalEnrollments="3,400"
-      />
+      <StatsSection />
       <PopularCourses />
       <JoinAsTeacher />
       <WhyJoinUs />

@@ -1,5 +1,7 @@
 import { FaChalkboardTeacher, FaUsers, FaClock, FaGlobe } from "react-icons/fa";
 import Button from "../Button/Button";
+import { useAuth } from "../../context/AuthProvider";
+import { Link } from "react-router-dom";
 
 const cards = [
   {
@@ -27,6 +29,8 @@ const cards = [
 ];
 
 const WhyJoinUs = () => {
+  const { currentUser } = useAuth();
+
   return (
     <section className="py-14 bg-offWhite">
       <div className="container mx-auto px-6 text-center">
@@ -57,7 +61,11 @@ const WhyJoinUs = () => {
         </div>
 
         {/* Call to Action Button */}
-        <Button className="mx-auto mt-10">Join Us Now</Button>
+        <Link to={currentUser ? "/all-classes" : "/login"}>
+          <Button className="mx-auto mt-10">
+            {currentUser ? "Explore Classes" : "Join Us Now"}
+          </Button>
+        </Link>
       </div>
     </section>
   );

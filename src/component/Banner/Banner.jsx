@@ -20,7 +20,7 @@ const Banner = () => {
           excellence!
         </p>
 
-        <Link to="/all-clasess" className="inline-block">
+        <Link to="/all-classes" className="inline-block">
           <Button className="!rounded-full">Get Started</Button>
         </Link>
       </div>

@@ -8,13 +8,21 @@ import {
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
 import ListItem from "../component/ListItem/ListItem";
+import useUserRole from "../hooks/useUserRole";
+import Loader from "../component/Loader/Loader";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { user, isPending } = useUserRole();
+  const role = user?.userRole;
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
+
+  if (isPending) {
+    return <Loader />;
+  }
 
   return (
     <div className="w-full min-h-screen bg-lightGray flex overflow-x-hidden">
@@ -48,32 +56,51 @@ const Dashboard = () => {
 
         {/* Menu */}
         <h3 className="font-semibold text-lg mt-5 text-darkGray">Menu</h3>
+
         <ul className="mt-4 space-y-2">
           <ListItem icon={FaUserGraduate}>My Profile</ListItem>
-          <ListItem
-            path="/dashboard/my-enroll-class"
-            icon={FaChalkboardTeacher}
-          >
-            My Enroll Class
-          </ListItem>
-          <ListItem path="/dashboard/my-class" icon={FaChalkboardTeacher}>
-            My Class
-          </ListItem>
-          <ListItem path="/dashboard/add-class" icon={FaChalkboardTeacher}>
-            Add Class
-          </ListItem>
-          <ListItem
-            path="/dashboard/teacher-request"
-            icon={FaChalkboardTeacher}
-          >
-            Teacher Request
-          </ListItem>
-          <ListItem path="/dashboard/users" icon={FaChalkboardTeacher}>
-            Users
-          </ListItem>
-          <ListItem path="/dashboard/all-classes" icon={FaChalkboardTeacher}>
-            All Classes
-          </ListItem>
+
+          {/* student route */}
+          {role === "student" && (
+            <ListItem
+              path="/dashboard/my-enroll-class"
+              icon={FaChalkboardTeacher}
+            >
+              My Enroll Class
+            </ListItem>
+          )}
+
+          {/* teacher route */}
+          {role === "teacher" && (
+            <>
+              <ListItem path="/dashboard/my-class" icon={FaChalkboardTeacher}>
+                My Class
+              </ListItem>
+              <ListItem path="/dashboard/add-class" icon={FaChalkboardTeacher}>
+                Add Class
+              </ListItem>
+            </>
+          )}
+          {/* admin route */}
+          {role === "admin" && (
+            <>
+              <ListItem
+                path="/dashboard/teacher-request"
+                icon={FaChalkboardTeacher}
+              >
+                Teacher Request
+              </ListItem>
+              <ListItem path="/dashboard/users" icon={FaChalkboardTeacher}>
+                Users
+              </ListItem>
+              <ListItem
+                path="/dashboard/all-classes"
+                icon={FaChalkboardTeacher}
+              >
+                All Classes
+              </ListItem>
+            </>
+          )}
         </ul>
       </div>
 
