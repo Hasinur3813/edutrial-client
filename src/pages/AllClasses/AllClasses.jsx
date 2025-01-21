@@ -4,6 +4,7 @@ import { message, Pagination } from "antd";
 import { useState } from "react";
 import useAxiosPublic from "../../axios/useAxiosPublic";
 import ClassGrid from "../../component/ClassGrid/ClassGrid";
+import Loader from "../../component/Loader/Loader";
 
 const AllClasses = () => {
   const axios = useAxiosPublic();
@@ -12,6 +13,7 @@ const AllClasses = () => {
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalClass, setTotalclass] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { data: classes = [], isLoading } = useQuery({
     queryKey: ["approvedClasses", currentPage, pageSize, totalClass],
@@ -21,6 +23,7 @@ const AllClasses = () => {
       );
       const result = res.data.data;
       setTotalclass(res.data.totalClasses);
+      setLoading(false);
       return result;
     },
   });
@@ -42,8 +45,12 @@ const AllClasses = () => {
     }
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <section className="bg-offWhite">
+    <section className="bg-offWhite ">
       <div className="container mx-auto px-4 py-12">
         {/* Page Heading */}
         <div className="text-center mb-8">

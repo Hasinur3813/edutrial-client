@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import useUserRole from "../../hooks/useUserRole";
 import useAxiosSecure from "../../axios/useAxiosSecure";
 import { useAuth } from "../../context/AuthProvider";
+import Loader from "../../component/Loader/Loader";
 
 const MyClass = () => {
   const { currentUser } = useAuth();
@@ -106,6 +107,10 @@ const MyClass = () => {
       refetch();
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-primaryColor mb-6 mt-4">

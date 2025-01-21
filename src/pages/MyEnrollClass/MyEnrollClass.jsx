@@ -5,6 +5,7 @@ import useAxiosSecure from "../../axios/useAxiosSecure";
 import { Empty, Pagination } from "antd";
 import { useAuth } from "../../context/AuthProvider";
 import { useState } from "react";
+import Loader from "../../component/Loader/Loader";
 // const enrolledClasses = [
 //   {
 //     id: 1,
@@ -61,6 +62,10 @@ const MyEnrollClass = () => {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="container mx-auto my-10 px-4">

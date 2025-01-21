@@ -39,7 +39,7 @@ const MyProfile = () => {
             <FaUserTag className="text-primaryColor text-xl" />
             <span>Name:</span>
             <span className="text-gray-800 font-semibold">
-              {currentUser?.displayName || "John Doe"}
+              {currentUser?.displayName || "Annonyomus"}
             </span>
           </div>
 
@@ -47,14 +47,14 @@ const MyProfile = () => {
             <FaUserTag className="text-primaryColor text-xl" />
             <span>Role:</span>
             <span className="text-gray-800 font-semibold capitalize">
-              {user?.userRole}
+              {user?.userRole || "Unknown"}
             </span>
           </div>
           <div className="flex items-center gap-3 text-lg text-muted font-medium">
             <FaEnvelope className="text-primaryColor text-xl" />
             <span>Email:</span>
             <span className="text-gray-800 font-semibold">
-              {currentUser?.email || "johndoe@example.com"}
+              {currentUser?.email || "Unknown"}
             </span>
           </div>
           <div className="flex items-center gap-3 text-lg text-muted font-medium">

@@ -17,12 +17,16 @@ import TeacherRequest from "../pages/TeacherRequest/TeacherRequest";
 import AllClassForAdmin from "../pages/AllClassForAdmin/AllClassForAdmin";
 import Users from "../pages/Users/Users";
 import Payment from "../pages/Payment/Payment";
+import PrivateRoute from "./PrivateRoute";
+import TeacherRoute from "./TeacherRoute";
+import AdminRoute from "./AdminRoute";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <div>Not Found</div>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -42,11 +46,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/teach-on-edutrial",
-        element: <TeachOnEduTrial />,
+        element: (
+          <PrivateRoute>
+            <TeachOnEduTrial />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/class-details/:id",
-        element: <ClassDetails />,
+        element: (
+          <PrivateRoute>
+            <ClassDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/payment",
@@ -59,40 +71,88 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
     children: [
-      { index: true, element: <MyProfile /> },
+      // student dashboard
+      {
+        index: true,
+        element: (
+          <PrivateRoute>
+            <MyProfile />
+          </PrivateRoute>
+        ),
+      },
       {
         path: "/dashboard/my-enroll-class",
-        element: <MyEnrollClass />,
+        element: (
+          <PrivateRoute>
+            <MyEnrollClass />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-enroll-class-details/:id",
-        element: <MyEnrollClassDetails />,
+        element: (
+          <PrivateRoute>
+            <MyEnrollClassDetails />
+          </PrivateRoute>
+        ),
       },
+
+      // teacher dashboard
       {
         path: "/dashboard/add-class",
-        element: <AddClass />,
+        element: (
+          <TeacherRoute>
+            <AddClass />
+          </TeacherRoute>
+        ),
       },
       {
         path: "/dashboard/my-class",
-        element: <MyClass />,
+        element: (
+          <TeacherRoute>
+            <MyClass />
+          </TeacherRoute>
+        ),
       },
       {
         path: "/dashboard/my-class-details/:id",
-        element: <MyClassDetails />,
+        element: (
+          <TeacherRoute>
+            <MyClassDetails />
+          </TeacherRoute>
+        ),
       },
+
+      // admin dashboard
       {
         path: "/dashboard/teacher-request",
-        element: <TeacherRequest />,
+        element: (
+          <AdminRoute>
+            <TeacherRequest />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/all-classes",
-        element: <AllClassForAdmin />,
+        element: (
+          <AdminRoute>
+            <AllClassForAdmin />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/users",
-        element: <Users />,
+        element: (
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        ),
       },
     ],
+  },
+  {
+    path: "/page-not-found",
+    element: <ErrorPage />,
   },
 ]);
 
