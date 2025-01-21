@@ -15,10 +15,10 @@ const TeacherRoute = ({ children }) => {
     return <Navigate to="/login" state={{ path: location.pathname }} />;
   }
 
-  if (user?.userRole !== "teacher") {
-    return <Navigate to="/page-not-found" />;
+  if (user?.userRole === "teacher" || user?.userRole === "admin") {
+    return children;
   }
-  return children;
+  return <Navigate to="/page-not-found" />;
 };
 
 export default TeacherRoute;

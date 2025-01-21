@@ -67,11 +67,6 @@ const AllClassForAdmin = () => {
     }
   };
 
-  const handleProgress = (id) => {
-    // Navigate to class progress page
-    console.log("Navigate to class progress for ID:", id);
-  };
-
   const handleTableChange = (pagination) => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
@@ -133,11 +128,7 @@ const AllClassForAdmin = () => {
             </Button>
           </Popconfirm>
           <Link to={`/dashboard/my-class-details/${record._id}`}>
-            <Button
-              type="default"
-              disabled={record.status !== "accepted"}
-              onClick={() => handleProgress(record._id)}
-            >
+            <Button type="default" disabled={record.status !== "accepted"}>
               Progress
             </Button>
           </Link>

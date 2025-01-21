@@ -1,3 +1,5 @@
+import { Fade } from "react-awesome-reveal";
+
 const partners = [
   {
     name: "W3Schools",
@@ -37,35 +39,45 @@ const PartnersSection = () => {
       <div className="container mx-auto px-6">
         {/* Section Title */}
         <div className="text-center mb-32">
-          <h3 className="text-primaryColor text-xl font-bold uppercase">
-            Our Partners
-          </h3>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-darkGray mt-2">
-            Collaborating for Excellence
-          </h2>
-          <p className="text-muted text-base sm:text-lg mt-4">
-            We proudly collaborate with industry leaders and educational
-            institutions to provide top-notch services.
-          </p>
+          <Fade duration={2000} direction="up">
+            <h3 className="text-primaryColor text-xl font-bold uppercase">
+              Our Partners
+            </h3>
+          </Fade>
+          <Fade duration={1800} direction="up">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-darkGray mt-2">
+              Collaborating for Excellence
+            </h2>
+          </Fade>
+          <Fade duration={1600} direction="up">
+            <p className="text-muted text-base sm:text-lg mt-4">
+              We proudly collaborate with industry leaders and educational
+              institutions to provide top-notch services.
+            </p>
+          </Fade>
         </div>
 
         {/* Partners Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center">
           {partners.map((partner, index) => (
-            <div
+            <Fade
               key={index}
-              className="border rounded-md border-primaryColor p-3 flex flex-col items-center"
+              duration={1500}
+              direction="up"
+              delay={index * 100}
             >
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                className="w-20 h-20 object-contain mb-4"
-              />
+              <div className="border rounded-md border-primaryColor p-3 flex flex-col items-center">
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="w-20 h-20 object-contain mb-4"
+                />
 
-              <p className="text-muted text-center text-sm mt-2">
-                {partner.description}
-              </p>
-            </div>
+                <p className="text-muted text-center text-sm mt-2">
+                  {partner.description}
+                </p>
+              </div>
+            </Fade>
           ))}
         </div>
       </div>

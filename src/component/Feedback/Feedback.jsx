@@ -3,6 +3,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Fade } from "react-awesome-reveal";
 
 const feedbacks = [
   {
@@ -49,13 +50,17 @@ const Feedback = () => {
       <div className="container mx-auto px-3 space-y-10">
         {/* Section Title */}
         <div className="text-center">
-          <h2 className="text-2xl md:text-3xl text-primaryColor lg:text-4xl font-extrabold  mt-2">
-            What Our Teachers Say
-          </h2>
-          <p className="text-muted text-base sm:text-lg mt-4">
-            Read what our teachers have to say about their experience on
-            EduTrial.
-          </p>
+          <Fade duration={2000} direction="up">
+            <h2 className="text-2xl md:text-3xl text-primaryColor lg:text-4xl font-extrabold  mt-2">
+              What Our Teachers Say
+            </h2>
+          </Fade>
+          <Fade duration={1600} direction="up">
+            <p className="text-muted text-base sm:text-lg mt-4">
+              Read what our teachers have to say about their experience on
+              EduTrial.
+            </p>
+          </Fade>
         </div>
 
         {/* Swiper Carousel */}

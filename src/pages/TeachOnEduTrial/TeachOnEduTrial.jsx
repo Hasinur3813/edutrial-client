@@ -5,6 +5,7 @@ import { Button, notification, message } from "antd";
 import { useState } from "react";
 import useTeacherStatus from "../../hooks/useTeacherStatus";
 import TeacherApprovedMessage from "../../component/TeacherApprovedMessage/TeacherApprovedMessage";
+import Loader from "../../component/Loader/Loader";
 
 const TeachOnWebsite = () => {
   const { currentUser } = useAuth();
@@ -30,7 +31,6 @@ const TeachOnWebsite = () => {
 
   const onSubmit = async (data) => {
     const teachersData = {
-      name: currentUser?.displayName,
       email: currentUser?.email,
       photoURL: currentUser?.photoURL,
       ...data,
@@ -83,6 +83,8 @@ const TeachOnWebsite = () => {
     reset();
   };
 
+  if (statusLoading) return <Loader />;
+
   return (
     <div className="max-w-4xl mx-auto bg-lightGray border border-primaryColor p-8 rounded-lg shadow-lg my-10">
       {/* Header */}
@@ -125,10 +127,15 @@ const TeachOnWebsite = () => {
             <label className="block text-lg font-semibold mb-2">Name</label>
             <input
               type="text"
-              value={currentUser?.displayName || "John Doe"}
-              readOnly
-              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+              {...register("name", {
+                required: "Name is required",
+              })}
+              placeholder="Enter your full name"
+              className="input input-bordered w-full"
             />
+            {errors.name && (
+              <p className="text-red mt-1">{errors.name.message}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -207,7 +214,7 @@ const TeachOnWebsite = () => {
               size="large"
             >
               {teacherStatus?.status === "rejected"
-                ? "Request to another button"
+                ? "Request to another"
                 : "Submit for review"}
             </Button>
 
@@ -218,7 +225,7 @@ const TeachOnWebsite = () => {
         </form>
       )}
 
-      {/* show a relevent message if the teacher request is approved */}
+      {/* showing a message if the teacher request is approved */}
       {teacherStatus?.status === "approved" && <TeacherApprovedMessage />}
     </div>
   );

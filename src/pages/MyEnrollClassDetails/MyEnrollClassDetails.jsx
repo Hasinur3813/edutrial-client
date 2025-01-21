@@ -5,12 +5,13 @@ import ReactStars from "react-stars";
 import Button from "../../component/Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../axios/useAxiosSecure";
-import { message, notification } from "antd";
+import { message, notification, Spin } from "antd";
 import { useAuth } from "../../context/AuthProvider";
 
 const MyEnrollClassDetails = () => {
   const { id } = useParams();
   const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [evaluation, setEvaluation] = useState({
@@ -36,6 +37,7 @@ const MyEnrollClassDetails = () => {
     queryFn: async () => {
       const { data } = await axios.get(`/users/all-assignments/${id}`);
       const result = data.data;
+      setLoading(false);
       return result;
     },
   });
@@ -104,41 +106,47 @@ const MyEnrollClassDetails = () => {
       </h1>
 
       {/* Assignments Table */}
-      <div className="overflow-x-auto w-full">
-        <table className=" w-full  bg-lightGray shadow-md rounded-lg">
-          <thead className="bg-primaryColor text-lightGray">
-            <tr>
-              <th className="px-6 py-3 text-left">Title</th>
-              <th className="px-6 py-3 text-left">Description</th>
-              <th className="px-6 py-3 text-left">Deadline</th>
-              <th className="px-6 py-3 text-center">Submissions</th>
-              <th className="px-6 py-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {assignments.map((assignment) => (
-              <tr key={assignment._id} className="border-b">
-                <td className="px-6 py-4">{assignment.title}</td>
-                <td className="px-6 py-4">{assignment.description}</td>
-                <td className="px-6 py-4">
-                  {new Date(assignment.deadline).toDateString()}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  {assignment.submissions || 0}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <Button
-                    className={"!bg-darkGray"}
-                    onAction={() => handleSubmit(assignment._id)}
-                  >
-                    Submit
-                  </Button>
-                </td>
+      {loading ? (
+        <div className="h-96 flex justify-center items-center">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <div className="overflow-x-auto w-full">
+          <table className=" w-full  bg-lightGray shadow-md rounded-lg">
+            <thead className="bg-primaryColor text-lightGray">
+              <tr>
+                <th className="px-6 py-3 text-left">Title</th>
+                <th className="px-6 py-3 text-left">Description</th>
+                <th className="px-6 py-3 text-left">Deadline</th>
+                <th className="px-6 py-3 text-center">Submissions</th>
+                <th className="px-6 py-3 text-center">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {assignments.map((assignment) => (
+                <tr key={assignment._id} className="border-b">
+                  <td className="px-6 py-4">{assignment.title}</td>
+                  <td className="px-6 py-4">{assignment.description}</td>
+                  <td className="px-6 py-4">
+                    {new Date(assignment.deadline).toDateString()}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {assignment.submissions || 0}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <Button
+                      className={"!bg-darkGray"}
+                      onAction={() => handleSubmit(assignment._id)}
+                    >
+                      Submit
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Teaching Evaluation Report */}
       <div className="mt-8">

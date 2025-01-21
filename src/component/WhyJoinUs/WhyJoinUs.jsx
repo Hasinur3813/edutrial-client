@@ -2,6 +2,7 @@ import { FaChalkboardTeacher, FaUsers, FaClock, FaGlobe } from "react-icons/fa";
 import Button from "../Button/Button";
 import { useAuth } from "../../context/AuthProvider";
 import { Link } from "react-router-dom";
+import { Fade } from "react-awesome-reveal";
 
 const cards = [
   {
@@ -35,28 +36,43 @@ const WhyJoinUs = () => {
     <section className="py-14 bg-offWhite">
       <div className="container mx-auto px-6 text-center">
         {/* Section Heading */}
-        <h3 className="text-primaryColor text-xl font-bold uppercase">
-          Why Choose EduTrial?
-        </h3>
-        <h2 className="text-2xl md:text-4xl font-extrabold text-darkGray mt-2">
-          Empowering Learning & Teaching
-        </h2>
-        <p className="text-muted text-base sm:text-lg mt-4">
-          Discover why thousands of educators and students trust EduTrial for
-          their academic journey.
-        </p>
+        <Fade duration={2000} direction="up">
+          <h3 className="text-primaryColor text-xl font-bold uppercase">
+            Why Choose EduTrial?
+          </h3>
+        </Fade>
+        <Fade direction="up" duration={1800}>
+          <h2 className="text-2xl md:text-4xl font-extrabold text-darkGray mt-2">
+            Empowering Learning & Teaching
+          </h2>
+        </Fade>
+        <Fade duration={1500} direction="up">
+          <p className="text-muted text-base sm:text-lg mt-4">
+            Discover why thousands of educators and students trust EduTrial for
+            their academic journey.
+          </p>
+        </Fade>
 
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
           {cards.map((card, index) => (
-            <div
+            <Fade
               key={index}
-              className="bg-lightGray p-6 rounded-lg shadow-md text-center hover:shadow-lg hover:shadow-primaryColor transition"
+              direction="up"
+              duration={1500}
+              delay={index * 100}
             >
-              {card.icon}
-              <h4 className="text-lg font-bold text-darkGray">{card.title}</h4>
-              <p className="text-muted mt-2">{card.description}</p>
-            </div>
+              <div
+                key={index}
+                className="bg-lightGray p-6 rounded-lg shadow-md text-center hover:shadow-lg hover:shadow-primaryColor transition"
+              >
+                {card.icon}
+                <h4 className="text-lg font-bold text-darkGray">
+                  {card.title}
+                </h4>
+                <p className="text-muted mt-2">{card.description}</p>
+              </div>
+            </Fade>
           ))}
         </div>
 

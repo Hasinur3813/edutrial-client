@@ -12,7 +12,7 @@ import useUserRole from "../hooks/useUserRole";
 import Loader from "../component/Loader/Loader";
 
 const Dashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, isPending } = useUserRole();
   const role = user?.userRole;
 
@@ -45,7 +45,7 @@ const Dashboard = () => {
           </div>
           {/* Close Button for Desktop */}
           <button
-            className="text-lightGray p-3 rounded-r-md bg-primaryColor fixed -right-11 top-0 md:block"
+            className="text-lightGray p-3 rounded-r-full bg-primaryColor fixed -right-11 top-0 md:block"
             onClick={toggleSidebar}
           >
             {isSidebarOpen && <FaTimes className="text-xl" />}
@@ -58,7 +58,9 @@ const Dashboard = () => {
         <h3 className="font-semibold text-lg mt-5 text-darkGray">Menu</h3>
 
         <ul className="mt-4 space-y-2">
-          <ListItem icon={FaUserGraduate}>My Profile</ListItem>
+          <ListItem path="/dashboard" icon={FaUserGraduate}>
+            My Profile
+          </ListItem>
 
           {/* student route */}
           {role === "student" && (

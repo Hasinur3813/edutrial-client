@@ -1,5 +1,6 @@
 import { Collapse } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
+import { Fade } from "react-awesome-reveal";
 
 // FAQ Data
 const faqs = [
@@ -44,30 +45,32 @@ const { Panel } = Collapse;
 
 const FAQSection = () => {
   return (
-    <section className="faq-section py-14 bg-offWhite">
-      <div className="container mx-auto text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-darkGray mb-8">
-          Frequently Asked Questions
-        </h2>
-        <Collapse
-          defaultActiveKey={["0"]}
-          expandIcon={({ isActive }) => (
-            <CaretRightOutlined rotate={isActive ? 90 : 0} />
-          )}
-          accordion
-        >
-          {faqs.map((faq, index) => (
-            <Panel
-              header={faq.question}
-              key={index}
-              className="text-left text-lg bg-primaryColor"
-            >
-              <p className="text-muted">{faq.answer}</p>
-            </Panel>
-          ))}
-        </Collapse>
-      </div>
-    </section>
+    <Fade duration={2000}>
+      <section className="faq-section py-14 bg-offWhite">
+        <div className="container mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-primaryColor mb-8">
+            Frequently Asked Questions
+          </h2>
+          <Collapse
+            defaultActiveKey={["0"]}
+            expandIcon={({ isActive }) => (
+              <CaretRightOutlined rotate={isActive ? 90 : 0} />
+            )}
+            accordion
+          >
+            {faqs.map((faq, index) => (
+              <Panel
+                header={faq.question}
+                key={index}
+                className="text-left text-lg bg-primaryColor"
+              >
+                <p className="text-muted">{faq.answer}</p>
+              </Panel>
+            ))}
+          </Collapse>
+        </div>
+      </section>
+    </Fade>
   );
 };
 
