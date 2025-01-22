@@ -13,7 +13,6 @@ const PaymentForm = ({ classDetails }) => {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
   const axios = useAxiosSecure();
   const navigate = useNavigate();
 
@@ -32,7 +31,6 @@ const PaymentForm = ({ classDetails }) => {
       });
 
       const { clientSecret } = data;
-      setClientSecret(clientSecret);
 
       const paymentResult = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -101,7 +99,7 @@ const PaymentForm = ({ classDetails }) => {
         htmlType="submit"
         size="large"
         loading={loading}
-        disabled={loading || !stripe}
+        disabled={loading}
         className="bg-primaryColor hover:!bg-secondaryColor"
       >
         {loading ? "Proccesing..." : "Pay Now"}

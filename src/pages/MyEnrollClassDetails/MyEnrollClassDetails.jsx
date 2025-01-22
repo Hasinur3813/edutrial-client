@@ -5,19 +5,27 @@ import ReactStars from "react-stars";
 import Button from "../../component/Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../axios/useAxiosSecure";
-import { message, notification, Spin } from "antd";
+import { Form, Button as AntButton, Input, message, Modal, Spin } from "antd";
 import { useAuth } from "../../context/AuthProvider";
+import { Controller, useForm } from "react-hook-form";
 
 const MyEnrollClassDetails = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    reset,
+  } = useForm();
+
   const { id } = useParams();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [form] = Form.useForm();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [evaluation, setEvaluation] = useState({
-    description: "",
-    rating: 0,
-  });
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [assignmentModal, setAssignmentModal] = useState(false);
   const axios = useAxiosSecure();
   const modalRef = useRef(null);
 
@@ -25,11 +33,21 @@ const MyEnrollClassDetails = () => {
     const listener = window.addEventListener("click", (e) => {
       if (e.target.contains(modalRef.current)) {
         setIsModalOpen(false);
+        reset();
       }
     });
 
     return () => window.removeEventListener("click", listener);
-  }, []);
+  }, [reset]);
+
+  // fetch enrolled class by id
+  const { data: enrolledClass = {} } = useQuery({
+    queryKey: ["enrolledClass", id],
+    queryFn: async () => {
+      const { data } = await axios.get(`/users/enrolled-class/${id}`);
+      return data.data;
+    },
+  });
 
   // fetch assignment
   const { data: assignments = [], refetch } = useQuery({
@@ -42,40 +60,44 @@ const MyEnrollClassDetails = () => {
     },
   });
 
-  const handleSubmit = async (assignmentId) => {
+  const handleAssignmentSubmit = async (values) => {
+    const submission = {
+      ...values,
+      user: currentUser?.email,
+      classId: enrolledClass?._id,
+      assignmentId: selectedAssignment?._id,
+    };
     try {
-      const { data } = await axios.patch(
-        `/users/assignment-submission/${assignmentId}`
+      const { data } = await axios.post(
+        `/users/assignment-submission`,
+        submission
       );
 
       const result = data;
-      if (result.success) {
-        message.success("Assignment submission successfull!");
+      if (result.data.insertedId) {
+        message.success("Assignment submitted successfully!");
+      } else if (result.error) {
+        message.error(result.message);
       }
-      return result;
+      console.log(result);
     } catch (error) {
+      console.log(error);
       message.error(
-        error?.message || "Assignment submission failed, Please try again!"
+        error.response?.data?.message ||
+          "Assignment submission failed, Please try again!"
       );
     } finally {
       refetch();
     }
   };
 
-  const handleModalSubmit = async () => {
-    if (evaluation.description.length < 10) {
-      return notification.error({
-        title: "Error",
-        message: "You must write minimum 10 words for feedback!",
-      });
-    }
-
+  const handleModalSubmit = async (data) => {
     const feedback = {
-      ...evaluation,
+      ...data,
+      title: enrolledClass?.title,
       name: currentUser?.displayName,
       image: currentUser?.photoURL,
     };
-
     try {
       const { data } = await axios.post("/users/feedback", feedback);
       const result = data.data;
@@ -91,18 +113,25 @@ const MyEnrollClassDetails = () => {
       );
     } finally {
       setIsModalOpen(false);
-      setEvaluation({
-        description: "",
-        rating: 0,
-      });
+      reset();
     }
+  };
+
+  const showModal = (assignment) => {
+    setSelectedAssignment(assignment);
+    setAssignmentModal(true);
+  };
+  const handleCancel = () => {
+    setAssignmentModal(false);
+    setSelectedAssignment(null);
+    form.resetFields();
   };
 
   return (
     <div className="container mx-auto p-6 mt-5 bg-lightGray">
       {/* Page Header */}
       <h1 className="text-3xl font-bold text-primaryColor mb-6">
-        My Enroll Class Details
+        {enrolledClass?.title || "Class Details"}
       </h1>
 
       {/* Assignments Table */}
@@ -136,7 +165,7 @@ const MyEnrollClassDetails = () => {
                   <td className="px-6 py-4 text-center">
                     <Button
                       className={"!bg-darkGray"}
-                      onAction={() => handleSubmit(assignment._id)}
+                      onAction={() => showModal(assignment)}
                     >
                       Submit
                     </Button>
@@ -146,6 +175,38 @@ const MyEnrollClassDetails = () => {
             </tbody>
           </table>
         </div>
+      )}
+
+      {/* Assignment Modal */}
+      {assignmentModal && (
+        <Modal
+          title="Submit Assignment"
+          open={assignmentModal}
+          onCancel={handleCancel}
+          footer={null}
+        >
+          <Form form={form} onFinish={handleAssignmentSubmit}>
+            <Form.Item
+              name="submissionLink"
+              label="Submission Link"
+              rules={[
+                { required: true, message: "Please enter the submission link" },
+              ]}
+            >
+              <Input placeholder="Enter the submission link" />
+            </Form.Item>
+            <Form.Item>
+              <AntButton
+                className="bg-primaryColor hover:!bg-secondaryColor"
+                size="large"
+                type="primary"
+                htmlType="submit"
+              >
+                Submit
+              </AntButton>
+            </Form.Item>
+          </Form>
+        </Modal>
       )}
 
       {/* Teaching Evaluation Report */}
@@ -165,40 +226,49 @@ const MyEnrollClassDetails = () => {
             <h2 className="text-xl font-bold text-primaryColor mb-4">
               Teaching Evaluation Report
             </h2>
-            {/* Description Field */}
-            <textarea
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-primaryColor mb-4"
-              rows="4"
-              placeholder="Enter your feedback..."
-              value={evaluation.description}
-              onChange={(e) =>
-                setEvaluation((prev) => ({
-                  ...prev,
-                  description: e.target.value,
-                }))
-              }
-            ></textarea>
-            {/* Rating Field */}
-            <div className="mb-4">
+            <form onSubmit={handleSubmit(handleModalSubmit)}>
+              {/* Description Field */}
+              <textarea
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-primaryColor mb-4"
+                rows="4"
+                type="text"
+                placeholder="Enter your feedback..."
+                defaultValue=""
+                {...register("description", {
+                  required: "Description is required",
+                })}
+              ></textarea>
+              {errors.description && (
+                <p className="text-red mt-1">{errors.description.message}</p>
+              )}
+              {/* Rating Field */}
               <label className="block text-muted font-semibold mb-2">
                 Rating:
               </label>
-              <ReactStars
-                count={5}
-                onChange={(newRating) =>
-                  setEvaluation((prev) => ({ ...prev, rating: newRating }))
-                }
-                size={30}
-                activeColor="#ffd700"
-                value={evaluation.rating}
-                emptyIcon={<FaStar />}
-                filledIcon={<FaStar />}
+              <Controller
+                name="rating"
+                control={control}
+                defaultValue={0}
+                rules={{ required: "Rating is required" }}
+                render={({ field }) => (
+                  <ReactStars
+                    {...field}
+                    count={5}
+                    onChange={field.onChange}
+                    size={30}
+                    activeColor="#ffd700"
+                    value={field.value}
+                    emptyIcon={<FaStar />}
+                    filledIcon={<FaStar />}
+                  />
+                )}
               />
-            </div>
-            {/* Submit Button */}
-            <Button type="button" onAction={handleModalSubmit}>
-              Submit
-            </Button>
+              {errors.rating && (
+                <p className="text-red mt-1">{errors.rating.message}</p>
+              )}
+              {/* Submit Button */}
+              <Button type="submit">Submit</Button>
+            </form>
           </div>
         </div>
       )}

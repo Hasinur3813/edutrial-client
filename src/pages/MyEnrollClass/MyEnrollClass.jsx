@@ -105,6 +105,7 @@ const MyEnrollClass = () => {
               <div className="p-4 border-t border-gray-200 text-center">
                 <Link
                   to={`/dashboard/my-enroll-class-details/${enrolledClass._id}`}
+                  state={enrolledClass}
                 >
                   <Button className={"w-full "}>Continue</Button>
                 </Link>

@@ -19,16 +19,16 @@ const StatsSection = () => {
         {/* Heading Title */}
 
         <div className="text-center mb-6">
-          <Slide duration={2000} derection="up">
+          <Fade duration={2000} derection="up">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primaryColor mb-4">
               Explore Our Impact
             </h2>
-          </Slide>
-          <Slide duration={1600} derection="up">
+          </Fade>
+          <Fade duration={1600} derection="up">
             <p className="text-muted text-lg">
               A glimpse into how EduTrial is transforming education.
             </p>
-          </Slide>
+          </Fade>
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-10">

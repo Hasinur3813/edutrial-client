@@ -34,11 +34,11 @@ const Dashboard = () => {
       >
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <FaGraduationCap className="text-4xl text-primaryColor" />
+          <div className="flex items-center space-x-2">
+            <FaGraduationCap className="md:self-end text-2xl md:text-3xl lg:text-4xl text-primaryColor" />
             <Link
               to="/"
-              className="text-2xl sm:text-3xl md:text-4xl text-primaryColor font-extrabold tracking-wide"
+              className="text-2xl md:text-3xl lg:text-4xl text-primaryColor font-extrabold tracking-wide"
             >
               EduTrial
             </Link>
@@ -57,53 +57,59 @@ const Dashboard = () => {
         {/* Menu */}
         <h3 className="font-semibold text-lg mt-5 text-darkGray">Menu</h3>
 
-        <ul className="mt-4 space-y-2">
-          <ListItem path="/dashboard" icon={FaUserGraduate}>
-            My Profile
-          </ListItem>
-
-          {/* student route */}
-          {role === "student" && (
-            <ListItem
-              path="/dashboard/my-enroll-class"
-              icon={FaChalkboardTeacher}
-            >
-              My Enroll Class
+        {/* List */}
+        <div className="flex flex-col space-y-4 h-full">
+          <ul className="mt-4 space-y-2">
+            <ListItem path="/dashboard" icon={FaUserGraduate}>
+              My Profile
             </ListItem>
-          )}
 
-          {/* teacher route */}
-          {role === "teacher" && (
-            <>
-              <ListItem path="/dashboard/my-class" icon={FaChalkboardTeacher}>
-                My Class
-              </ListItem>
-              <ListItem path="/dashboard/add-class" icon={FaChalkboardTeacher}>
-                Add Class
-              </ListItem>
-            </>
-          )}
-          {/* admin route */}
-          {role === "admin" && (
-            <>
+            {/* student route */}
+            {role === "student" && (
               <ListItem
-                path="/dashboard/teacher-request"
+                path="/dashboard/my-enroll-class"
                 icon={FaChalkboardTeacher}
               >
-                Teacher Request
+                My Enroll Class
               </ListItem>
-              <ListItem path="/dashboard/users" icon={FaChalkboardTeacher}>
-                Users
-              </ListItem>
-              <ListItem
-                path="/dashboard/all-classes"
-                icon={FaChalkboardTeacher}
-              >
-                All Classes
-              </ListItem>
-            </>
-          )}
-        </ul>
+            )}
+
+            {/* teacher route */}
+            {role === "teacher" && (
+              <>
+                <ListItem path="/dashboard/my-class" icon={FaChalkboardTeacher}>
+                  My Class
+                </ListItem>
+                <ListItem
+                  path="/dashboard/add-class"
+                  icon={FaChalkboardTeacher}
+                >
+                  Add Class
+                </ListItem>
+              </>
+            )}
+            {/* admin route */}
+            {role === "admin" && (
+              <>
+                <ListItem
+                  path="/dashboard/teacher-request"
+                  icon={FaChalkboardTeacher}
+                >
+                  Teacher Request
+                </ListItem>
+                <ListItem path="/dashboard/users" icon={FaChalkboardTeacher}>
+                  Users
+                </ListItem>
+                <ListItem
+                  path="/dashboard/all-classes"
+                  icon={FaChalkboardTeacher}
+                >
+                  All Classes
+                </ListItem>
+              </>
+            )}
+          </ul>
+        </div>
       </div>
 
       {/* Main Content */}

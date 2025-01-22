@@ -23,12 +23,12 @@ const PopularCourses = () => {
     <section className="bg-bg-secondary py-14">
       <div className="container lg:max-w-7xl mx-auto text-center px-3">
         <div className="text-center mb-12">
-          <Fade duration={2000}>
+          <Fade duration={2000} direction="up">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-primaryColor">
               Popular Courses
             </h2>
           </Fade>
-          <Fade duration={1000}>
+          <Fade duration={1600} direction="up">
             <p className="text-base sm:text-lg text-muted">
               Explore our top-rated courses that students love the most! Join
               now to enhance your skills.

@@ -45,12 +45,14 @@ const { Panel } = Collapse;
 
 const FAQSection = () => {
   return (
-    <Fade duration={2000}>
-      <section className="faq-section py-14 bg-offWhite">
-        <div className="container mx-auto text-center">
+    <section className="faq-section py-14 bg-offWhite">
+      <div className="container mx-auto text-center">
+        <Fade duration={2000} direction="up">
           <h2 className="text-2xl sm:text-3xl font-bold text-primaryColor mb-8">
             Frequently Asked Questions
           </h2>
+        </Fade>
+        <Fade duration="1600" direction="up">
           <Collapse
             defaultActiveKey={["0"]}
             expandIcon={({ isActive }) => (
@@ -68,9 +70,9 @@ const FAQSection = () => {
               </Panel>
             ))}
           </Collapse>
-        </div>
-      </section>
-    </Fade>
+        </Fade>
+      </div>
+    </section>
   );
 };
 
