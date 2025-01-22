@@ -67,13 +67,13 @@ const Feedback = () => {
         <div className="text-center">
           <Fade duration={2000} direction="up">
             <h2 className="text-2xl md:text-3xl text-primaryColor lg:text-4xl font-extrabold  mt-2">
-              What Our Teachers Say
+              What Our Students Say
             </h2>
           </Fade>
           <Fade duration={1600} direction="up">
             <p className="text-muted text-base sm:text-lg mt-4">
-              Read what our teachers have to say about their experience on
-              EduTrial.
+              Read what our students have to say about their experience with our
+              teachers on EduTrial.
             </p>
           </Fade>
         </div>
