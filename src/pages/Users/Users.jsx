@@ -134,7 +134,7 @@ const Users = () => {
       {/* Users Table */}
       <Table
         className="overflow-x-auto"
-        dataSource={displayedUser.length === 0 ? users : displayedUser}
+        dataSource={displayedUser?.length === 0 ? users : displayedUser}
         columns={columns}
         loading={isUsersLoading || searching}
         rowKey="_id"
