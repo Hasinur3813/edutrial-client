@@ -14,15 +14,8 @@ const NavbarEnd = () => {
   };
   return (
     <div className="navbar-end">
-      {/* show login and signup if not logged in */}
-      {!currentUser && !loading && (
-        <Link to={"/login"}>
-          <Button icon={FaSignInAlt}>Sign In</Button>
-        </Link>
-      )}
-
       {/* show user profile if the logged in */}
-      {currentUser && (
+      {currentUser ? (
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -50,7 +43,11 @@ const NavbarEnd = () => {
             </li>
           </ul>
         </div>
-      )}
+      ) : !loading ? (
+        <Link to={"/login"}>
+          <Button icon={FaSignInAlt}>Sign In</Button>
+        </Link>
+      ) : null}
     </div>
   );
 };

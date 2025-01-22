@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Spin } from "antd";
+import Loader from "../component/Loader/Loader";
 import { useAuth } from "../context/AuthProvider";
 
 const PublicRoute = ({ children }) => {
@@ -18,11 +18,7 @@ const PublicRoute = ({ children }) => {
   }, [loading, currentUser, navigate]);
 
   if (!isInitialized) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Spin tip="loading" size="large" />
-      </div>
-    );
+    return <Loader />;
   }
 
   return children;

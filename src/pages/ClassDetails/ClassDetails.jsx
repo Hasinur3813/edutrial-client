@@ -38,7 +38,7 @@ const ClassDetails = () => {
       {/* Main Content */}
       <div className="flex flex-col md:flex-row gap-10 items-start lg:items-center">
         {/* Image Section */}
-        <div className="md:w-1/2">
+        <div className="md:w-1/2 max-h-fit">
           <img
             src={classDetails.image}
             alt={classDetails.title}

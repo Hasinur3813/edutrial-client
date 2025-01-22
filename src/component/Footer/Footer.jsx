@@ -1,5 +1,5 @@
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-darkGray text-offWhite py-10">
@@ -24,36 +24,28 @@ const Footer = () => {
             </h3>
             <ul>
               <li>
-                <a
-                  href="/about"
+                <Link
+                  to="/all-classes"
                   className="text-lightGray underline hover:text-primaryColor"
                 >
-                  About Us
-                </a>
+                  All classes
+                </Link>
               </li>
               <li>
-                <a
-                  href="/contact"
+                <Link
+                  to="/dashboard/my-enroll-class"
                   className="text-lightGray underline hover:text-primaryColor"
                 >
-                  Contact
-                </a>
+                  Enrolled Classes
+                </Link>
               </li>
               <li>
-                <a
-                  href="/privacy-policy"
+                <Link
+                  to="/dashboard"
                   className="text-lightGray underline hover:text-primaryColor"
                 >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/terms"
-                  className="text-lightGray underline hover:text-primaryColor"
-                >
-                  Terms of Service
-                </a>
+                  My Profile
+                </Link>
               </li>
             </ul>
           </div>
@@ -63,7 +55,7 @@ const Footer = () => {
             <h3 className="text-lg text-primaryColor font-semibold mb-4">
               Follow Us
             </h3>
-            <div className="flex justify-center md:justify-left space-x-4">
+            <div className="flex justify-center md:justify-start space-x-4">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -102,17 +94,17 @@ const Footer = () => {
               Subscribe to our newsletter for the latest updates, courses, and
               events.
             </p>
-            <form className="flex items-center">
+            <form className="flex flex-col items-center">
               <input
                 type="email"
                 name="email"
                 placeholder="Your email"
-                className="w-2/3 px-4 py-2 rounded-l-md text-darkGray"
+                className="w-full px-4 py-2 rounded-md text-darkGray"
                 required
               />
               <button
                 type="submit"
-                className="w-1/3 bg-primaryColor text-offWhite px-4 py-2 rounded-r-md hover:bg-primaryAccent"
+                className="w-full bg-primaryColor text-offWhite px-4 py-2 mt-2 rounded-md hover:bg-primaryAccent"
               >
                 Subscribe
               </button>

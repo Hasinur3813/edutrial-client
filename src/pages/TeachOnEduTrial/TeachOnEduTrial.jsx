@@ -102,7 +102,7 @@ const TeachOnWebsite = () => {
         </div>
 
         {/* Right Section: User Info */}
-        <div className="flex items-center justify-center flex-col space-x-6">
+        <div className="flex mt-10 sm:mt-0 items-center justify-center flex-col space-x-6">
           <img
             className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover border-4 border-primaryColor shadow-md"
             src={currentUser?.photoURL || "https://via.placeholder.com/150"}
