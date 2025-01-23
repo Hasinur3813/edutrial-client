@@ -2,7 +2,7 @@
 
 ## 🔑 Admin Credentials
 
-- **Username**: `sumon@gmail.com`
+- **Email**: `sumon@gmail.com`
 - **Password**: `Ha0000`
 
 ## 🔗 Live Site URL
