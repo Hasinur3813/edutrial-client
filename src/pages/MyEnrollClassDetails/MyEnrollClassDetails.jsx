@@ -76,10 +76,10 @@ const MyEnrollClassDetails = () => {
       const result = data;
       if (result.data.insertedId) {
         message.success("Assignment submitted successfully!");
+        handleCancel();
       } else if (result.error) {
         message.error(result.message);
       }
-      console.log(result);
     } catch (error) {
       console.log(error);
       message.error(

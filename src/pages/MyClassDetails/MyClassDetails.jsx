@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, Modal, Input, DatePicker, Form, message, Button } from "antd";
 import useAxiosSecure from "../../axios/useAxiosSecure";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,8 +12,6 @@ const MyClassDetails = () => {
   const axios = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const location = useLocation();
-  const title = location?.state;
 
   const handleAddAssignment = async (values) => {
     const assignment = {
