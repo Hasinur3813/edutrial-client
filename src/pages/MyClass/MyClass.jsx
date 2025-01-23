@@ -120,7 +120,7 @@ const MyClass = () => {
       {classes.length === 0 && !isLoading ? (
         <Empty />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((cls) => (
             <Card
               key={cls._id}

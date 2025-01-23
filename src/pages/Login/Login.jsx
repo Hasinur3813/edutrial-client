@@ -134,12 +134,14 @@ const Login = () => {
                 placeholder="Enter your password"
               />
               {errors.password && (
-                <p className="text-sm text-red">Password is required</p>
+                <p className="text-sm absolute text-red">
+                  Password is required
+                </p>
               )}
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute top-1/2 right-3 transform -translate-y-2/4 text-gray-500 hover:text-primaryColor"
+                className="absolute top-2/3 right-3 transform -translate-y-2/4 text-gray-500 hover:text-primaryColor"
               >
                 {showPassword ? (
                   <AiFillEye size={20} />
@@ -159,7 +161,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn text-lg bg-primaryColor hover:bg-secondaryColor text-lightGray w-full"
+              className="btn mt-4 text-lg bg-primaryColor hover:bg-secondaryColor text-lightGray w-full"
             >
               {loading ? "Logging in..." : "Log In"}
             </button>
