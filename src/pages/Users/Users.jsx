@@ -58,13 +58,13 @@ const Users = () => {
         refetch();
         setLoading(false);
       } else {
-        message.error("Faild to make admin. Try again!");
+        message.error("Failed to make admin. Try again!");
         setLoading(false);
       }
     } catch (error) {
       setLoading(false);
       message.error(
-        error?.message || "An error occured making admin, Try again!"
+        error?.message || "An error has occured making admin, Try again!"
       );
     }
   };

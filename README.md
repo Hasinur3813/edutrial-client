@@ -2,8 +2,8 @@
 
 ## 🔑 Admin Credentials
 
-- **Username**: `hasinur.rahman1332@gmail.com`
-- **Password**: `@Ha3813`
+- **Username**: `sumon@gmail.com`
+- **Password**: `Ha0000`
 
 ## 🔗 Live Site URL
 
