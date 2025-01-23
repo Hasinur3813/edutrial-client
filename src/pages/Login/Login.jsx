@@ -50,6 +50,8 @@ const Login = () => {
         icon: "error",
       });
       setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 

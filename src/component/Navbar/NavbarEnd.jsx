@@ -2,9 +2,17 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import { FaSignInAlt } from "react-icons/fa";
 import Button from "../Button/Button";
+import { useEffect } from "react";
 
 const NavbarEnd = () => {
-  const { currentUser, loading, logout } = useAuth();
+  const { currentUser, loading, setLoading, logout } = useAuth();
+
+  useEffect(() => {
+    if (!currentUser) {
+      setLoading(false);
+    }
+  }, [currentUser, loading, setLoading]);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -15,7 +23,10 @@ const NavbarEnd = () => {
   return (
     <div className="navbar-end">
       {/* show user profile if the logged in */}
-      {currentUser ? (
+      {loading ? (
+        // avatar skeleton
+        <div className="animate-pulse w-10 h-10 bg-gray-300 rounded-full"></div>
+      ) : currentUser ? (
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -43,11 +54,13 @@ const NavbarEnd = () => {
             </li>
           </ul>
         </div>
-      ) : !loading ? (
+      ) : (
         <Link to={"/login"}>
-          <Button icon={FaSignInAlt}>Sign In</Button>
+          <Button className="!text-base" icon={FaSignInAlt}>
+            Sign In
+          </Button>
         </Link>
-      ) : null}
+      )}
     </div>
   );
 };

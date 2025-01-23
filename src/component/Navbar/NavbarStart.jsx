@@ -49,7 +49,7 @@ const NavbarStart = () => {
           )}
         </ul>
       </div>
-      <Link to={"/"} className="font-bold text-xl md:text-3xl">
+      <Link to={"/"} className="font-bold text-2xl md:text-3xl">
         <p className="flex gap-x-2 items-center justify-center">
           <img
             className="self-end pt-2 w-10 h-12 md:w-12 md:h-14"

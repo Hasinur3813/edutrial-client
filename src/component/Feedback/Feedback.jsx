@@ -55,7 +55,7 @@ const Feedback = () => {
     queryKey: ["feedbacks"],
     queryFn: async () => {
       const { data } = await axios.get("/users/feedbacks");
-      console.log(data.data);
+
       return data.data;
     },
   });

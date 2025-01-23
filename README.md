@@ -2,12 +2,12 @@
 
 ## 🔑 Admin Credentials
 
-- **Username**: `admin@example.com`
-- **Password**: `admin123`
+- **Username**: `hasinur.rahman1332@gmail.com`
+- **Password**: `@Ha3813`
 
 ## 🔗 Live Site URL
 
-[Click Here to Visit the Live Site](https://your-live-site-url.com)
+[Click Here to Visit the Live Site](https://fir-learning-793eb.web.app)
 
 ---
 
