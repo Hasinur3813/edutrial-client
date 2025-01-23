@@ -162,22 +162,26 @@ const MyClass = () => {
                 >
                   Delete
                 </AntButton>,
-                <Link
-                  to={`/dashboard/my-class-details/${cls._id}`}
-                  key={cls._id}
-                  state={cls.title}
-                >
+                cls.status !== "pending" && cls.status !== "rejected" ? (
+                  <Link
+                    to={`/dashboard/my-class-details/${cls._id}`}
+                    key={cls._id}
+                    state={cls.title}
+                  >
+                    <AntButton className="text-primaryColor" type="link">
+                      See Details
+                    </AntButton>
+                  </Link>
+                ) : (
                   <AntButton
                     className="text-primaryColor"
                     key={cls._id}
                     type="link"
-                    disabled={
-                      cls.status === "pending" || cls.status === "rejected"
-                    }
+                    disabled
                   >
                     See Details
                   </AntButton>
-                </Link>,
+                ),
               ]}
             >
               <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap text-ellipsis">
