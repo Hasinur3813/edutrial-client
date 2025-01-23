@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, Button, Input, Avatar, Modal, notification } from "antd";
+import { Table, Button, Input, Avatar, Modal, message } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 
@@ -43,7 +43,7 @@ const Users = () => {
       setDisplayedUsers(users);
       setSearching(false);
     } catch {
-      notification.error("Something went wrong, Please try again.");
+      message.error("Something went wrong, Please try again.");
       setSearching(false);
     }
   };
@@ -54,16 +54,16 @@ const Users = () => {
       setLoading(true);
       const { data } = await axios.patch(`/admin/make-admin/${email}`);
       if (data.data.modifiedCount) {
-        notification.success("The user role is changed to Admin");
+        message.success("The user role is changed to Admin");
         refetch();
         setLoading(false);
       } else {
-        notification.error("Faild to make admin. Try again!");
+        message.error("Faild to make admin. Try again!");
         setLoading(false);
       }
     } catch (error) {
       setLoading(false);
-      notification.error(
+      message.error(
         error?.message || "An error occured making admin, Try again!"
       );
     }

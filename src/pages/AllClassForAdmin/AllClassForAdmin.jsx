@@ -127,11 +127,15 @@ const AllClassForAdmin = () => {
               {record?.status === "rejected" ? "Rejected" : "Reject"}
             </Button>
           </Popconfirm>
-          <Link to={`/dashboard/my-class-details/${record._id}`}>
-            <Button type="default" disabled={record.status !== "accepted"}>
+          {record.status !== "accepted" ? (
+            <Button type="default" disabled>
               Progress
             </Button>
-          </Link>
+          ) : (
+            <Link to={`/dashboard/my-class-details/${record._id}`}>
+              <Button type="default">Progress</Button>
+            </Link>
+          )}
         </div>
       ),
     },
