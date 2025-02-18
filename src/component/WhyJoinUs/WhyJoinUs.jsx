@@ -64,7 +64,7 @@ const WhyJoinUs = () => {
             >
               <div
                 key={index}
-                className="bg-lightGray p-6 rounded-lg shadow-md text-center hover:shadow-lg hover:shadow-primaryColor transition"
+                className="bg-lightGray h-full p-6 rounded-lg shadow-md text-center hover:shadow-lg hover:shadow-primaryColor transition"
               >
                 {card.icon}
                 <h4 className="text-lg font-bold text-darkGray">

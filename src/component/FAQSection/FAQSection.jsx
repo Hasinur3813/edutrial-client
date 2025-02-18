@@ -52,7 +52,7 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
         </Fade>
-        <Fade duration="1600" direction="up">
+        <Fade duration="1000" direction="up">
           <Collapse
             defaultActiveKey={["0"]}
             expandIcon={({ isActive }) => (

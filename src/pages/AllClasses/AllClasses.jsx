@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Pagination } from "antd";
+import { Pagination, Select } from "antd";
 
 import { useState } from "react";
 import useAxiosPublic from "../../axios/useAxiosPublic";
@@ -12,12 +12,13 @@ const AllClasses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalClass, setTotalclass] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sort, setSort] = useState(0);
 
   const { data: classes = [], isLoading } = useQuery({
-    queryKey: ["approvedClasses", currentPage, pageSize, totalClass],
+    queryKey: ["approvedClasses", currentPage, pageSize, totalClass, sort],
     queryFn: async () => {
       const res = await axios.get(
-        `/users/all-classes?page=${currentPage}&limit=${pageSize}`
+        `/users/all-classes?page=${currentPage}&limit=${pageSize}&sort=${sort}`
       );
       const result = res.data.data;
       setTotalclass(res.data.totalClasses);
@@ -31,6 +32,9 @@ const AllClasses = () => {
     setPageSize(pageSize);
   };
 
+  const handleSort = (value) => {
+    setSort(value);
+  };
   if (loading) {
     return <Loader />;
   }
@@ -49,6 +53,32 @@ const AllClasses = () => {
         </div>
 
         {/* Class Cards */}
+
+        {/*  */}
+        <div className="flex justify-end my-10">
+          <Select
+            placeholder="Sort"
+            onChange={handleSort}
+            defaultValue={"Sort"}
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={[
+              {
+                value: "0",
+                label: "Sort",
+              },
+              {
+                value: "1",
+                label: "Ascending",
+              },
+              {
+                value: "2",
+                label: "Descending",
+              },
+            ]}
+          />
+        </div>
 
         <ClassGrid classes={classes} isLoading={isLoading} />
 

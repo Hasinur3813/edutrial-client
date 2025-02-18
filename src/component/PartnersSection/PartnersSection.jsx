@@ -58,15 +58,15 @@ const PartnersSection = () => {
         </div>
 
         {/* Partners Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8 items-center">
           {partners.map((partner, index) => (
             <Fade
               key={index}
-              duration={1500}
+              duration={1000}
               direction="up"
               delay={index * 100}
             >
-              <div className="border rounded-md border-primaryColor p-3 flex flex-col items-center">
+              <div className="border min-h-64 rounded-md border-primaryColor p-3 flex flex-col items-center">
                 <img
                   src={partner.logo}
                   alt={partner.name}
