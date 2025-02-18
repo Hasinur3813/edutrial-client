@@ -5,7 +5,7 @@ const NavbarCenter = () => {
   const { currentUser } = useAuth();
   return (
     <div className="navbar-center hidden lg:flex">
-      <ul className="menu menu-horizontal px-1 gap-x-2">
+      <ul className="menu menu-horizontal dark:text-primaryColor px-1 gap-x-2">
         <li>
           <NavLink className="font-semibold text-base" to="/">
             Home

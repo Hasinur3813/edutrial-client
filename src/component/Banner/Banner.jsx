@@ -4,10 +4,10 @@ import { Fade } from "react-awesome-reveal";
 
 const Banner = () => {
   return (
-    <section className="relative min-h-[500px] bg-cover bg-center text-lightGray py-24 bg-hero-pattern">
+    <section className="relative -mt-16 min-h-[500px] bg-cover bg-center text-lightGray py-24 bg-hero-pattern">
       <div className="absolute inset-0 bg-black opacity-60"></div>{" "}
       {/* Overlay for text contrast */}
-      <div className="container mx-auto text-center relative z-10">
+      <div className="container mx-auto text-center  ">
         <Fade duration={1500}>
           <h1 className="text-2xl lg:text-5xl font-semibold leading-tight mb-6">
             Empower Your Learning with{" "}

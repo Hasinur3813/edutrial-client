@@ -48,7 +48,7 @@ const NavbarEnd = () => {
 
         {/* sun icon */}
         <svg
-          className="swap-off h-8 w-18 fill-current"
+          className="swap-off h-8 w-18 fill-primaryColor"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -57,7 +57,7 @@ const NavbarEnd = () => {
 
         {/* moon icon */}
         <svg
-          className="swap-on h-8 w-8 fill-current"
+          className="swap-on h-8 w-8 fill-primaryColor"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -82,7 +82,7 @@ const NavbarEnd = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu dark:bg-darkGray dark:text-lightGray menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
               <p>Hasinur Rahman</p>

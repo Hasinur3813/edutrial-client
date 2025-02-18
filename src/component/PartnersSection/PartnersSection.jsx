@@ -35,7 +35,7 @@ const partners = [
 
 const PartnersSection = () => {
   return (
-    <section className="py-16 bg-lightGray">
+    <section className="py-16 bg-lightGray dark:bg-slate-800">
       <div className="container mx-auto px-6">
         {/* Section Title */}
         <div className="text-center mb-32">
@@ -45,12 +45,12 @@ const PartnersSection = () => {
             </h3>
           </Fade>
           <Fade duration={1800} direction="up">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-darkGray mt-2">
+            <h2 className="text-2xl sm:text-3xl dark:text-lightGray lg:text-4xl font-extrabold text-darkGray mt-2">
               Collaborating for Excellence
             </h2>
           </Fade>
           <Fade duration={1600} direction="up">
-            <p className="text-muted text-base sm:text-lg mt-4">
+            <p className="text-muted dark:text-lightGray text-base sm:text-lg mt-4">
               We proudly collaborate with industry leaders and educational
               institutions to provide top-notch services.
             </p>
@@ -66,14 +66,14 @@ const PartnersSection = () => {
               direction="up"
               delay={index * 100}
             >
-              <div className="border min-h-64 rounded-md border-primaryColor p-3 flex flex-col items-center">
+              <div className="border dark:bg-darkGray min-h-64 rounded-md border-primaryColor p-3 flex flex-col items-center">
                 <img
                   src={partner.logo}
                   alt={partner.name}
                   className="w-20 h-20 object-contain mb-4"
                 />
 
-                <p className="text-muted text-center text-sm mt-2">
+                <p className="text-muted dark:text-lightGray text-center text-sm mt-2">
                   {partner.description}
                 </p>
               </div>

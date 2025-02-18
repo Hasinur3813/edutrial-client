@@ -9,45 +9,6 @@ import useAxiosPublic from "../../axios/useAxiosPublic";
 import ReactStars from "react-stars";
 import { FaStar } from "react-icons/fa";
 
-// const feedbacks = [
-//   {
-//     text: "EduTrial has been an amazing platform for sharing knowledge!",
-//     name: "John Doe",
-//     image: "https://via.placeholder.com/150",
-//     title: "Introduction to Programming",
-//   },
-//   {
-//     text: "I love the engagement and support from students!",
-//     name: "Jane Smith",
-//     image: "https://via.placeholder.com/150",
-//     title: "Advanced Mathematics",
-//   },
-//   {
-//     text: "I love the engagement and support from students!",
-//     name: "Jane Smith",
-//     image: "https://via.placeholder.com/150",
-//     title: "Advanced Mathematics",
-//   },
-//   {
-//     text: "I love the engagement and support from students!",
-//     name: "Jane Smith",
-//     image: "https://via.placeholder.com/150",
-//     title: "Advanced Mathematics",
-//   },
-//   {
-//     text: "I love the engagement and support from students!",
-//     name: "Jane Smith",
-//     image: "https://via.placeholder.com/150",
-//     title: "Advanced Mathematics",
-//   },
-//   {
-//     text: "I love the engagement and support from students!",
-//     name: "Jane Smith",
-//     image: "https://via.placeholder.com/150",
-//     title: "Advanced Mathematics",
-//   },
-// ];
-
 const Feedback = () => {
   const axios = useAxiosPublic();
 
@@ -61,7 +22,7 @@ const Feedback = () => {
   });
 
   return (
-    <section className="py-14 bg-offWhite">
+    <section className="py-14 bg-offWhite dark:bg-darkGray">
       <div className="container mx-auto px-3 space-y-10">
         {/* Section Title */}
         <div className="text-center">
@@ -71,7 +32,7 @@ const Feedback = () => {
             </h2>
           </Fade>
           <Fade duration={1600} direction="up">
-            <p className="text-muted text-base sm:text-lg mt-4">
+            <p className="text-muted dark:text-lightGray text-base sm:text-lg mt-4">
               Read what our students have to say about their experience with our
               teachers on EduTrial.
             </p>
@@ -90,19 +51,19 @@ const Feedback = () => {
         >
           {feedbacks.map((feedback, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white px-8 py-12 rounded-lg shadow-md flex flex-col items-center">
+              <div className="bg-white dark:bg-slate-800 px-8 py-12 rounded-lg shadow-md flex flex-col items-center">
                 <img
                   src={feedback.image}
                   alt={feedback.name}
-                  className="w-20 h-20 rounded-full shadow-md mb-4"
+                  className="w-20 h-20 object-cover rounded-full shadow-md mb-4"
                 />
-                <h3 className="text-lg font-bold text-darkGray">
+                <h3 className="text-lg dark:text-primaryColor font-bold text-darkGray">
                   {feedback.name}
                 </h3>
-                <p className="text-muted text-sm italic mb-2 max-w-md">
+                <p className="text-muted dark:text-lightGray text-sm italic mb-2 max-w-md">
                   {feedback.title}
                 </p>
-                <p className="text-muted text-center max-w-md">
+                <p className="text-muted dark:text-lightGray text-center max-w-md">
                   {feedback.description}
                 </p>
                 <ReactStars

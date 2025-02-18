@@ -12,7 +12,7 @@ const NavbarStart = () => {
             className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
+            stroke="#00d2d3 "
           >
             <path
               strokeLinecap="round"
@@ -22,9 +22,10 @@ const NavbarStart = () => {
             />
           </svg>
         </div>
+
         <ul
           tabIndex={0}
-          className="menu gap-y-2 menu-sm dropdown-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow"
+          className="menu gap-y-2  dark:bg-darkGray  menu-sm dropdown-content bg-base-100 rounded-box z-[1000] relative mt-3 dark:text-lightGray w-52 p-2 shadow"
         >
           <li>
             <NavLink className="font-semibold text-base" to="/">
@@ -49,6 +50,7 @@ const NavbarStart = () => {
           )}
         </ul>
       </div>
+
       <Link to={"/"} className="font-bold text-2xl md:text-3xl">
         <p className="flex gap-x-2 items-center justify-center">
           <img
@@ -56,7 +58,7 @@ const NavbarStart = () => {
             src={logo}
             alt="EduTrial"
           />
-          <span className="text-darkGray">EduTrial</span>
+          <span className="text-darkGray dark:text-primaryColor">EduTrial</span>
         </p>
       </Link>
     </div>

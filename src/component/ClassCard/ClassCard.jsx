@@ -21,7 +21,7 @@ const ClassCard = ({ classes, isLoading }) => {
   return (
     <div
       key="class-card"
-      className="card card-compact bg-lightGray shadow-xl w-full "
+      className="card card-compact bg-lightGray dark:bg-slate-800 shadow-xl w-full "
     >
       <figure className="relative">
         <img src={image} alt={title} className="h-56 w-full object-cover" />
@@ -32,12 +32,12 @@ const ClassCard = ({ classes, isLoading }) => {
 
       <div className="card-body !p-4">
         {/* Title */}
-        <h2 className="text-lg text-left font-bold text-ellipsis overflow-hidden whitespace-nowrap">
+        <h2 className="text-lg text-left font-bold text-ellipsis overflow-hidden whitespace-nowrap dark:text-primaryColor">
           {title}
         </h2>
 
         {/* Short Description */}
-        <p className="text-sm text-muted text-left mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
+        <p className="text-sm text-muted text-left mt-1 text-ellipsis overflow-hidden whitespace-nowrap dark:text-lightGray">
           {description}
         </p>
 

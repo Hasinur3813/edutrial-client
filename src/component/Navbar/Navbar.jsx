@@ -4,7 +4,7 @@ import NavbarEnd from "./NavbarEnd";
 
 const Navbar = () => {
   return (
-    <div className="navbar shadow-sm">
+    <div className="navbar bg-lightGray dark:bg-slate-800 fixed top-0 z-10 shadow-sm">
       <NavbarStart />
       <NavbarCenter />
       <NavbarEnd />

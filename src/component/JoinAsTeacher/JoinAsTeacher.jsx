@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import { Fade } from "react-awesome-reveal";
 const JoinAsTeacherSection = () => {
   return (
-    <section className="py-14 ">
+    <section className="py-14 dark:bg-darkGray">
       <div className="container mx-auto px-3 space-y-10">
         {/* Section Title */}
         <div className="text-center">
@@ -15,12 +15,12 @@ const JoinAsTeacherSection = () => {
           </Fade>
 
           <Fade duration={1800} direction="up">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-darkGray mt-2">
+            <h2 className="text-2xl dark:text-lightGray sm:text-3xl md:text-4xl font-extrabold text-darkGray mt-2">
               Become a Teacher on EduTrial
             </h2>
           </Fade>
           <Fade duration={1500} direction="up">
-            <p className="text-muted text-base sm:text-lg mt-4 lg:max-w-lg w-full mx-auto">
+            <p className="text-muted dark:text-lightGray text-base sm:text-lg mt-4 lg:max-w-lg w-full mx-auto">
               Empower students to achieve their dreams by sharing your expertise
               and passion for teaching.
             </p>
@@ -35,7 +35,7 @@ const JoinAsTeacherSection = () => {
               <h2 className="text-xl text-primaryColor md:text-3xl font-bold">
                 Share Your Knowledge, Shape the Future
               </h2>
-              <p className="text-muted text-base sm:text-lg leading-relaxed mb-5">
+              <p className="text-muted dark:text-lightGray text-base sm:text-lg leading-relaxed mb-5">
                 Join EduTrial as a teacher and be part of a growing community of
                 educators making a difference in student&apos;s lives. Inspire,
                 teach, and help learners achieve their goals while growing your

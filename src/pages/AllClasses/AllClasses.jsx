@@ -40,14 +40,14 @@ const AllClasses = () => {
   }
 
   return (
-    <section className="bg-offWhite ">
-      <div className="container mx-auto px-4 py-12">
+    <section className="bg-offWhite pt-16 -mt-16 dark:bg-darkGray ">
+      <div className="container mx-auto px-4">
         {/* Page Heading */}
         <div className="text-center mb-20">
           <h1 className="text-3xl md:text-4xl font-bold text-primaryColor">
             All Classes
           </h1>
-          <p className="text-muted mt-2">
+          <p className="text-muted dark:text-lightGray mt-2">
             Explore all the approved classes available for enrollment.
           </p>
         </div>

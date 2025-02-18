@@ -33,7 +33,7 @@ const WhyJoinUs = () => {
   const { currentUser } = useAuth();
 
   return (
-    <section className="py-14 bg-offWhite">
+    <section className="py-14 bg-offWhite dark:bg-slate-800">
       <div className="container mx-auto px-6 text-center">
         {/* Section Heading */}
         <Fade duration={2000} direction="up">
@@ -42,12 +42,12 @@ const WhyJoinUs = () => {
           </h3>
         </Fade>
         <Fade direction="up" duration={1800}>
-          <h2 className="text-2xl md:text-4xl font-extrabold text-darkGray mt-2">
+          <h2 className="text-2xl dark:text-lightGray md:text-4xl font-extrabold text-darkGray mt-2">
             Empowering Learning & Teaching
           </h2>
         </Fade>
         <Fade duration={1500} direction="up">
-          <p className="text-muted text-base sm:text-lg mt-4">
+          <p className="text-muted dark:text-lightGray text-base sm:text-lg mt-4">
             Discover why thousands of educators and students trust EduTrial for
             their academic journey.
           </p>
@@ -64,13 +64,15 @@ const WhyJoinUs = () => {
             >
               <div
                 key={index}
-                className="bg-lightGray h-full p-6 rounded-lg shadow-md text-center hover:shadow-lg hover:shadow-primaryColor transition"
+                className="bg-lightGray dark:bg-darkGray h-full p-6 rounded-lg shadow-md text-center hover:shadow-lg hover:shadow-primaryColor transition"
               >
                 {card.icon}
-                <h4 className="text-lg font-bold text-darkGray">
+                <h4 className="text-lg dark:text-primaryColor font-bold text-darkGray">
                   {card.title}
                 </h4>
-                <p className="text-muted mt-2">{card.description}</p>
+                <p className="text-muted dark:text-lightGray mt-2">
+                  {card.description}
+                </p>
               </div>
             </Fade>
           ))}

@@ -20,7 +20,7 @@ const PopularCourses = () => {
   });
 
   return (
-    <section className="bg-bg-secondary py-14">
+    <section className="bg-bg-secondary dark:bg-slate-800 py-14">
       <div className="container lg:max-w-7xl mx-auto text-center px-3">
         <div className="text-center mb-12">
           <Fade duration={2000} direction="up">
@@ -29,7 +29,7 @@ const PopularCourses = () => {
             </h2>
           </Fade>
           <Fade duration={1600} direction="up">
-            <p className="text-base sm:text-lg text-muted">
+            <p className="text-base sm:text-lg dark:text-lightGray text-muted">
               Explore our top-rated courses that students love the most! Join
               now to enhance your skills.
             </p>

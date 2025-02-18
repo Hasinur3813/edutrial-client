@@ -45,7 +45,7 @@ const { Panel } = Collapse;
 
 const FAQSection = () => {
   return (
-    <section className="faq-section py-14 bg-offWhite">
+    <section className="faq-section py-14 dark:bg-darkGray bg-offWhite">
       <div className="container mx-auto text-center">
         <Fade duration={2000} direction="up">
           <h2 className="text-2xl sm:text-3xl font-bold text-primaryColor mb-8">
