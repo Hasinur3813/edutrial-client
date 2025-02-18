@@ -72,7 +72,7 @@ const AddClass = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-lightGray min-h-screen">
+    <div className="container mx-auto p-6 bg-lightGray dark:bg-darkGray min-h-screen">
       <h1 className="text-3xl font-bold text-primaryColor mb-6">Add a Class</h1>
       {!authLoading && (
         <Form
@@ -80,11 +80,15 @@ const AddClass = () => {
           layout="vertical"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          className="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto"
+          className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg max-w-2xl mx-auto"
         >
           {/* Title Field */}
           <Form.Item
-            label={<span className="text-lg font-semibold">Class Title</span>}
+            label={
+              <span className="dark:text-lightGray text-lg font-semibold">
+                Class Title
+              </span>
+            }
             name="title"
             rules={[
               { required: true, message: "Please input the class title!" },
@@ -92,37 +96,49 @@ const AddClass = () => {
           >
             <Input
               placeholder="Enter class title"
-              className="py-3 hover:border-primaryColor focus:border-primaryColor"
+              className="py-3 dark:!bg-darkGray dark:text-lightGray dark:placeholder-white hover:border-primaryColor focus:border-primaryColor"
             />
           </Form.Item>
 
           {/* Name Field (Not Editable) */}
           <Form.Item
-            label={<span className="text-lg font-semibold">Name</span>}
+            label={
+              <span className="dark:text-lightGray text-lg font-semibold">
+                Name
+              </span>
+            }
             name="name"
             initialValue={currentUser?.displayName}
           >
             <Input
-              className="py-3 hover:border-primaryColor focus:border-primaryColor"
+              className="py-3 dark:!bg-darkGray dark:text-lightGray dark:placeholder-white hover:border-primaryColor focus:border-primaryColor"
               readOnly
             />
           </Form.Item>
 
           {/* Email Field (Not Editable) */}
           <Form.Item
-            label={<span className="text-lg font-semibold">Email</span>}
+            label={
+              <span className="dark:text-lightGray text-lg font-semibold">
+                Email
+              </span>
+            }
             name="email"
             initialValue={currentUser?.email}
           >
             <Input
-              className="py-3 hover:border-primaryColor focus:border-primaryColor"
+              className="py-3 dark:!bg-darkGray dark:text-lightGray dark:placeholder-white hover:border-primaryColor focus:border-primaryColor"
               readOnly
             />
           </Form.Item>
 
           {/* Price Field */}
           <Form.Item
-            label={<span className="text-lg font-semibold">Price</span>}
+            label={
+              <span className="dark:text-lightGray text-lg font-semibold">
+                Price
+              </span>
+            }
             name="price"
             rules={[
               { required: true, message: "Please input the class price!" },
@@ -134,7 +150,7 @@ const AddClass = () => {
             ]}
           >
             <InputNumber
-              className="w-full py-3 hover:border-primaryColor focus:border-primaryColor"
+              className="w-full dark:!bg-darkGray dark:!text-lightGray dark:!placeholder-white py-3 hover:border-primaryColor focus:border-primaryColor"
               placeholder="Enter class price"
               prefix="$"
               controls={false}
@@ -143,14 +159,18 @@ const AddClass = () => {
 
           {/* Description Field */}
           <Form.Item
-            label={<span className="text-lg font-semibold">Description</span>}
+            label={
+              <span className="dark:text-lightGray text-lg font-semibold">
+                Description
+              </span>
+            }
             name="description"
             rules={[
               { required: true, message: "Please provide a description!" },
             ]}
           >
             <Input.TextArea
-              className="py-3 hover:border-primaryColor focus:border-primaryColor"
+              className="py-3 dark:!bg-darkGray dark:text-lightGray dark:placeholder-white hover:border-primaryColor focus:border-primaryColor"
               rows={4}
               placeholder="Enter class description"
             />
@@ -158,7 +178,11 @@ const AddClass = () => {
 
           {/* Image Upload Field */}
           <Form.Item
-            label={<span className="text-lg font-semibold">Image</span>}
+            label={
+              <span className="dark:text-lightGray text-lg font-semibold">
+                Image
+              </span>
+            }
             name="image"
             valuePropName="fileList"
             getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}

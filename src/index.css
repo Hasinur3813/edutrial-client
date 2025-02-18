@@ -20,3 +20,17 @@ a.active {
   background: linear-gradient(to right, #00d2d3, #00d3c4);
   color: #0f172a !important;
 }
+
+.dark-mode-class .ant-table-thead > tr > th {
+  background-color: #101c2c !important;
+  color: #ededed !important;
+}
+
+.dark-mode-class .ant-table-tbody > tr > td {
+  background-color: #1e293b !important;
+  color: #ededed !important;
+}
+
+.dark-mode-class .ant-table-tbody > tr:hover > td {
+  background-color: #101c2c !important;
+}

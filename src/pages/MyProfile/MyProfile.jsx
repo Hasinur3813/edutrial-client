@@ -26,44 +26,52 @@ const MyProfile = () => {
         </div>
 
         {/* Info Section */}
-        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 dark:bg-slate-800">
           {/* Name */}
-          <div className="flex items-center gap-4 bg-lightGray p-4 rounded-lg shadow">
+          <div className="flex items-center gap-4 bg-lightGray dark:bg-darkGray p-4 rounded-lg shadow">
             <FaUserCircle className="text-primaryColor text-2xl" />
             <div>
-              <p className="text-sm font-semibold text-muted">Name</p>
-              <p className="text-lg font-medium text-gray-800">
+              <p className="text-sm font-semibold text-muted dark:text-lightGray">
+                Name
+              </p>
+              <p className="text-lg font-medium text-gray-800 dark:text-lightGray">
                 {currentUser?.displayName || "Anonymous"}
               </p>
             </div>
           </div>
           {/* Email */}
-          <div className="flex items-center gap-4 bg-lightGray p-4 rounded-lg shadow">
+          <div className="flex items-center gap-4 bg-lightGray dark:bg-darkGray p-4 rounded-lg shadow">
             <FaEnvelope className="text-primaryColor text-2xl" />
             <div>
-              <p className="text-sm font-semibold text-muted">Email</p>
-              <p className="text-lg font-medium text-gray-800">
+              <p className="text-sm font-semibold text-muted dark:text-lightGray">
+                Email
+              </p>
+              <p className="text-lg font-medium text-gray-800 dark:text-lightGray">
                 {currentUser?.email || "Unknown"}
               </p>
             </div>
           </div>
           {/* Role */}
-          <div className="flex items-center gap-4 bg-lightGray p-4 rounded-lg shadow">
+          <div className="flex items-center gap-4 bg-lightGray dark:bg-darkGray p-4 rounded-lg shadow">
             <FaUserTag className="text-primaryColor text-2xl" />
             <div>
-              <p className="text-sm font-semibold text-muted">Role</p>
-              <p className="text-lg font-medium text-gray-800 capitalize">
+              <p className="text-sm font-semibold text-muted dark:text-lightGray">
+                Role
+              </p>
+              <p className="text-lg font-medium text-gray-800 dark:text-lightGray capitalize">
                 {user?.userRole || "Unknown"}
               </p>
             </div>
           </div>
 
           {/* Phone */}
-          <div className="flex items-center gap-4 bg-lightGray p-4 rounded-lg shadow">
+          <div className="flex items-center gap-4 bg-lightGray dark:bg-darkGray p-4 rounded-lg shadow">
             <FaPhone className="text-primaryColor text-2xl" />
             <div>
-              <p className="text-sm font-semibold text-muted">Phone</p>
-              <p className="text-lg font-medium text-gray-800">
+              <p className="text-sm font-semibold text-muted dark:text-lightGray">
+                Phone
+              </p>
+              <p className="text-lg font-medium text-gray-800 dark:text-lightGray">
                 {currentUser?.phone || "Not Provided"}
               </p>
             </div>

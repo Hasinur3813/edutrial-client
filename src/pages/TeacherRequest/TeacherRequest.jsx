@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Table, Button, Image, Tag, notification } from "antd";
 import useTeachers from "../../hooks/useTeachers";
 import useAxiosSecure from "../../axios/useAxiosSecure";
+import useTheme from "../../hooks/useTheme";
 
 const TeacherRequest = () => {
   const axios = useAxiosSecure();
@@ -9,6 +10,7 @@ const TeacherRequest = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalTeacher, setTotalTeacher] = useState(null);
+  const { theme } = useTheme();
 
   const {
     teachers: requests,
@@ -138,6 +140,7 @@ const TeacherRequest = () => {
       render: (_, record) => (
         <div className="flex gap-2">
           <Button
+            className="dark:text-lightGray"
             type="primary"
             onClick={() => handleApprove(record.email)}
             loading={loading}
@@ -150,6 +153,7 @@ const TeacherRequest = () => {
             Approve
           </Button>
           <Button
+            className="dark:!text-lightGray"
             danger
             onClick={() => handleReject(record.email)}
             loading={loading}
@@ -177,7 +181,7 @@ const TeacherRequest = () => {
         loading={isTeacherLoading}
         rowKey="_id"
         bordered
-        className="overflow-x-auto"
+        className={`overflow-x-auto ${theme === "dark" && "dark-mode-class"}`}
         onChange={handleTableChange}
         pagination={{
           current: currentPage,

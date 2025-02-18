@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../axios/useAxiosSecure";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useTheme from "../../hooks/useTheme";
 
 const AllClassForAdmin = () => {
   const axios = useAxiosSecure();
@@ -11,6 +12,7 @@ const AllClassForAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalClass, setTotalClass] = useState(null);
+  const { theme } = useTheme();
 
   const {
     data: classes,
@@ -108,6 +110,7 @@ const AllClassForAdmin = () => {
         <div className="flex gap-2">
           <Button
             type="primary"
+            className="dark:text-lightGray"
             disabled={
               record.status === "accepted" ||
               record.status === "rejected" ||
@@ -123,12 +126,16 @@ const AllClassForAdmin = () => {
             okText="Yes"
             cancelText="No"
           >
-            <Button type="danger" disabled={record.status === "rejected"}>
+            <Button
+              className="dark:text-lightGray"
+              type="danger"
+              disabled={record.status === "rejected"}
+            >
               {record?.status === "rejected" ? "Rejected" : "Reject"}
             </Button>
           </Popconfirm>
           {record.status !== "accepted" ? (
-            <Button type="default" disabled>
+            <Button className="dark:text-lightGray" type="default" disabled>
               Progress
             </Button>
           ) : (
@@ -147,7 +154,7 @@ const AllClassForAdmin = () => {
         User Classes
       </h2>
       <Table
-        className="overflow-x-auto"
+        className={`${theme === "dark" && "dark-mode-class"} overflow-x-auto`}
         size="small"
         dataSource={classes}
         columns={columns}

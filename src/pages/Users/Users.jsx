@@ -4,6 +4,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 
 import useAxiosSecure from "../../axios/useAxiosSecure";
+import useTheme from "../../hooks/useTheme";
 
 const Users = () => {
   const [displayedUser, setDisplayedUsers] = useState([]);
@@ -13,6 +14,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalUsers, setTotalUsers] = useState(null);
+  const { theme } = useTheme();
 
   const {
     data: users = [],
@@ -106,6 +108,7 @@ const Users = () => {
       key: "action",
       render: (_, record) => (
         <Button
+          className="dark:text-lightGray"
           type="primary"
           onClick={() => showAdminConfirm(record)}
           disabled={loading || record.role === "admin"}
@@ -133,7 +136,7 @@ const Users = () => {
       />
       {/* Users Table */}
       <Table
-        className="overflow-x-auto"
+        className={`overflow-x-auto ${theme === "dark" && "dark-mode-class"}`}
         dataSource={displayedUser?.length === 0 ? users : displayedUser}
         columns={columns}
         loading={isUsersLoading || searching}
