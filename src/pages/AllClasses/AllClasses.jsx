@@ -57,6 +57,7 @@ const AllClasses = () => {
         {/*  */}
         <div className="flex justify-end my-10">
           <Select
+            size="large"
             placeholder="Sort"
             onChange={handleSort}
             defaultValue={"Sort"}

@@ -22,6 +22,7 @@ import TeacherRoute from "./TeacherRoute";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import PublicRoute from "./PublicRoute";
+import Overview from "../pages/Overview/Overview";
 
 const router = createBrowserRouter([
   {
@@ -150,6 +151,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Users />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/overview",
+        element: (
+          <AdminRoute>
+            <Overview />
           </AdminRoute>
         ),
       },
