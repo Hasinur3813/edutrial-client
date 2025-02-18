@@ -36,7 +36,7 @@ const userDemographics = [
   { name: "Users", value: 170 },
   { name: "Educators", value: 30 },
 ];
-const COLORS = ["#00d2d3", "#00d3c4", "#000000"];
+const COLORS = ["#00d2d3", "#00d3c4", "#00d4c9"];
 
 const Overview = () => {
   return (

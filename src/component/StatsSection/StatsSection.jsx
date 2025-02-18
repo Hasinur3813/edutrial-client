@@ -14,7 +14,7 @@ const StatsSection = () => {
     },
   });
   return (
-    <section className="py-14 bg-offWhite">
+    <section className="py-14 bg-offWhite dark:bg-darkGray">
       <div className="container mx-auto px-3">
         {/* Heading Title */}
 
@@ -25,7 +25,7 @@ const StatsSection = () => {
             </h2>
           </Fade>
           <Fade duration={1600} derection="up">
-            <p className="text-muted text-lg">
+            <p className="text-muted dark:text-lightGray text-lg">
               A glimpse into how EduTrial is transforming education.
             </p>
           </Fade>
@@ -36,44 +36,48 @@ const StatsSection = () => {
           <div className="w-full lg:w-1/2 space-y-6">
             {/* Total Users Card */}
             <Slide duration={500} direction="up">
-              <div className="bg-white rounded-lg shadow-lg p-6 flex items-center gap-4">
-                <div className="p-4 bg-[#00d2d3] rounded-full text-white">
+              <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 flex items-center gap-4">
+                <div className="p-4 bg-primaryColor rounded-full text-white">
                   <FaUsers className="text-2xl" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-darkGray">
+                  <h2 className="text-3xl font-bold text-darkGray dark:text-lightGray">
                     {statsData?.totalUsers || 0}
                   </h2>
-                  <p className="text-muted">Total Users</p>
+                  <p className="text-muted dark:text-lightGray">Total Users</p>
                 </div>
               </div>
             </Slide>
 
             {/* Total Classes Card */}
             <Slide duration={700} direction="up">
-              <div className="bg-white rounded-lg shadow-lg p-6 flex items-center gap-4">
-                <div className="p-4 bg-[#00d3c4] rounded-full text-white">
+              <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 flex items-center gap-4">
+                <div className="p-4  bg-primaryColor rounded-full text-white">
                   <FaChalkboardTeacher className="text-2xl" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-darkGray">
+                  <h2 className="dark:text-lightGray text-3xl font-bold text-darkGray">
                     {statsData?.totalClasses || 0}
                   </h2>
-                  <p className="text-muted">Total Classes</p>
+                  <p className="text-muted dark:text-lightGray">
+                    Total Classes
+                  </p>
                 </div>
               </div>
             </Slide>
             {/* Total Enrollments Card */}
             <Slide duration={900} direction="up">
-              <div className="bg-white rounded-lg shadow-lg p-6 flex items-center gap-4">
-                <div className="p-4 bg-[#ef4444] rounded-full text-white">
+              <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 flex items-center gap-4">
+                <div className="p-4 bg-primaryColor rounded-full text-white">
                   <FaGraduationCap className="text-2xl" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-darkGray">
+                  <h2 className="text-3xl font-bold text-darkGray dark:text-lightGray">
                     {statsData?.totalEnrollments || 0}
                   </h2>
-                  <p className="text-muted">Total Enrollments</p>
+                  <p className="text-muted dark:text-lightGray">
+                    Total Enrollments
+                  </p>
                 </div>
               </div>
             </Slide>
