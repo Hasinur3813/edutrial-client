@@ -122,7 +122,7 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-center text-primaryColor mb-6">
             Login to EduTrial
           </h2>
-          <div className="flex flex-col gap-4 lg:flex-row">
+          <div className="flex flex-col lg:justify-around gap-4 lg:flex-row">
             <form onSubmit={handleSubmit(handleLogin)}>
               {/* Email Field */}
               <div className="mb-4">
