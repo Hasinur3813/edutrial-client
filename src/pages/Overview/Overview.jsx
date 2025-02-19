@@ -25,7 +25,6 @@ const Overview = () => {
     queryKey: ["overviewData"],
     queryFn: async () => {
       const res = await axios.get("/admin/statistics");
-      console.log(res.data.data);
       return res.data.data;
     },
   });

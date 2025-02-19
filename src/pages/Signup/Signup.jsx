@@ -7,11 +7,9 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "../../axios/useAxiosPublic";
 import { Fade } from "react-awesome-reveal";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 
 const Signup = () => {
   const axios = useAxiosPublic();
-  // const registerMutation = useRegisterUser();
 
   const {
     signup,
@@ -167,94 +165,10 @@ const Signup = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  // const registerUser = useMutation(
-  //   async (formData) => {
-  //     const { data } = await axios.post("/auth/signup", {
-  //       name: formData.name,
-  //       email: formData.email,
-  //       photoURL: formData.photoURL,
-  //       password: formData.password,
-  //     });
-  //     return data;
-  //   },
-  //   {
-  //     onSuccess: async (data, formData) => {
-  //       if (data.data.insertedId) {
-  //         try {
-  //           // Handle Firebase signup
-  //           await signup(formData.email, formData.password);
-  //           await updateUser(formData.name, formData.photoURL, formData.email);
-
-  //           // Update local user state
-  //           setCurrentUser((user) => ({
-  //             ...user,
-  //             displayName: formData.name,
-  //             photoURL: formData.photoURL,
-  //             email: formData.email,
-  //           }));
-
-  //           Swal.fire({
-  //             title: "Good job!",
-  //             text: "Registration Successful",
-  //             icon: "success",
-  //           });
-
-  //           navigate("/");
-  //         } catch {
-  //           Swal.fire({
-  //             title: "Error",
-  //             text: "User is already registered!",
-  //             icon: "error",
-  //           });
-  //         }
-  //       } else {
-  //         throw new Error("User creation failed, Please try again");
-  //       }
-  //     },
-  //     onError: (error) => {
-  //       const errorMessage =
-  //         error.response?.data?.message ||
-  //         "User creation failed, Please try again";
-  //       Swal.fire({
-  //         title: "Error",
-  //         text: errorMessage,
-  //         icon: "error",
-  //       });
-  //     },
-  //   }
-  // );
-
-  // const handleSignup = (formData, e) => {
-  //   e.preventDefault();
-
-  //   const passwordError = validatePassword(formData.password);
-
-  //   if (passwordError) {
-  //     setError(passwordError);
-  //     return;
-  //   }
-
-  //   if (formData.password !== formData.confirmPassword) {
-  //     setError("Passwords do not match.");
-  //     return;
-  //   }
-  //   console.log(formData);
-
-  //   setError("");
-  //   setPageLoading(true);
-
-  //   // Call the mutation
-  //   registerMutation.mutate(formData, {
-  //     onSettled: () => {
-  //       setPageLoading(false);
-  //     },
-  //   });
-  // };
-
   return (
     <Fade>
       <div className="min-h-screen flex items-center justify-center py-6">
-        <div className="max-w-md border border-primaryColor w-full shadow-lg rounded-lg p-6">
+        <div className="max-w-md dark:bg-slate-800 border border-primaryColor w-full shadow-lg rounded-lg p-6">
           <h2 className="text-2xl font-bold text-center text-primaryColor mb-6">
             Register to EduTrial
           </h2>
@@ -263,7 +177,7 @@ const Signup = () => {
             <div className="mb-4">
               <label
                 htmlFor="name"
-                className="block text-sm font-semibold text-darkGray mb-1"
+                className="block dark:text-lightGray text-sm font-semibold text-darkGray mb-1"
               >
                 Name
               </label>
@@ -282,7 +196,7 @@ const Signup = () => {
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className="block text-sm font-semibold text-darkGray mb-1"
+                className="block dark:text-lightGray text-sm font-semibold text-darkGray mb-1"
               >
                 Email
               </label>
@@ -301,7 +215,7 @@ const Signup = () => {
             <div className="mb-4">
               <label
                 htmlFor="photoURL"
-                className="block text-sm font-semibold text-darkGray mb-1"
+                className="block dark:text-lightGray text-sm font-semibold text-darkGray mb-1"
               >
                 Photo URL
               </label>
@@ -322,7 +236,7 @@ const Signup = () => {
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-sm font-semibold text-darkGray mb-1"
+                className="block dark:text-lightGray text-sm font-semibold text-darkGray mb-1"
               >
                 Password
               </label>
@@ -352,7 +266,7 @@ const Signup = () => {
             <div className="mb-4">
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-semibold text-darkGray mb-1"
+                className="block dark:text-lightGray text-sm font-semibold text-darkGray mb-1"
               >
                 Confirm Password
               </label>
@@ -403,7 +317,7 @@ const Signup = () => {
           </div>
           <button
             onClick={handleGoogleLogin}
-            className="btn btn-outline text-lg w-full flex items-center justify-center space-x-2"
+            className="btn dark:text-lightGray btn-outline text-lg w-full flex items-center justify-center space-x-2"
           >
             <FcGoogle size={24} />
             <span>Register with Google</span>
@@ -411,7 +325,7 @@ const Signup = () => {
 
           {/* Redirect to Login */}
           <div className="mt-4 text-center">
-            <p className="text-sm">
+            <p className="text-sm dark:text-lightGray">
               Already have an account?{" "}
               <Link to="/login" className="text-primaryColor hover:underline">
                 Login here
