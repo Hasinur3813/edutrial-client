@@ -54,43 +54,43 @@ const MyClassDetails = () => {
   });
 
   return (
-    <div className="container mx-auto p-6 bg-lightGray min-h-screen">
+    <div className="container mx-auto p-6 bg-lightGray dark:bg-darkGray min-h-screen">
       <h1 className="text-3xl font-bold text-primaryColor mb-6">Class Stats</h1>
 
       {/* Class Progress Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
         {/* Total Enrollment Card */}
         <Card
-          title="Total Enrollments"
+          title={<span className="dark:text-lightGray">Total Enrollments</span>}
           bordered
-          className="shadow-md"
+          className="shadow-md dark:bg-slate-800 "
           loading={isLoading}
         >
-          <p className="text-2xl font-semibold text-primaryColor">
+          <p className="text-2xl font-semibold text-primaryColor dark:text-lightGray">
             {stats?.totalEnrollments || 0}
           </p>
         </Card>
 
         {/* Total Assignment Card */}
         <Card
-          title="Total Assignments"
+          title={<span className="dark:text-lightGray">Total Assignments</span>}
           bordered
-          className="shadow-md"
+          className="shadow-md dark:bg-slate-800 "
           loading={isLoading}
         >
-          <p className="text-2xl font-semibold text-primaryColor">
+          <p className="text-2xl font-semibold text-primaryColor dark:text-lightGray">
             {stats?.totalAssignments || 0}
           </p>
         </Card>
 
         {/* Total Submission Card */}
         <Card
-          title="Total Submissions"
+          title={<span className="dark:text-lightGray">Total Submissions</span>}
           bordered
-          className="shadow-md"
+          className="shadow-md dark:bg-slate-800 "
           loading={isLoading}
         >
-          <p className="text-2xl font-semibold text-primaryColor">
+          <p className="text-2xl font-semibold text-primaryColor dark:text-lightGray">
             {stats?.totalSubmissions || 0}
           </p>
         </Card>

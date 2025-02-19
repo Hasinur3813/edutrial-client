@@ -124,6 +124,7 @@ const MyClass = () => {
           {classes.map((cls) => (
             <Card
               key={cls._id}
+              className="dark:bg-slate-800"
               hoverable
               size={"small"}
               loading={isLoading}
@@ -184,22 +185,22 @@ const MyClass = () => {
                 ),
               ]}
             >
-              <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap text-ellipsis">
+              <h3 className="text-lg dark:text-lightGray font-bold overflow-hidden whitespace-nowrap text-ellipsis">
                 {cls.title}
               </h3>
 
-              <p className="my-2 overflow-hidden whitespace-nowrap text-ellipsis">
+              <p className="my-2 overflow-hidden dark:text-lightGray whitespace-nowrap text-ellipsis">
                 {cls.description}
               </p>
 
               <div>
-                <p>
+                <p className="dark:text-lightGray">
                   <strong>Name:</strong> {cls.name}
                 </p>
-                <p>
+                <p className="dark:text-lightGray">
                   <strong>Email:</strong> {cls.email}
                 </p>
-                <p>
+                <p className="dark:text-lightGray">
                   <strong>Price:</strong> ${cls.price}
                 </p>
               </div>

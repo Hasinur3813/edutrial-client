@@ -6,36 +6,6 @@ import { Empty, Pagination } from "antd";
 import { useAuth } from "../../context/AuthProvider";
 import { useState } from "react";
 import Loader from "../../component/Loader/Loader";
-// const enrolledClasses = [
-//   {
-//     id: 1,
-//     title: "Web Development Bootcamp",
-//     instructor: "Hasinur",
-//     image:
-//       "https://th.bing.com/th/id/OIP.2uKax6br6OljVbNjnHP7mQHaEK?w=333&h=187",
-//   },
-//   {
-//     id: 13,
-//     title: "Web Development Bootcamp",
-//     instructor: "Hasinur",
-//     image:
-//       "https://th.bing.com/th/id/OIP.2uKax6br6OljVbNjnHP7mQHaEK?w=333&h=187",
-//   },
-//   {
-//     id: 133,
-//     title: "Web Development Bootcamp",
-//     instructor: "Hasinur",
-//     image:
-//       "https://th.bing.com/th/id/OIP.2uKax6br6OljVbNjnHP7mQHaEK?w=333&h=187",
-//   },
-//   {
-//     id: 2,
-//     title: "Advanced JavaScript",
-//     instructor: "Jhankar Mahbub",
-//     image:
-//       "https://th.bing.com/th/id/OIP.LyI0PiZV6MtnS-FJv9Y7VAHaEK?w=333&h=187",
-//   },
-// ];
 
 const MyEnrollClass = () => {
   const axios = useAxiosSecure();
@@ -82,7 +52,7 @@ const MyEnrollClass = () => {
           {enrolledClasses.map((enrolledClass) => (
             <div
               key={enrolledClass._id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+              className="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
             >
               {/* Class Image */}
               <img
@@ -93,10 +63,10 @@ const MyEnrollClass = () => {
 
               {/* Class Details */}
               <div className="p-4">
-                <h2 className="text-lg md:text-xl font-semibold text-darkGray mb-2">
+                <h2 className="text-lg dark:text-lightGray md:text-xl font-semibold text-darkGray mb-2">
                   {enrolledClass.title}
                 </h2>
-                <p className="text-sm text-muted">
+                <p className="text-sm dark:text-lightGray text-muted">
                   <strong>Instructor:</strong> {enrolledClass.name}
                 </p>
               </div>
