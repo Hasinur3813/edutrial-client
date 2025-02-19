@@ -86,7 +86,7 @@ const TeachOnWebsite = () => {
   if (statusLoading) return <Loader />;
 
   return (
-    <section className="pb-20">
+    <section className="py-48">
       <div className="max-w-4xl mx-auto dark:bg-slate-800 bg-lightGray border border-primaryColor p-8 rounded-lg shadow-lg">
         {/* Header */}
 

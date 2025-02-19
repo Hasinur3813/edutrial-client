@@ -9,7 +9,7 @@ const Root = () => {
       <ScrollToTop />
       <Navbar />
       <Toaster />
-      <div className="min-h-screen dark:bg-darkGray pt-32">
+      <div className="min-h-screen dark:bg-darkGray">
         <Outlet />
       </div>
       <Footer />

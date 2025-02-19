@@ -15,7 +15,7 @@ const ClassDetails = () => {
     },
   });
   return (
-    <div className="max-w-6xl mx-auto px-4 mb-20 bg-lightGray dark:bg-darkGray mt-12">
+    <div className="max-w-6xl mx-auto px-4 bg-lightGray dark:bg-darkGray py-48">
       {/* Header Section */}
       <div className="text-center mb-20">
         {/* title */}

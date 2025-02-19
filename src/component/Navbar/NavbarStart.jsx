@@ -1,8 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import logo from "/logo.png";
+
 const NavbarStart = () => {
   const { currentUser } = useAuth();
+
   return (
     <div className="navbar-start">
       <div className="dropdown">
@@ -38,16 +40,14 @@ const NavbarStart = () => {
               All Classes
             </NavLink>
           </li>
-          {currentUser && (
-            <li>
-              <NavLink
-                className="font-semibold text-base"
-                to="/teach-on-edutrial"
-              >
-                Teach on EduTrial
-              </NavLink>
-            </li>
-          )}
+          <li>
+            <NavLink
+              className="font-semibold text-base"
+              to="/teach-on-edutrial"
+            >
+              Teach on EduTrial
+            </NavLink>
+          </li>
         </ul>
       </div>
 

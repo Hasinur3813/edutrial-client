@@ -40,7 +40,7 @@ const AllClasses = () => {
   }
 
   return (
-    <section className="bg-offWhite pt-16 -mt-16 dark:bg-darkGray ">
+    <section className="bg-offWhite py-48 -mt-16 dark:bg-darkGray ">
       <div className="container mx-auto px-4">
         {/* Page Heading */}
         <div className="text-center mb-20">

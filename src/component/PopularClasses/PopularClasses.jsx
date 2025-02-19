@@ -20,12 +20,12 @@ const PopularCourses = () => {
   });
 
   return (
-    <section className="bg-bg-secondary dark:bg-slate-800 py-14">
+    <section className="bg-bg-secondary dark:bg-slate-700 py-14">
       <div className="container lg:max-w-7xl mx-auto text-center px-3">
         <div className="text-center mb-12">
           <Fade duration={2000} direction="up">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-primaryColor">
-              Popular Courses
+              Popular Classes
             </h2>
           </Fade>
           <Fade duration={1600} direction="up">
