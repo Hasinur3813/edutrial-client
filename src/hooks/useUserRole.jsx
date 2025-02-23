@@ -8,7 +8,7 @@ const useUserRole = () => {
 
   const { data, isPending, refetch } = useQuery({
     queryKey: [currentUser?.email, "userRole"],
-    enabled: !loading,
+    enabled: !!currentUser && !loading,
     queryFn: async () => {
       const res = await axios.get(`/users/role/${currentUser?.email}`);
       return res.data;

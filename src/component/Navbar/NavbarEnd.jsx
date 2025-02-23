@@ -66,12 +66,12 @@ const NavbarEnd = () => {
             </li>
             {/* keep here some dashboard route based onthe user role */}
 
-            {user?.userRole === "student" && (
+            {currentUser && user?.userRole === "student" && (
               <li>
                 <Link to="/dashboard/my-enroll-class">My Enroll Class</Link>
               </li>
             )}
-            {user?.userRole === "teacher" && (
+            {currentUser && user?.userRole === "teacher" && (
               <>
                 <li>
                   <Link to="/dashboard/my-class">My Class</Link>
@@ -81,7 +81,7 @@ const NavbarEnd = () => {
                 </li>
               </>
             )}
-            {user?.userRole === "admin" && (
+            {currentUser && user?.userRole === "admin" && (
               <>
                 <li>
                   <Link to="/dashboard/overview">Dashboard Overview</Link>
