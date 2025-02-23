@@ -58,6 +58,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, role }) => {
               My Enroll Class
             </ListItem>
           )}
+          {role === "student" && (
+            <ListItem path="/dashboard/payment-history">
+              Payment History
+            </ListItem>
+          )}
 
           {/* teacher route */}
           {role === "teacher" && (

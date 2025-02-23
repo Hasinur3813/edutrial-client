@@ -23,6 +23,7 @@ import AdminRoute from "./AdminRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import PublicRoute from "./PublicRoute";
 import Overview from "../pages/Overview/Overview";
+import PaymentHistory from "../pages/PaymentHistory/PaymentHistory";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/my-enroll-class-details/:id",
         element: <MyEnrollClassDetails />,
+      },
+      {
+        path: "/dashboard/payment-history",
+        element: <PaymentHistory />,
       },
 
       // teacher dashboard
