@@ -3,15 +3,18 @@ import { useEffect, useState } from "react";
 const useTheme = () => {
   const [theme, setTheme] = useState("light");
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme) {
-      setTheme(theme);
+    const StoredTheme = localStorage.getItem("theme");
+    if (StoredTheme) {
+      setTheme(StoredTheme);
+      document.documentElement.classList = StoredTheme;
     } else {
       setTheme("light");
+      document.documentElement.classList = theme;
+      localStorage.setItem("theme", theme);
     }
-  }, []);
+  }, [theme, setTheme]);
 
-  return { theme };
+  return { theme, setTheme };
 };
 
 export default useTheme;

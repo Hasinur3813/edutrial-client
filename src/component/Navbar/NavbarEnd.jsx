@@ -2,32 +2,26 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import { FaSignInAlt } from "react-icons/fa";
 import Button from "../Button/Button";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ThemeToggler from "../ThemeToggler/ThemeToggler";
 import useUserRole from "../../hooks/useUserRole";
+import useTheme from "../../hooks/useTheme";
 
 const NavbarEnd = () => {
   const { currentUser, loading, setLoading, logout } = useAuth();
-  const [theme, setTheme] = useState("light");
+  const { theme, setTheme } = useTheme();
   const { user } = useUserRole();
 
   const handleThemeChange = (e) => {
-    const theme = e.target.value === "light" ? "dark" : "light";
-    setTheme(theme);
-    document.documentElement.classList = theme;
-    localStorage.setItem("theme", theme);
+    const selectedTheme = e.target.value === "light" ? "dark" : "light";
+    setTheme(selectedTheme);
+    document.documentElement.classList = selectedTheme;
+    localStorage.setItem("theme", selectedTheme);
   };
 
   useEffect(() => {
     if (!currentUser) {
       setLoading(false);
-    }
-
-    // set theme from localstorage
-    const theme = localStorage.getItem("theme");
-    if (theme && theme === "dark") {
-      setTheme(theme);
-      document.documentElement.classList = theme;
     }
   }, [currentUser, loading, setLoading]);
 
