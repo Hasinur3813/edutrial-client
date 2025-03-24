@@ -56,7 +56,7 @@ const PaymentHistory = () => {
         rowKey="date"
         pagination={false}
       />
-      <Button onClick={downloadPDF} type="primary" className="mt-4">
+      <Button onClick={downloadPDF} type="primary" className="mt-4 hidden">
         Download as PDF
       </Button>
     </div>
